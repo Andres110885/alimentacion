@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0f1411">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Mi Cocina</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --bg:#0f1411; --bg2:#161d18; --card:#1b241e; --card2:#212c24;
+    --line:#2c3a30; --txt:#eaf2ec; --muted:#9bb0a2; --muted2:#74897c;
+    --acc:#46c787; --acc-d:#2f9c66; --warn:#e6b450; --danger:#e06c6c;
+    --fish:#5aa9e6; --veg:#5ccb8f; --egg:#e6c34a; --meat:#e0786c;
+    --radius:16px; --radius-s:11px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px; line-height:1.45; padding-bottom:78px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{margin:0;font-weight:700}
+  button{font-family:inherit;cursor:pointer;border:none;color:inherit;font-size:15px}
+  input,select,textarea{font-family:inherit;font-size:16px}
+  ::-webkit-scrollbar{height:0;width:0}
+
+  /* top bar */
+  .topbar{
+    position:sticky;top:0;z-index:40;background:rgba(15,20,17,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+    padding:calc(14px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px;
+  }
+  .topbar .logo{font-size:20px}
+  .topbar h1{font-size:19px;letter-spacing:.2px;flex:1}
+  .topbar .sub{font-size:12px;color:var(--muted);font-weight:500}
+  .setbtn{background:var(--card2);border:1px solid var(--line);width:40px;height:40px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+  .setbtn:active{transform:scale(.95)}
+  .setbtn.alert::after{content:'';position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:var(--warn);border:2px solid var(--bg)}
+
+  .view{padding:16px;display:none;max-width:760px;margin:0 auto}
+  .view.active{display:block}
+  .view-title{font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:4px 2px 12px;font-weight:600}
+
+  /* buttons */
+  .btn{background:var(--acc);color:#06150d;font-weight:700;padding:12px 16px;border-radius:var(--radius-s);display:inline-flex;align-items:center;gap:8px;justify-content:center}
+  .btn:active{transform:scale(.97)}
+  .btn.ghost{background:var(--card2);color:var(--txt);font-weight:600}
+  .btn.sm{padding:8px 12px;font-size:14px}
+  .btn.block{width:100%}
+  .btn.danger{background:var(--danger);color:#1a0808}
+  .row-btns{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+
+  /* recipe blocks */
+  .block{margin-bottom:22px}
+  .block-head{display:flex;align-items:center;gap:8px;margin:0 2px 11px}
+  .block-head h2{font-size:17px}
+  .block-head .count{color:var(--muted2);font-size:13px;font-weight:600}
+  .block.probar .block-head h2{color:var(--warn)}
+  .hscroll{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 6px;scroll-snap-type:x mandatory}
+  .rcard{flex:0 0 158px;width:158px;background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);scroll-snap-align:start}
+  .rcard:active{transform:scale(.98)}
+  .rcard .thumb{height:104px;background:var(--card2);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:34px;position:relative}
+  .rcard .cat{position:absolute;top:7px;left:7px;font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+  .rcard .body{padding:9px 10px 11px}
+  .rcard .body h3{font-size:13.5px;line-height:1.25;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
+  .rcard .meta{font-size:11px;color:var(--muted2);display:flex;gap:9px}
+  .empty{color:var(--muted2);font-size:14px;background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);padding:22px 16px;text-align:center}
+  .search{width:100%;background:var(--card);border:1px solid var(--line);color:var(--txt);padding:12px 14px;border-radius:var(--radius-s);margin-bottom:16px}
+
+  /* rejilla de bloques (pantalla principal) */
+  .bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .bcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 10px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;min-height:96px;justify-content:center}
+  .bcard:active{transform:scale(.97)}
+  .bcard .bic{font-size:25px;line-height:1}
+  .bcard .bnm{font-size:12.5px;font-weight:700;color:var(--txt);line-height:1.15}
+  .bcard .bcount{font-size:10.5px;color:var(--muted2);font-weight:600}
+  .bcard.probar{border-color:var(--warn);background:linear-gradient(160deg,var(--card),#241f15)}
+  .bcard.probar .bnm{color:var(--warn)}
+  /* cuadrícula de recetas dentro de un bloque */
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+  .rgrid .rcard{flex:none;width:auto}
+  .rgrid .rcard .thumb{height:auto;aspect-ratio:1/1;font-size:28px}
+  .rcard .thumb{position:relative;overflow:hidden}
+  .rcard .thumb .emo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .rcard .thumb .rimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+  .rcard .thumb .catdot{z-index:2}
+  .rgrid .rcard .body{padding:5px 6px 7px}
+  .rgrid .rcard .body h3{font-size:11px;line-height:1.2;min-height:26px;margin-bottom:0}
+  .rcard .body .cgrp{font-size:9.5px;color:var(--muted2);font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .thumb.cbg-pescado{background:linear-gradient(150deg,#2b4a63,#1b2f3f)}
+  .thumb.cbg-vegano{background:linear-gradient(150deg,#2f5740,#1c3327)}
+  .thumb.cbg-vegetariano{background:linear-gradient(150deg,#5c5326,#33301a)}
+  .thumb.cbg-carne{background:linear-gradient(150deg,#5e342e,#37211d)}
+  .rcard .catdot{position:absolute;top:6px;right:6px;width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 2px rgba(0,0,0,.35)}
+
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .c-pescado{background:var(--fish)} .c-vegano{background:var(--veg)} .c-vegetariano{background:var(--egg)} .c-carne{background:var(--meat)}
+  .cat.k-pescado{color:var(--fish)} .cat.k-vegano{color:var(--veg)} .cat.k-vegetariano{color:var(--egg)} .cat.k-carne{color:var(--meat)}
+
+  /* planning */
+  .weeknav{display:flex;align-items:center;gap:10px;margin-bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-s);padding:8px 10px}
+  .weeknav button{background:var(--card2);width:38px;height:38px;border-radius:10px;font-size:18px;display:flex;align-items:center;justify-content:center}
+  .weeknav .lbl{flex:1;text-align:center;font-weight:600;font-size:14px}
+  .daycard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 13px;margin-bottom:12px}
+  .daycard.today{border-color:var(--acc-d)}
+  .daycard .dname{font-size:14px;font-weight:700;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center}
+  .daycard .dname .dnum{color:var(--muted2);font-weight:500;font-size:12px}
+  .slot{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid var(--line)}
+  .slot .lbl{font-size:11px;color:var(--muted2);width:64px;flex-shrink:0;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+  .slot .pick{flex:1;min-width:0;background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;text-align:left;font-size:13.5px;color:var(--txt);display:flex;align-items:center;gap:7px;overflow:hidden}
+  .slot .pick.empty{color:var(--muted2);border-style:dashed}
+  .slot .pick .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+  .slot .diners{flex-shrink:0;background:var(--card2);border:1px solid var(--line);border-radius:9px;color:var(--txt);padding:8px 6px;width:52px;text-align:center;font-size:13px}
+  /* semana horizontal */
+  .week{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x proximity}
+  .dayrow{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:11px 13px;margin-bottom:11px}
+  .dayrow.today{border-color:var(--acc-d);background:linear-gradient(180deg,#1a261e,var(--card))}
+  .dayrow .drh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+  .dayrow .drh b{font-size:15px}
+  .dayrow .drh .dn{color:var(--muted2);font-size:12px;font-weight:600}
+  .meals2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .daycol{flex:0 0 145px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:11px 11px 12px;scroll-snap-align:start}
+  .daycol.today{border-color:var(--acc-d);background:linear-gradient(180deg,#1a261e,var(--card))}
+  .daycol .dh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .daycol .dh b{font-size:14px}
+  .daycol .dh .dn{color:var(--muted2);font-size:11px;font-weight:600}
+  .mslot{margin-bottom:10px}
+  .mslot:last-child{margin-bottom:0}
+  .mslot .ml{font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-bottom:5px}
+  .mslot .pick{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px;text-align:left;font-size:12.5px;color:var(--txt);display:flex;gap:6px;align-items:flex-start;min-height:54px}
+  .mslot .pick.empty{color:var(--muted2);border-style:dashed;align-items:center}
+  .mslot .pick .nm{line-height:1.25;word-break:break-word}
+  .mslot .pick .pgrp{display:block;font-size:9.5px;color:var(--muted2);font-weight:700;margin-top:3px}
+  .mslot .pick .dot{margin-top:3px;flex-shrink:0}
+  .mslot .diners{width:100%;margin-top:5px;background:var(--card2);border:1px solid var(--line);border-radius:9px;color:var(--txt);padding:6px;text-align:center;font-size:12px}
+  /* chupito de la semana */
+  .shot{background:linear-gradient(135deg,#2a2350,#1d2742);border:1px solid #3a3f6b;border-radius:var(--radius);padding:14px 15px;margin-bottom:16px;display:flex;align-items:center;gap:13px}
+  .shot:active{transform:scale(.99)}
+  .shot .se{font-size:32px;flex-shrink:0}
+  .shot .st{flex:1;min-width:0}
+  .shot .st .k{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#9fa8e0;font-weight:700}
+  .shot .st b{font-size:15px;display:block;line-height:1.25;margin:2px 0}
+  .shot .st small{color:var(--muted);font-size:12.5px}
+  .shot .ar{color:#9fa8e0;font-size:22px}
+  .shot-badge{display:inline-block;background:rgba(255,255,255,.12);color:#cdd2f5;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-top:5px}
+  .drink{display:flex;align-items:center;gap:12px;padding:13px;background:var(--card);border:1px solid var(--line);border-radius:13px;margin-bottom:9px}
+  .drink:active{transform:scale(.99)}
+  .drink.sel{border-color:var(--acc);background:linear-gradient(135deg,#16241c,var(--card))}
+  .drink .de{font-size:25px;flex-shrink:0}
+  .drink .dt{flex:1;min-width:0}
+  .drink .dt b{font-size:14.5px;display:block;margin-bottom:3px}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--card2);color:var(--muted);margin-right:5px}
+  .badge.para{background:rgba(70,199,135,.16);color:var(--acc)}
+  .badge.warn{background:rgba(230,180,80,.18);color:var(--warn)}
+  .avisobox{background:rgba(230,180,80,.1);border:1px solid rgba(230,180,80,.4);border-radius:11px;padding:11px 13px;font-size:13px;color:#e6c98a;line-height:1.5;margin:12px 0}
+  .safety{background:rgba(230,180,80,.08);border:1px solid rgba(230,180,80,.3);border-radius:13px;padding:13px 15px;font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:16px}
+  .safety b{color:var(--warn)}
+
+  /* shopping */
+  .sec{margin-bottom:18px}
+  .sec h3{font-size:13px;color:var(--acc);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;display:flex;align-items:center;gap:7px}
+  .item{display:flex;align-items:center;gap:11px;padding:11px 13px;background:var(--card);border:1px solid var(--line);border-radius:11px;margin-bottom:7px}
+  .item.done{opacity:.45}
+  .item.done .nm{text-decoration:line-through}
+  .item .chk{width:22px;height:22px;border-radius:6px;border:2px solid var(--muted2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .item.done .chk{background:var(--acc);border-color:var(--acc);color:#06150d}
+  .item .nm{flex:1;font-size:14.5px}
+  .item .qty{color:var(--muted);font-size:13px;font-weight:600}
+  .item .del{color:var(--muted2);font-size:18px;padding:0 4px}
+  .addrow{display:flex;gap:8px;margin-bottom:16px}
+  .addrow input{flex:1;background:var(--card);border:1px solid var(--line);color:var(--txt);padding:11px 12px;border-radius:11px;min-width:0}
+
+  /* salud */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .panel h3{font-size:15px;margin-bottom:13px}
+  .bar{margin-bottom:11px}
+  .bar .blab{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;color:var(--muted)}
+  .bar .track{height:9px;background:var(--card2);border-radius:6px;overflow:hidden}
+  .bar .fill{height:100%;border-radius:6px;transition:width .4s}
+  .tip{display:flex;gap:11px;padding:11px 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);line-height:1.5}
+  .tip:first-of-type{border-top:none}
+  .tip .ic{font-size:17px;flex-shrink:0}
+  .score{font-size:42px;font-weight:800;text-align:center;line-height:1}
+  .score-lbl{text-align:center;color:var(--muted);font-size:13px;margin-top:4px}
+
+  /* bottom nav */
+  .nav{position:fixed;bottom:0;left:0;right:0;background:rgba(20,26,22,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+  .nav button{flex:1;background:none;padding:9px 0 11px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);font-size:9.5px;font-weight:600}
+  .nav button.active{color:var(--acc)}
+  .nav button .ic{font-size:19px}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)}
+  .modal.open{display:flex}
+  .sheet{background:var(--bg2);width:100%;max-width:760px;max-height:94vh;overflow-y:auto;border-radius:22px 22px 0 0;border:1px solid var(--line);border-bottom:none;animation:up .25s ease}
+  @keyframes up{from{transform:translateY(40px);opacity:.5}to{transform:translateY(0);opacity:1}}
+  .sheet-head{position:sticky;top:0;background:var(--bg2);padding:16px 18px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);z-index:2}
+  .sheet-head h2{font-size:18px;flex:1}
+  .sheet-head .x{background:var(--card2);width:34px;height:34px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center}
+  .sheet-body{padding:16px 18px 30px}
+  label.f{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px;font-weight:600}
+  .field{width:100%;background:var(--card);border:1px solid var(--line);color:var(--txt);padding:11px 12px;border-radius:11px}
+  textarea.field{min-height:90px;resize:vertical;line-height:1.5}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:var(--card);border:1px solid var(--line);padding:8px 13px;border-radius:20px;font-size:13.5px;color:var(--muted);font-weight:600}
+  .chip.on{background:var(--acc);color:#06150d;border-color:var(--acc)}
+  .chip.probar.on{background:var(--warn);border-color:var(--warn)}
+  .ing-row{display:flex;gap:6px;margin-bottom:7px}
+  .ing-row input{background:var(--card);border:1px solid var(--line);color:var(--txt);padding:9px;border-radius:9px;min-width:0}
+  .ing-row{align-items:center} .ing-row .nm{flex:1;min-width:0} .ing-row .q{width:52px} .ing-row .u{width:50px}
+  .ing-row .sec{width:100%}
+  .ing-row .rm{background:var(--card2);width:36px;border-radius:9px;color:var(--danger);flex-shrink:0}
+  .ing-block{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px;margin-bottom:8px}
+  .ing-block select{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--muted);padding:6px 8px;border-radius:8px;margin-top:6px;font-size:13px}
+  .seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:4px}
+  .seg button{flex:1;padding:10px;background:none;color:var(--muted);font-weight:600;font-size:14px}
+  .seg button.on{background:var(--acc);color:#06150d}
+
+  /* recipe detail */
+  .det-hero{height:200px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:64px}
+  .det-hero .emo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .det-hero .rimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+  .det-meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+  .pill{background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .det-sec-t{font-size:15px;font-weight:700;margin:20px 0 10px;color:var(--acc)}
+  .det-ing{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+  .det-ing .q{color:var(--muted);font-weight:600}
+  .det-step{display:flex;gap:12px;margin-bottom:13px}
+  .det-step .n{width:25px;height:25px;border-radius:50%;background:var(--acc);color:#06150d;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .det-step .t{font-size:14.5px;line-height:1.5;padding-top:1px}
+  .note-box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px;font-size:14px;color:var(--muted);line-height:1.55;white-space:pre-wrap}
+  a.src{color:var(--fish);font-size:13.5px;word-break:break-all}
+  .toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%);background:var(--acc);color:#06150d;padding:11px 20px;border-radius:30px;font-weight:700;font-size:14px;z-index:200;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+  .hint{font-size:12.5px;color:var(--muted2);line-height:1.5;margin-top:6px}
+  .lnk{display:flex;align-items:center;gap:11px;padding:12px 13px;background:var(--card);border:1px solid var(--line);border-radius:11px;margin-bottom:8px;text-decoration:none;color:var(--txt)}
+  .lnk:active{transform:scale(.99)}
+  .lnk .li{font-size:20px;flex-shrink:0}
+  .lnk .lt{flex:1;min-width:0}
+  .lnk .lt b{font-size:14.5px;font-weight:700;display:block}
+  .lnk .lt small{color:var(--muted2);font-size:12px;line-height:1.35;display:block}
+  .lnk .ar{color:var(--acc);font-size:20px;flex-shrink:0}
+  .divider{height:1px;background:var(--line);margin:18px 0}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="logo">🥗</span>
+  <h1>Mi Cocina <span class="sub" id="topSub"></span></h1>
+  <button class="setbtn" id="setBtn" onclick="openSettings()" title="Ajustes y copia">⚙️</button>
+</div>
+
+<!-- ============ RECETAS ============ -->
+<div class="view active" id="v-recetas">
+  <div class="row-btns">
+    <button class="btn" onclick="openRecipeForm()">＋ Añadir receta</button>
+    <button class="btn ghost sm" onclick="openBlocks()">🗂️ Bloques</button>
+  </div>
+  <input class="search" id="recipeSearch" placeholder="🔍 Buscar por nombre o ingrediente…" oninput="renderRecipes()">
+  <div id="recipeBlocks"></div>
+</div>
+
+<!-- ============ PLANNING ============ -->
+<div class="view" id="v-planning">
+  <div class="weeknav">
+    <button onclick="shiftWeek(-1)">‹</button>
+    <div class="lbl" id="weekLbl"></div>
+    <button onclick="shiftWeek(1)">›</button>
+  </div>
+  <div id="planDays"></div>
+</div>
+
+<!-- ============ COMPRA ============ -->
+<div class="view" id="v-compra">
+  <div class="weeknav">
+    <button onclick="shiftWeek(-1)">‹</button>
+    <div class="lbl" id="weekLbl2"></div>
+    <button onclick="shiftWeek(1)">›</button>
+  </div>
+  <div class="addrow">
+    <input id="extraInput" placeholder="Añadir algo (ej. papel cocina)…" onkeydown="if(event.key==='Enter')addExtra()">
+    <button class="btn sm" onclick="addExtra()">＋</button>
+  </div>
+  <button class="btn ghost sm" onclick="openPantry()" style="margin-bottom:12px">🧺 Mi despensa (lo que ya tengo)</button>
+  <div id="shopList"></div>
+</div>
+
+<!-- ============ SALUD ============ -->
+<div class="view" id="v-salud">
+  <div id="saludContent"></div>
+</div>
+
+<!-- ============ FUENTES ============ -->
+<div class="view" id="v-fuentes">
+  <div id="fuentesContent"></div>
+</div>
+
+<!-- ============ DESPERTAR ============ -->
+<div class="view" id="v-despertar">
+  <div id="despertarContent"></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<div class="nav">
+  <button class="active" data-v="recetas" onclick="go('recetas')"><span class="ic">📖</span>Recetas</button>
+  <button data-v="planning" onclick="go('planning')"><span class="ic">📅</span>Planning</button>
+  <button data-v="compra" onclick="go('compra')"><span class="ic">🛒</span>Compra</button>
+  <button data-v="salud" onclick="go('salud')"><span class="ic">💚</span>Salud</button>
+  <button data-v="fuentes" onclick="go('fuentes')"><span class="ic">🔗</span>Fuentes</button>
+  <button data-v="despertar" onclick="go('despertar')"><span class="ic">☀️</span>Despertar</button>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATOS  ·  persistencia en localStorage (V1, en el dispositivo)
+   ============================================================ */
+const STORE = 'micocina_v3';
+const SEED_DATA = {"blocks": [{"id": "probar", "name": "Por probar", "icon": "🧪"}, {"id": "pescado", "name": "Pescado y marisco", "icon": "🐟"}, {"id": "veggie", "name": "Verduras y veggie", "icon": "🌱"}, {"id": "sopas", "name": "Sopas, cremas y guisos", "icon": "🍲"}, {"id": "pasta", "name": "Pasta", "icon": "🍝"}, {"id": "carbo", "name": "Arroces y carbohidratos", "icon": "🍚"}, {"id": "prote", "name": "Proteína", "icon": "🍗"}, {"id": "carne", "name": "Carne", "icon": "🥩"}], "recipes": [{"id": "n00", "title": "Berenjenas rellenas de carne", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["carne"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://cooking.elmundo.es/recetas/receta-berenjenas-rellenas-carne.html", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n01", "title": "Garbanzos con Pulpo y Gambas", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n02", "title": "Paninis de Calabacin", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n03", "title": "Garbanzos con Verduras al Curry", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n04", "title": "Huevos rellenos con aguacate y atun", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n05", "title": "Pasta Gorgonzola Peras y Nueces", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["pasta"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n06", "title": "Garbanzos con huevo y cherrys", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n07", "title": "Arroz 3 Delicias", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n08", "title": "Guiso de pollo con salsa de cacahuetes", "emoji": "🍲", "photo": "", "cat": "carne", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n09", "title": "Espardeña de Anchoas", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n10", "title": "Pollo al curry con mango", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["carne"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n11", "title": "Pasta con queso feta", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["pasta"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n12", "title": "Salmon con Ñoquis y Esparragos", "emoji": "🍝", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n13", "title": "Fideuá de pollo y verduras", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.hogarmania.com/cocina/recetas/arroces-cereales/fideua-pollo-verduras.html", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n14", "title": "Crema de calabaza y boniato", "emoji": "🍲", "photo": "", "cat": "vegano", "blockIds": ["sopas"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.miscosillasdecocina.com/2020/11/crema-de-calabaza-y-boniato.html", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n15", "title": "Trinxat", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.mercadocalabajio.com/2013/02/trinxat-de-la-cerdanya.html?m=1", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n16", "title": "Crema de calabacín", "emoji": "🍲", "photo": "", "cat": "vegano", "blockIds": ["sopas"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.velocidadcuchara.com/crema-de-calabacin/", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n17", "title": "Crema de coliflor con zanahoria", "emoji": "🍲", "photo": "", "cat": "vegano", "blockIds": ["sopas"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.velocidadcuchara.com/crema-de-coliflor-con-zanahoria/", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n18", "title": "Ñoquis con verdura", "emoji": "🍝", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n19", "title": "Bowl boniato, huevo, requeson y aguacate", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n20", "title": "Boniato con guacamole", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n21", "title": "Ensalada de Lentejas con Feta, Cherry y Manzana", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n22", "title": "Vichyssoise", "emoji": "🍲", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n23", "title": "Tacos de Pollo", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["carne"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.youtube.com/watch?v=sqDOg7h2_D8", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n24", "title": "Escalivada (en freidora de aire)", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://glutoniana.com/2022/06/14/escalivada-en-freidora-de-aire-cecotec/", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n25", "title": "Faves a la catalana", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.directoalpaladar.com/recetas-de-legumbres-y-verduras/faves-a-la-catalana-receta-tradicional/amp", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n26", "title": "Pure boniato", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.directoalpaladar.com/recetas-vegetarianas/como-hacer-pure-boniato-guarnicion-deliciosa-alternativa-al-pure-patatas-mucho-facil/amp", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n27", "title": "Tortilla con patatas chips", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.bonviveur.es/recetas/tortilla-con-patatas-de-bolsa", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n28", "title": "Pulpo y langostinos al ajillo", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n29", "title": "Ensalada tomate burrata y anchoa", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n30", "title": "Berenjena Bruschetta di parmigiano", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.tiktok.com/@luke_magro_/video/7569656468773866774", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n31", "title": "Berenjena asada con burrata", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n32", "title": "Noodles cacahuete y chili", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n33", "title": "Bacalao Dorado o Bacalhau à Brás", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.abc.es/recetasderechupete/bacalao-dorado-o-bacalhau-a-bras-receta-portuguesa/8029/", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n34", "title": "Sopa Verduras con Queso Azul y Miso", "emoji": "🍲", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.tiktok.com/@soulinthekitchen/video/7199675583406558469", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n35", "title": "Estofado de ternera con patatas", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["sopas"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.tiktok.com/@lacocinademariaymiki/video/7333646879059627297?lang=es-419", "notes": "Estofado de ternera con patatas: receta fácil y deliciosa | TikTok", "ingredients": [], "steps": [], "tested": true}, {"id": "n36", "title": "Ramen de Pollo Receta Fácil", "emoji": "🍝", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.shoothecook.es/ramen-de-pollo-receta-facil/", "notes": "Ramen de Pollo Receta Fácil - Shoot the Cook - Recetas fáciles y sabrosas", "ingredients": [], "steps": [], "tested": false}, {"id": "n37", "title": "Pasta al Pesto de Espinacas y Albahaca", "emoji": "🍝", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.tiktok.com/@alejandradenava7/video/7413921345366412550", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n38", "title": "Pasta con Tomates Cherry, Ajo y Burrata", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.tiktok.com/@recetasdewilly/video/7405719475783339296", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n39", "title": "Migas de Pan", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.tiktok.com/@recetasgloria/video/7356940401611263264?lang=es", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n40", "title": "Potaje de vigilia con Bacalao", "emoji": "🍲", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DIgOSxDKPPx/?igsh=OWh0bG0zMDgyc2R3", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n41", "title": "Guiso Alubias Recao", "emoji": "🍲", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DTcyrZCDL1i/?igsh=a3RscWYwc2RuYWN0", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n42", "title": "Couscous marroquí de cordero", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://thermomix-barcelona-centro.es/mila-moreno-solsona/legumbres-y-platos-de-cuchara/cuscus-marroqui-de-cordero-con-thermomix/", "notes": "Couscous marroquí de cordero, con Thermomix® - Legumbres y platos de cuchara - Blog de MILA MORENO SOLSONA de Thermomix® Barcelona Centro", "ingredients": [], "steps": [], "tested": true}, {"id": "n43", "title": "Pulpo con garbanzos y huevo", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DKHWPRct2TR/?igsh=MTQ2eXc1NWZ1ZTZ5Zw==", "notes": "Pulpo con garbanzos y huevo Saul Craviotto en Instagram: \"Pulpo con garbanzos y huevo: explosión de sabor 🐙🔥 ¿Buscas una receta fácil y original? Este plato de pulpo con garbanzos es… 🤤🤤🤤 perfecto para una comida diferente o una cena especial. ¡Pruébalo y cuéntame qué tal! 😋👇 🛒 Ingredientes: • 🐙 Pulpo cocido • 🧄 Ajo • 🌶️ Guindilla (seca o fresca, al gusto) • 🧆 Garbanzos cocidos • 🌶️ Pimentón (dulce o picante, ¡tú eliges!) • 🧂 Sal • ⚫ Pimienta • 🥚 Huevos #recetacraviotto #recetafacil #recetasencilla #pulpo #garbanzos @cotoderioja\"", "ingredients": [{"name": "Pulpo cocido", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Ajo", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Guindilla (seca o fresca, al gusto)", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Garbanzos cocidos", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Pimentón (dulce o picante, ¡tú eliges!)", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Sal", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Pimienta", "qty": 0, "unit": "", "section": "Otros"}], "steps": [], "tested": true}, {"id": "n44", "title": "Ramen fácil", "emoji": "🍝", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DOoGZYJjDfA/?igsh=MWdhMzFndHNvYWFzbw==", "notes": "Ramen 2 facil Diegodoal en Instagram: \"🇯🇵 igual ponerle leche de avena a un ramen te suena raro, pero piénsalo: la lasaña lleva bechamel, y la bechamel es leche!! cómo te quedas!! ríndete ante los factos!!! 🗒️ingredientesssss carne: - 250g de carne picada - 3 dientes de ajo - 3cm de jengibre fresco - 1 cucharada de doubanjiang (opcional) pasta de saborrrr: - 75g de pasta de sésamo china/crema de cacahuete - 30ml de salsa de soja - 10ml vinagre de arroz/blanco - Pizca generosa de azúcar - 2 cucharillas de aceite de chiles (o más) para 2 boles: - 500ml de caldo - 500ml de leche de avena/soja - Verdura de hoja verde (espinacas, choy sum, bok choy…) - Fideos - La carne picada - Cebolleta china y aceite de chiles para finalizarlo #receta #recetas #tantamen #ramen #comida\"", "ingredients": [], "steps": [], "tested": false}, {"id": "n45", "title": "Ramen express", "emoji": "🍝", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DOGJ9GGjXtv/?igsh=MWNrOWIza2JsMDZuOQ==", "notes": "Ramen express La Cocina de Santiago en Instagram: \"RAMEN EXPRESS 🍜 👉🏻 Después de vacaciones es común pillar EL GRIPAZO. Así estamos… Hoy te enseño a preparar un ramen para quitarte todos los males. Espero que te guste! -Caldo de Pollo (Casero si puede ser) -Setas Deshidratadas -Pasta de Miso -Crema de Cacahuete -Soja -Huevos y Pollo (o lo que tengas) -Noodles #receta #facil #cocina\"", "ingredients": [], "steps": [], "tested": false}, {"id": "n46", "title": "Ramen rápido", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DNv7yGA2gwV/?igsh=MTJwanFha2s2dzA1Ng==", "notes": "Ramen bueno Tony Martínez en Instagram: \"¿Te gusta el ramen? ¡Esta versión es súper fácil de hacer, guarda para que no se te olvide ! 🍜🍜 #delicioso #foodporn #food #good #receta #delicious #ramen #ramennoodles #noodles #japon #asianfood #recetas\"", "ingredients": [], "steps": [], "tested": false}, {"id": "n47", "title": "Carne guisada", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DUTMB7PjmVP/?igsh=MXZ4MWVldjB2d3l5Zg==", "notes": "Nancy Karim en Instagram: \"Carne guisada🥔🥕 English👇 Ingredientes: - 1/2 Cebolla - 3 Dientes de ajo - 3 Zanahorias - 2tz Papa - 500g Carne - Harina - 1/2cda Pasta de tomate - 1 1/2tz Caldo de carne - 1/3tz Vino tinto - 2cdtas Paprika - 1/2cdta Comino - 1cdta Orégano - Sal a gusto - Cilantro Disfruta!✨ . . . Braised beef 🥔🥕 Ingredients: - 1/2 Onion - 3 Cloves of garlic - 3 Carrots - 2 cups Potato - 500g Beef - Flour - 1/2 tbsp Tomato paste - 1 1/2 cups Beef broth - 1/3 cup Red wine - 2 tsp Paprika - 1/2 tsp Cumin - 1 tsp Oregano - Salt to taste - Cilantro Enjoy! ✨ #recetasfaciles #carneguisada\"", "ingredients": [{"name": "Braised beef", "qty": 0, "unit": "", "section": "Otros"}], "steps": [], "tested": false}, {"id": "n48", "title": "Chicken katsu curry ramen", "emoji": "🍝", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DT2_ge-DzXr/?igsh=MXUybW5kMmtpMWxz", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n49", "title": "Lentejas de mamá Thermomix", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.juanideanasevilla.com/thermomix/2012/02/lentejas-de-mama", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n50", "title": "Fideos a la cazuela chistorra", "emoji": "🍝", "photo": "", "cat": "carne", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DUVxpWZCE8z/?igsh=cHA1anpucXFybnV1", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n51", "title": "Sopa Coreana ternera con nabo", "emoji": "🍲", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DTI1t11CBs5/?igsh=MTQ0dmphYThpYmd4bQ==", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n52", "title": "Wok huevo y col", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DQ_n29iiF8s/?igsh=MWI2a3FzMGxjOGJ4MA==", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n53", "title": "Marmitako de bonito", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://recetasparathermomix.com/marmitako-bonito-thermomix/", "notes": "Marmitako de bonito con thermomix - Recetas para Thermomix", "ingredients": [], "steps": [], "tested": false}, {"id": "n54", "title": "Bulgogi coreano", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DSIaebdjOWB/?igsh=NTMxOXh6ZnlyemFs", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n55", "title": "Judias verdes champi y jamon", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DVWjgeaiGkz/?igsh=MW9qMXBmMmsxMWpkNw==", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n56", "title": "Hamburguesa de quinoa", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://recetasparathermomix.com/hamburguesa-de-quinoa-con-thermomix/", "notes": "Hamburguesa de quinoa con Thermomix - Recetas para Thermomix", "ingredients": [], "steps": [], "tested": false}, {"id": "n57", "title": "Veggie Pad Thai", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/Ci0iQfgvGzX8h3CI2M8D", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n58", "title": "Couscous de pollo griego", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DUtZDypkW6H/?igsh=MTBvMWt0bXdtb3E5OA==", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n59", "title": "Tartar de fuet", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://recetasparathermomix.com/tartar-de-fuet-con-thermomix/", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n60", "title": "Quesadillas de pollo y cebolla", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/xZBKeoPdurkoAovoc2Rx", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n61", "title": "Arroz/Pasta Carbonara", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DTbU-uHiG9v/?igsh=MWxtZTRqdnQwNnE5OQ==", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n62", "title": "Paella de marisco", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DTz3g6XjQhn/?igsh=djluYXN1a25iMGlu", "notes": "Luis Güell en Instagram: \"Lo pasamos bien haciendo este jajajajaja #cocinacasera #arroz #paella #guanciale\"", "ingredients": [], "steps": [], "tested": false}, {"id": "n63", "title": "Pavo al curry con arroz basmati", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/b6YdAF6bczAB4s9l0LhF", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n64", "title": "Fish and chips", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/C9TcIxEMdOd/?igsh=MW81cjE3ZG1oOXNidQ==", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n65", "title": "Pasta con Salsa de Calabacín, Albahaca y Parmesano", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["pasta"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/C7j--UkOila/?igsh=MXIxeHhlc2hpcjBkeA==", "notes": "Pasta con salsa calabacin, albahaca y parmesano Recetas de Willy Pascual en Instagram: \"PASTA CON SALSA DE CALABACÍN, ALBAHACA Y PARMESANO 🥒🌿🧀 ⠀ Si te gusta la pasta, no puedes perderte esta receta de pasta rigatoni con una salsa deliciosa de calabacín salteado con albahaca y queso parmesano y un toque crujiente de almendras. Una textura muy parecida al tradicional pesto, pero más suave y ligera. ¿Te animas a preparar esta receta de pasta conmigo? ⠀ Ingredientes para 4 personas: 🥒 2 calabacines 🌿 Albahaca fresca al gusto. 🧀 50 gramos de queso parmesano rallado. 🧄 1 diente de ajo. 🌾 400 gramos de pasta al gusto. 🥜 1 puñado de almendras tostadas. 🧂 Sal y pimienta negra al gusto. 🫒 Aceite de oliva virgen extra. ⠀ Receta paso a paso: 1. Ponemos agua a hervir, cocemos el tiempo indicado, colamos y reservamos. 2. Ahora lavamos y cortamos el calabacín finamente y lo añadimos a una sartén caliente y con aceite junto al ajo rallado, sal y pimienta negra al gusto. Dejamos cocinar a fuego medio hasta que tengamos el calabacín bien dorado y pochado. 3. Ahora ponemos el calabacín en un vaso junto a la albahaca, el queso parmesano, las almendras, un buen chorro de aceite de oliva y trituramos súper bien (puedes triturar más o menos dependiendo si te gusta notar trozos pequeños o no). 4. Ponemos la pasta ya cocida en un bol, añadimos la salsa, removemos y listo, ¡a disfrutar! ⠀ ¿Te ha gustado esta receta de pasta con salsa de calabacín? Si te ha gustado esta receta fácil y saludable, dímelo en los comentarios ❤️ ⠀ #pasta #pastaitaliana #calabacin #receta #recetas #recetafacil #recetasfaciles\"", "ingredients": [{"name": "2 calabacines", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Albahaca fresca al gusto", "qty": 0, "unit": "", "section": "Otros"}, {"name": "50 gramos de queso parmesano rallado", "qty": 0, "unit": "", "section": "Otros"}, {"name": "1 diente de ajo", "qty": 0, "unit": "", "section": "Otros"}, {"name": "400 gramos de pasta al gusto", "qty": 0, "unit": "", "section": "Otros"}, {"name": "1 puñado de almendras tostadas", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Sal y pimienta negra al gusto", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Aceite de oliva virgen extra", "qty": 0, "unit": "", "section": "Otros"}], "steps": [], "tested": true}, {"id": "n66", "title": "Pasta con Salsa de Calabacín", "emoji": "🍝", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 2, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DOTiatgCFtr/?igsh=MTVmMWFkeWxob2wyYw==", "notes": "Pasta con salsa calabacin queso crema y nuez Food and Glory | RECETAS en Instagram: \"PASTA CON SALSA DE CALABACÍN ❤️ Apóyanos con tu like para no perderte ninguna de nuestras recetas 🥰🙏 ⬇️⬇️⬇️⁣ ⁣ 🛒 Ingredientes (2 personas):⁣ ⁣ 🔸 160 g de pasta (yo he usado rigatoni)⁣ 🔹 500 g de calabacín⁣ 🔸 1 cucharada colmada de queso crema (65 g aprox. )⁣ 🔹 Ralladura de ¼ de limón⁣ 🔸 Un poco de queso de cabra desmenuzado⁣ 🔹 Un puñado de nueces 🔸 AOVE @olivar_de_plata 🔹 Pimienta⁣ 🔸 Sal⁣ ⁣ ⁣ 🍳Pasos:⁣ ⁣ 1️⃣ Lava y seca el #calabacín . Córtalo en rodajas en forma de media luna. Pon un poco de aceite de oliva en una sartén grande, caliéntalo y añade el calabacín junto con un poco de sal y pimienta molida al gusto. Rehógalo a fuego medio hasta que esté dorado. Reserva.⁣ 2️⃣ Pon a calentar una olla con abundante agua (recuerda que tienes que poner 1 litro de agua por cada 100 g de pasta). Cuando empiece a hervir, echa la pasta y un puñadito de sal gruesa. Cocínala, a fuego medio, hasta un minuto menos de lo indicado por el fabricante.⁣ 3️⃣ Mientras se cuece, pon en el vaso de la batidora la mitad del calabacín, el queso crema y un cucharón del agua de cocción. Tritura hasta obtener una salsa fina. Viértela en la sartén junto con la ralladura de ¼ de limón. ⁣ 4️⃣ Vierte la pasta escurrida encima y mézclala a fuego medio-bajo, hasta que esté toda impregnada. Si ves que queda muy espesa, puedes añadir otro poco del agua de cocción.⁣ 5️⃣ Sírvela con queso de cabra desmenuzado por encima, un extra de pimienta y unas nueces troceadas para darle una textura crujiente.⁣ ⁣ 👌 Notas: puedes sustituir la ralladura de limón por menta seca o fresca y también por albahaca. Los toppings (el queso de cabra y las nueces) son opcionales, queda también rica sencilla, aunque le dan un plus.⁣ ⁣ ⁣ 💫✅Usa nuestro código GLORY en Olivar de Plata para tener un 5 % de descuento en su AOVE de máxima calidad (no afiliado).⁣ ⁣ ⁣ Si te ha gustado la receta, guárdala para tenerla siempre a mano 👉💾. ⁣ #pasta #salsadecalabacín #comidaitaliana #foodandglory\"", "ingredients": [{"name": "(2 personas):⁣ ⁣", "qty": 0, "unit": "", "section": "Otros"}, {"name": "160 g de pasta (yo he usado rigatoni)⁣", "qty": 0, "unit": "", "section": "Otros"}, {"name": "500 g de calabacín⁣", "qty": 0, "unit": "", "section": "Otros"}, {"name": "1 cucharada colmada de queso crema (65 g aprox. )⁣", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Ralladura de ¼ de limón⁣", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Un poco de queso de cabra desmenuzado⁣", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Un puñado de nueces", "qty": 0, "unit": "", "section": "Otros"}, {"name": "AOVE @olivar_de_plata", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Pimienta⁣", "qty": 0, "unit": "", "section": "Otros"}, {"name": "Sal⁣ ⁣ ⁣", "qty": 0, "unit": "", "section": "Otros"}], "steps": [], "tested": false}, {"id": "n67", "title": "Champiñones rellenos de espinacas y mascarpone", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/Rfo4uCtG9QjXYpbJAarJ", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n68", "title": "Sopa de Cebolla", "emoji": "🍲", "photo": "", "cat": "vegetariano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/C3nhiGOr8-3/?igsh=MXF3d2VnNWRqYjNpNw==", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n69", "title": "Sopa de cebolla TX", "emoji": "🍲", "photo": "", "cat": "vegetariano", "blockIds": ["sopas"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.juanideanasevilla.com/mambo/2011/03/sopa-de-cebolla", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n70", "title": "Chili con carne", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/umeirOUHlYFgdBwpzpt3", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n71", "title": "Fideos en 15’", "emoji": "🍝", "photo": "", "cat": "vegano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DWgSE0TAuFw/?igsh=MXdwa2U0bWwzdTllMQ==", "notes": "@patrimediolimon - Recetas veg en Instagram: \"🌱Fideos en 15’🌱 En mi top 3 de cosas favoritas está el hablar de comida, las otras dos os las voy a ir contando🤭 Estos fideos son una de mis recetas confort food, también están el hummus y el salmorejo, vamos con la receta de los fideos, al final te cuento una forma de hacerlos súper exprés: 🌱En una sartén coloca 1 cucharada sopera bien colmada de crema de cacahuete, un puñadito de cebolla tierna troceada, una cucharadita de aceite picante (o normal si no quieres que pique), una cucharada de gochugan (o tomate concentrado), una cucharada de semillas de sésamo y un buen puñado de espinacas frescas. 🌱Añade 200 ml de caldo de verduras y 100 ml de leche de soja sin azúcar (la gente le pone leche de coco, pero a mi ultimamente 🤐), llévalo a ebullición y cuando hierva, añade los fideos, dejando que se cocine todo junto 3-4 minutos. 🌱Mientras tanto: ralla 200 gr de tofu en la cesta de la freidora de aire y adereza como quieras, yo le puse aceite en spray, ajo en polvo y pimentón, mezcla bien y cocina 5 min a máxima potencia, removiendo a la mitad, sirve por encima y listo! 📋Si quieres variar de verdura el brócoli funciona muy bien, y también el pack choi, otras proteínas que puedes añadir son el tempeh o los texturizados. Para hacerlo sin más rápido, puedes cocer los fideos con brócoli, apartar 100 ml de su agua de cocción y mezclar con una cucharada sopera de crema de cacahuete, un chorrito de salsa de soja, 1/2 cucharadita de ajo en polvo y otra 1/2 de aceite picante, escurre los fideos, añade la salsa y acompaña con una prote que tengas en casa. Prometo que te va a encantar! #fideos #noodles #sopa #tofu #recetasveganas\"", "ingredients": [], "steps": [], "tested": true}, {"id": "n72", "title": "Crema de Coliflor con Zanahoria", "emoji": "🍲", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-coliflor-con-zanahoria", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n73", "title": "Pure de patata", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DVttJsniDI7/?igsh=MWZvaGZ1OGZ2ZjVqaA==", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n74", "title": "Bacalao a la mostaza", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DWyfSrqjC4T/?igsh=MWowNjk2eHo3eHJrMA==", "notes": "Marc ballo en Instagram: \"bacalao a la mostaza Es una receta muy facil, que tendrás lista en 12´ sin complicaciones para cuidarte esta Semana Santa. Dale like ❤️ guarda esta receta Ingredientes: 2 lomos de bacalao 1/2 calabacín 1/2 zanahoria 1/2 patata perejil fresco Salsa mostaza : 1 cda mostaza dijon, 1 cda mostaza en grano, zumo 1/2 limón, 2 cdas de aceite de oliva, perejil fresco picado, sal y pimienta. Pela el calabacín, patata y zanahoria con una mandolina muy fina. Dobla el papel de horno por los lados largos formando pliegues y ata con cordón alimentario los dos laterales , dejando un hueco en el centro para colocar el pescado y verduras, todo en forma de un lazo. Coloca una capa de patatas separadas en la base, otra capa de calabacín y luego zanahoria. Ahora añade los lomos de bacalao y vierte la salsa emulsionada por encima . Cocina en tu airfryer por 12´a 185ºC o al horno por 16´a 185ºC. Así de fácil ¡Disfruta! ¿Te apuntas a probar esta receta saludable de bacalao rico? #bacalao #recetasconbacalao #recetasespañolas #recetasespaña #recetassaludables\"", "ingredients": [], "steps": [], "tested": false}, {"id": "n75", "title": "Pasta con salsa de coliflor y anacardos", "emoji": "🍝", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/PQZ0yorzdLTSy6uk2ydv", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n76", "title": "Croquetas de coliflor", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/Biuf3yFbo9NssGtHhKSM", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n77", "title": "Crema de Brócoli, Guisantes y Calabacín", "emoji": "🍲", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-brocoli-guisantes-y-calabacin/%3E%3Clink%20rel=", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n78", "title": "Crema de Calabaza y Puerro", "emoji": "🍲", "photo": "", "cat": "vegetariano", "blockIds": ["sopas"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-calabaza-y-puerro", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n79", "title": "Crema de 5 verduras", "emoji": "🍲", "photo": "", "cat": "vegano", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-5-verduras", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n80", "title": "Lasaña atun", "emoji": "🍝", "photo": "", "cat": "pescado", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DPg-OpfDUyw/?igsh=anBpNTFiZTdveGNx", "notes": "", "ingredients": [], "steps": [], "tested": false}, {"id": "n81", "title": "Ensalada de patata", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["carbo"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/Cf6dpXqDTnb/?igsh=ZG40d3E2c2dqMXRo", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n82", "title": "Coles de Bruselas con bacon", "emoji": "🍗", "photo": "", "cat": "carne", "blockIds": ["probar"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DUOl-ksjtq8/?igsh=dnc1cnV1NDh3bmxs", "notes": "Coles bruselas con bacon Laia Puig en Instagram: \"Amor-odi. Les cols de Brussel·les són clarament això. A mi m’agraden tant pel gust com per les propietats, però també entenc perfectament que no siguin per a tothom. I està bé així. Aquesta recepta és la meva manera de fer-les més accessibles: senzilles, sense massa història, i amb aquell punt salat i cruixent que ho canvia tot. Cols de Brussel·les amb mostassa i bacon: 1.- Renta 500 g de cols de Brussel·les i talla-les a quarts. 2.- En un bol, prepara una vinagreta amb 3 cullerades d’oli d’oliva verge extra, 1 cullerada grossa de mostassa de Dijon i un pessic de pebre. 3.- Barreja-ho bé amb les cols fins que quedin ben impregnades. 4.- Cap al forn, 30 minuts a 180 °C. 5.- A mitja cocció, treu la safata, remena-les i afegeix 100 g de bacon. 6.- Torna-les a enfornar fins que quedin tendres per dins i daurades per fora. Espero que, com jo, les gaudeixis. I si no… demà més i millor🫂\"", "ingredients": [], "steps": [], "tested": false}, {"id": "n83", "title": "Pestocoli (pesto de brócoli)", "emoji": "🥗", "photo": "", "cat": "vegano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.myrealfood.app/es/recipe/bM3ZJj66aq4KBijjbMeJ", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n84", "title": "Curry de langostinos con basmati", "emoji": "🐟", "photo": "", "cat": "pescado", "blockIds": ["pescado"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.velocidadcuchara.com/curry-de-langostinos-con-basmati/", "notes": "", "ingredients": [], "steps": [], "tested": true}, {"id": "n85", "title": "Slow Cooker Beef Brisket Pasta", "emoji": "🍝", "photo": "", "cat": "carne", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DYl1QMNBgeL/", "notes": "Sarah Pound en Instagram: \"SLOW COOKER BEEF BRISKET PASTA 🍝 ✨ Serves: 4 Cook Time: 8 hours on low or 4 hours on high Ingredients 1.2 kg beef brisket ½ tsp salt 1 tsp black pepper 2 tbsp extra virgin olive oil 1 brown onion, finely chopped 3 garlic cloves, chopped 400g tin diced tomatoes 3 tablespoons tomato paste ⅓ cup red wine 1 cup beef stock 1 tablespoon dried Italian herbs 350g pasta (any kind you like) To serve: Grated Parmesan cheese Fresh parsley Method: 1. Pat the beef brisket dry and season with salt and pepper. Heat olive oil in a frying pan over medium-high heat. Sear the brisket on all sides until well browned. 2. Transfer the seared brisket to your slow cooker. Add onion, garlic, tinned tomatoes, tomato paste, red wine, beef stock, and dried Italian herbs. 3. Cover and cook on low for 8 hours or high for 4 hours, until the brisket is fall-apart tender. 4. Remove the brisket, shred it using two forks, then return it to the sauce in the slow cooker. Stir well to combine. 5. Meanwhile, cook your pasta separately according to packet instructions. Drain and add it to the slow cooker. Stir through the brisket sauce until well coated. 6. Dish it up with a generous sprinkle of grated Parmesan and fresh parsley. Season to taste. #slowcook #slowcooker #slowcookermeals #slowcookerrecipes #slowcooking\"", "ingredients": [], "steps": [], "tested": true}, {"id": "n86", "title": "Caldo Gallego", "emoji": "🍲", "photo": "", "cat": "carne", "blockIds": ["prote"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DHEiZ4fOwEL/", "notes": "Recetas fáciles l Trucos de chefs l Consejos viajar sola en Instagram: \"🍲CALDO GALLEGO🍲 Hay diferentes recetas de caldo gallego, todas son válidas, ninguna está por encima de otra, las abuelas eran las que mejores caldos hacían y usaban lo que tenían en casa Abuela —— INGREDIENTES PARA 5-6 PERSONAS 👩🏼‍🍳2 manojos de grelos cortados en trocitos y sin tallos 👩🏼‍🍳600 g de alubias en remojo del día anterior 👩🏼‍🍳2 patatas medianas peladas y chascadas 👩🏼‍🍳1 hueso de espinazo salado 👩🏼‍🍳1 trozo de jamón de 300 gr 👩🏼‍🍳600 gr de lacón 👩🏼‍🍳20 gr de unto 👩🏼‍🍳3 chorizos 👩🏼‍🍳175 gr de panceta 👩🏼‍🍳Agua hasta cubrir 2 dedos por encima de las alubias —— ELABORACIÓN 1- Remojar en agua abundante, las alubias desde la noche anterior 2- Cortar las carnes más grandes y desalar las que sean saladas. 3- En una olla, añadir las alubias, el agua 2 dedos por arriba y todas las carnes, llevar a ebullición y desespumar. Ojo, retirar el unto pasada una hora. 4- En total deben cocer a fuego bajo una hora y media aprox, depende de las alubias. 5-Cuando queden 15 minutos añadir las patatas y cocinar hasta que estén tiernas. 6-Cuando queden 10 minutos añadir los grelos y cocinar hasta que estén tiernos. 7- Comprobar el punto de sal por si hubiera que corregirlo. 8- Dejar reposar la olla, tapada durante 15 minutos. —— TRUCOS 👉🏻Los grelos se introducen en el caldo a movimientos para no romper las alubias. 👉🏻Las carnes se deben servir troceadas en una fuente, aparte o bien dentro del caldo. 👉🏻Uno de los ingredientes más importante es el “unto”, es decir grasa de cerdo salada, enrollada sobre si misma  y que se utiliza, como decía mi abuela, para dar “sustancia”. 👉🏻El caldo gallego, como casi todos los platos de cuchara, gana sabor y textura al día siguiente. —— Un poquito de amor y listo ❤️\"", "ingredients": [], "steps": [], "tested": true}, {"id": "n87", "title": "Pizza en airfryer", "emoji": "🍳", "photo": "", "cat": "vegetariano", "blockIds": ["veggie"], "baseServings": 4, "time": 30, "difficulty": "Media", "sourceUrl": "https://www.instagram.com/reel/DZVTTaFtR7R/", "notes": "Marc Pizza 🍕 en Instagram: \"Receta en airfrayer . . . #pizza #pizzatime #pizzalover #receta #cocina\"", "ingredients": [], "steps": [], "tested": true}], "planning": {}, "extras": [], "shopState": {}};
+const DESPERTAR_DEFAULT=[
+ {id:"dd01",emoji:"🫐",nombre:"Arándanos, limón y canela",para:"Antioxidantes",ingredientes:["1 puñado de arándanos","Zumo de 1/2 limón","1 pizca de canela","150 ml de agua"],prep:"En la Thermomix, tritura todo 30 seg / vel. 8. Cuela si lo quieres más fino.",fuenteUrl:"https://www.frontiersin.org/journals/nutrition/articles/10.3389/fnut.2024.1415737/full",aviso:""},
+ {id:"dd02",emoji:"🫚",nombre:"Jengibre, limón y cúrcuma",para:"Defensas",ingredientes:["2 cm de jengibre fresco","Zumo de 1 limón","1/2 cdta de cúrcuma","1 pizca de pimienta negra","150 ml de agua"],prep:"Tritura 40 seg / vel. 10. La pimienta ayuda a asimilar la cúrcuma.",fuenteUrl:"https://www.health.harvard.edu/staying-healthy/turmeric-benefits-a-look-at-the-evidence",aviso:"Lleva cúrcuma y jengibre: con tu paroxetina pueden aumentar el riesgo de sangrado en dosis altas. La pimienta potencia la cúrcuma y puede afectar a cómo se procesan algunos fármacos. En pizca puntual el riesgo es bajo; consúltalo con tu farmacéutico."},
+ {id:"dd03",emoji:"🥕",nombre:"Zanahoria, naranja y jengibre",para:"Vitaminas",ingredientes:["1 zanahoria","Zumo de 1 naranja","1 cm de jengibre","100 ml de agua"],prep:"Tritura 1 min / vel. progresiva 5-10. Aporta betacarotenos y vitamina C.",fuenteUrl:"https://www.nccih.nih.gov/health/ginger",aviso:"Lleva jengibre: en cantidad alta puede sumar al efecto de la paroxetina sobre el sangrado. En trocito puntual, riesgo bajo."},
+ {id:"dd04",emoji:"🥬",nombre:"Apio, manzana verde y limón",para:"Ligero",ingredientes:["1 rama de apio","1/2 manzana verde","Zumo de 1/2 limón","150 ml de agua"],prep:"Tritura 1 min / vel. 10. Ligero e hidratante para empezar el día.",fuenteUrl:"",aviso:""},
+ {id:"dd05",emoji:"🍍",nombre:"Piña, jengibre y menta",para:"Digestión",ingredientes:["2 rodajas de piña","1 cm de jengibre","3 hojas de menta","100 ml de agua"],prep:"Tritura 40 seg / vel. 8. La piña aporta bromelina (enzima).",fuenteUrl:"https://www.nccih.nih.gov/health/ginger",aviso:"Lleva jengibre: en cantidad alta puede sumar al efecto de la paroxetina sobre el sangrado."},
+ {id:"dd06",emoji:"🌿",nombre:"Espinaca, manzana y limón",para:"Hierro",ingredientes:["1 puñado de espinacas","1/2 manzana","Zumo de 1/2 limón","150 ml de agua"],prep:"Tritura 1 min / vel. 10. La vitamina C del limón mejora la absorción del hierro vegetal.",fuenteUrl:"https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",aviso:""},
+ {id:"dd07",emoji:"🟣",nombre:"Remolacha, manzana y limón",para:"Rendimiento",ingredientes:["1/2 remolacha cocida","1/2 manzana","Zumo de 1/2 limón","150 ml de agua"],prep:"Tritura 1 min / vel. 10. Los nitratos de la remolacha se asocian a mejor rendimiento físico.",fuenteUrl:"https://pmc.ncbi.nlm.nih.gov/articles/PMC10912565/",aviso:""},
+ {id:"dd08",emoji:"🟡",nombre:"Cúrcuma dorada (golden)",para:"Antiinflamatorio",ingredientes:["1/2 cdta de cúrcuma","1 pizca de pimienta negra","1 pizca de canela","200 ml de bebida vegetal"],prep:"Calienta 3 min / 50°C / vel. 2 en Thermomix. Reconfortante en frío.",fuenteUrl:"https://www.health.harvard.edu/staying-healthy/turmeric-benefits-a-look-at-the-evidence",aviso:"Lleva cúrcuma y pimienta: con tu paroxetina puede aumentar algo el riesgo de sangrado en dosis altas. Consúltalo con tu farmacéutico."},
+ {id:"dd09",emoji:"🍊",nombre:"Naranja, zanahoria y cúrcuma",para:"Defensas",ingredientes:["Zumo de 1 naranja","1/2 zanahoria","1/2 cdta de cúrcuma","1 pizca de pimienta"],prep:"Tritura 1 min / vel. 8. Vitamina C y betacarotenos.",fuenteUrl:"https://www.health.harvard.edu/staying-healthy/turmeric-benefits-a-look-at-the-evidence",aviso:"Lleva cúrcuma: con tu paroxetina puede aumentar algo el riesgo de sangrado en dosis altas."},
+ {id:"dd10",emoji:"💧",nombre:"Agua tibia con limón y jengibre",para:"Digestión",ingredientes:["200 ml de agua tibia","Zumo de 1/2 limón","1 cm de jengibre rallado"],prep:"Calienta 2 min / 50°C / vel. 1. El clásico para despertar el cuerpo e hidratarte.",fuenteUrl:"https://www.nccih.nih.gov/health/ginger",aviso:"Lleva jengibre: en cantidad alta puede sumar al efecto de la paroxetina sobre el sangrado."},
+ {id:"dd11",emoji:"🥥",nombre:"Agua de coco, lima y menta",para:"Hidratación",ingredientes:["200 ml de agua de coco","Zumo de 1/2 lima","3 hojas de menta"],prep:"Mezcla 10 seg / vel. 4. Aporta líquidos y minerales; bien para hidratarte por la mañana.",fuenteUrl:"",aviso:""},
+];
+const BLOCKS_V2=[
+ {id:"probar",name:"Por probar",icon:"🧪"},
+ {id:"pasta",name:"Pasta",icon:"🍝"},
+ {id:"carbo",name:"Carbohidratos",icon:"🍚"},
+ {id:"pescado",name:"Pescado y marisco",icon:"🐟"},
+ {id:"prote",name:"Proteínas y carnes",icon:"🍗"},
+ {id:"verduras",name:"Verduras",icon:"🥦"},
+ {id:"cremas",name:"Cremas y guisos",icon:"🍲"},
+ {id:"repos",name:"Repostería sana",icon:"🧁"},
+ {id:"desayunos",name:"Desayunos",icon:"🍳"},
+ {id:"thermomix",name:"Thermomix",icon:"🔪"},
+ {id:"airfryer",name:"Airfryer",icon:"🌀"},
+];
+const SECTIONS = ["Frutas y verduras","Pescadería","Carnicería","Lácteos y huevos","Panadería","Despensa","Congelados","Bebidas","Limpieza/Hogar","Otros"];
+const CATS = {pescado:"Pescado", vegano:"Vegano", vegetariano:"Vegetariano", carne:"Carne"};
+const MEALS = [["comida","Comida"],["cena","Cena"]];
+const DAYS = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
+const COUNTABLE = ["ud","uds","unidad","unidades","huevo","huevos","lata","latas","diente","dientes","rebanada","rebanadas","loncha","lonchas","pieza","piezas","manojo","ramita","sobre","sobres","hoja","hojas","filete","filetes","bote","botes"];
+const GRANEL = ["g","gr","gramo","gramos","kg","ml","cl","l","litro","litros","taza","tazas","cucharada","cucharadas","cucharadita","cdta","cda"];
+
+let db = load();
+let weekStart = mondayOf(new Date());
+
+function ensureDefaults(r){ if(!r.despertar||!r.despertar.length) r.despertar=JSON.parse(JSON.stringify(DESPERTAR_DEFAULT)); if(!r.shotWeek) r.shotWeek={}; if(!r.shotPick) r.shotPick={}; if(!r.pantry) r.pantry=[]; r.blocks=(r.blocks||[]).filter(b=>b.id!=="fav"); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>b!=="fav"); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); if(!r.allToProbar){ (r.recipes||[]).forEach(rc=>{ rc.blockIds=["probar"]; }); r.allToProbar=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } if(!r.blocksV4){ r.blocks=JSON.parse(JSON.stringify(BLOCKS_V2)); const valid=new Set(BLOCKS_V2.map(b=>b.id)); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>valid.has(b)); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); r.blocksV4=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } return r; }
+function load(){
+  try{ const r = JSON.parse(localStorage.getItem(STORE)); if(r&&r.recipes) return ensureDefaults(r); }catch(e){}
+  return ensureDefaults(seed());
+}
+function save(){ db.updatedAt=Date.now(); localStorage.setItem(STORE, JSON.stringify(db)); if(typeof cloudPush==="function") cloudPush(); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+/* ---------- contenido de ejemplo ---------- */
+function seed(){ return JSON.parse(JSON.stringify(SEED_DATA)); }
+
+/* ============================================================
+   NAVEGACIÓN
+   ============================================================ */
+function go(v){
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.getElementById('v-'+v).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active', b.dataset.v===v));
+  window.scrollTo(0,0);
+  if(v==='recetas'){ currentBlock=null; const s=document.getElementById('recipeSearch'); if(s)s.value=''; renderRecipes(); }
+  if(v==='planning') renderPlanning();
+  if(v==='compra') renderShopping();
+  if(v==='salud') renderSalud();
+  if(v==='fuentes') renderFuentes();
+  if(v==='despertar') renderDespertar();
+}
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1900); }
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+function openSheet(html){ document.getElementById('sheet').innerHTML=html; document.getElementById('modal').classList.add('open'); document.getElementById('sheet').scrollTop=0; }
+function esc(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ============================================================
+   RECETAS
+   ============================================================ */
+function getBlock(id){ return db.blocks.find(b=>b.id===id); }
+let currentBlock = null;   // null = rejilla de bloques; id = dentro de un bloque
+
+function ytThumb(u){ const m=u&&u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/); return m?`https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg`:''; }
+function imgKeyword(r){
+  const t=(r.title||'').toLowerCase();
+  const map=[['pizza','pizza'],['lasaña','lasagna'],['pasta','pasta'],['fideo','noodles'],['noodle','noodles'],['ramen','ramen'],['ñoqui','gnocchi'],['curry','curry'],['gazpacho','gazpacho'],['sopa','soup'],['crema','soup'],['caldo','soup'],['potaje','stew'],['guiso','stew'],['estofado','stew'],['ensalada','salad'],['poke','salmon'],['arroz','rice'],['risotto','risotto'],['paella','paella'],['couscous','couscous'],['cuscús','couscous'],['hummus','hummus'],['tortilla','omelette'],['huevo','eggs'],['salm','salmon'],['atún','tuna'],['atun','tuna'],['merluza','fish'],['bacalao','fish'],['pescado','fish'],['pulpo','octopus'],['gamba','shrimp'],['langostino','shrimp'],['marisco','seafood'],['pollo','chicken'],['pavo','turkey'],['ternera','beef'],['cerdo','pork'],['taco','tacos'],['quesadilla','quesadilla'],['burger','burger'],['hamburguesa','burger'],['lenteja','lentils'],['garbanzo','chickpeas'],['alubia','beans'],['fave','beans'],['judias','beans'],['judías','beans'],['tofu','tofu'],['quinoa','quinoa'],['brócoli','broccoli'],['brocoli','broccoli'],['coliflor','cauliflower'],['calabaza','pumpkin'],['calabacín','zucchini'],['calabacin','zucchini'],['berenjena','eggplant'],['espinaca','spinach'],['boniato','potato'],['patata','potato'],['pure','puree'],['puré','puree'],['remolacha','beetroot'],['pad thai','noodles'],['bulgogi','korean'],['katsu','katsu'],['pesto','pasta'],['champi','mushrooms'],['carne','meat'],['trinxat','potato'],['migas','bread']];
+  for(const kv of map){ if(t.includes(kv[0])) return kv[1]; }
+  return {pescado:'fish',carne:'meat',vegano:'vegetables',vegetariano:'food'}[r.cat]||'food';
+}
+function imgFor(r){
+  if(r.photo) return r.photo;
+  const yt=ytThumb(r.sourceUrl); if(yt) return yt;
+  let s=7; const id=r.id||'x'; for(let i=0;i<id.length;i++){ s=(s*31+id.charCodeAt(i))>>>0; }
+  return 'https://loremflickr.com/320/320/'+imgKeyword(r)+',food?lock='+(s%900+1);
+}
+function catKw(r){ return ({pescado:'fish',carne:'meat',vegano:'vegetables',vegetariano:'food'})[r.cat]||'food'; }
+function imgTag(r,cls){
+  if(r.photo) return `<img class="${cls}" src="${r.photo}" alt="" onerror="this.remove()">`;
+  const yt=ytThumb(r.sourceUrl);
+  let s=7; const id=r.id||'x'; for(let i=0;i<id.length;i++) s=(s*31+id.charCodeAt(i))>>>0;
+  const lock=s%900+1;
+  const primary = yt || ('https://loremflickr.com/320/320/'+imgKeyword(r)+'?lock='+lock);
+  const q = encodeURIComponent((r.title||'comida')+' plato de comida casera');
+  return `<img class="${cls}" loading="lazy" src="${primary}" data-s="0" data-kw="${catKw(r)}" data-lock="${lock}" data-q="${q}" alt="" onerror="imgFallback(this)">`;
+}
+function imgFallback(el){
+  const s=(+el.dataset.s||0)+1; el.dataset.s=s;
+  if(s===1) el.src='https://loremflickr.com/320/320/'+el.dataset.kw+'?lock='+el.dataset.lock;
+  else if(s===2) el.src='https://image.pollinations.ai/prompt/'+el.dataset.q+'?width=320&height=320&nologo=true';
+  else el.remove();
+}
+function cardHtml(r, onclick){
+  const oc = onclick || `openRecipe('${r.id}')`;
+  const bl = getBlock((r.blockIds||[])[0]);
+  return `<div class="rcard" onclick="${oc}">
+    <div class="thumb cbg-${r.cat}"><span class="emo">${r.emoji||'🍲'}</span>${imgTag(r,'rimg')}<span class="catdot c-${r.cat}"></span></div>
+    <div class="body"><h3>${esc(r.title)}</h3>${bl?`<div class="cgrp">${bl.icon||'📁'} ${esc(bl.name)}</div>`:''}</div></div>`;
+}
+
+function renderRecipes(){
+  const q = (document.getElementById('recipeSearch').value||'').toLowerCase();
+  const wrap = document.getElementById('recipeBlocks');
+
+  // 1) BÚSQUEDA: lista plana de resultados de todos los bloques
+  if(q){
+    const list = db.recipes.filter(r=>r.title.toLowerCase().includes(q) || (r.ingredients||[]).some(i=>(i.name||'').toLowerCase().includes(q))); list.sort((a,b)=>a.title.localeCompare(b.title,'es'));
+    wrap.innerHTML = `<div class="view-title">${list.length} resultado${list.length!==1?'s':''}</div>`+
+      (list.length?`<div class="rgrid">${list.map(r=>cardHtml(r)).join('')}</div>`:`<div class="empty">Nada coincide con “${esc(q)}”.</div>`);
+    return;
+  }
+
+  // 2) DENTRO DE UN BLOQUE: cabecera con volver + recetas del bloque
+  if(currentBlock){
+    const bl = getBlock(currentBlock);
+    if(!bl){ currentBlock=null; return renderRecipes(); }
+    const list = db.recipes.filter(r=>r.blockIds.includes(bl.id)); list.sort((a,b)=>a.title.localeCompare(b.title,'es'));
+    wrap.innerHTML = `
+      <button class="btn ghost sm" style="margin-bottom:14px" onclick="currentBlock=null;renderRecipes()">‹ Bloques</button>
+      <div class="block-head" style="margin-bottom:14px"><h2 ${bl.id==='probar'?'style="color:var(--warn)"':''}>${bl.icon||'📁'} ${esc(bl.name)}</h2><span class="count">${list.length}</span></div>
+      ${list.length?`<div class="rgrid">${list.map(r=>cardHtml(r)).join('')}</div>`
+        :`<div class="empty">${bl.id==='probar'?'Aquí van las recetas nuevas hasta que las pruebes.':'Este bloque está vacío. Añade recetas o muévelas aquí desde “Por probar”.'}</div>`}`;
+    return;
+  }
+
+  // 3) PANTALLA PRINCIPAL: rejilla de bloques (botones con icono)
+  let html = `<div class="bgrid">`;
+  db.blocks.forEach(bl=>{
+    const n = db.recipes.filter(r=>r.blockIds.includes(bl.id)).length;
+    html += `<button class="bcard ${bl.id==='probar'?'probar':''}" onclick="currentBlock='${bl.id}';renderRecipes()">
+      <span class="bic">${bl.icon||'📁'}</span>
+      <span class="bnm">${esc(bl.name)}</span>
+      <span class="bcount">${n} receta${n!==1?'s':''}</span>
+    </button>`;
+  });
+  html += `</div>`;
+  wrap.innerHTML = html;
+}
+
+function openRecipe(id){
+  const r = db.recipes.find(x=>x.id===id); if(!r) return;
+  // imagen del hero vía imgTag
+  const blocks = r.blockIds.map(getBlock).filter(Boolean).map(b=>`${b.icon} ${esc(b.name)}`).join(' · ');
+  let ing = r.ingredients.map(i=>`<div class="det-ing"><span>${esc(i.name)}</span><span class="q">${fmtQty(i.qty)} ${esc(i.unit||'')}</span></div>`).join('');
+  let steps = r.steps.map((s,i)=>`<div class="det-step"><div class="n">${i+1}</div><div class="t">${esc(s)}</div></div>`).join('');
+  const inProbar = r.blockIds.includes('probar');
+  openSheet(`
+    <div class="sheet-head"><h2>${esc(r.title)}</h2><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="det-hero cbg-${r.cat}"><span class="emo">${r.emoji||'🍲'}</span>${imgTag(r,'rimg')}</div>
+    <div class="sheet-body">
+      <div class="det-meta">
+        <span class="pill"><span class="dot c-${r.cat}"></span>${CATS[r.cat]||''}</span>
+        <span class="pill">⏱ ${r.time||'–'} min</span>
+        <span class="pill">📊 ${esc(r.difficulty||'')}</span>
+        <span class="pill">👥 ${r.baseServings} pers.</span>
+      </div>
+      <div class="hint">📂 ${blocks||'Sin bloque'}</div>
+      <div class="det-sec-t">Ingredientes <span style="color:var(--muted2);font-weight:400">(para ${r.baseServings})</span></div>
+      ${ing||'<div class="hint">Sin ingredientes.</div>'}
+      <div class="det-sec-t">Preparación</div>
+      ${steps||'<div class="hint">Sin pasos.</div>'}
+      ${r.notes?`<div class="det-sec-t">Notas</div><div class="note-box">${esc(r.notes)}</div>`:''}
+      ${r.sourceUrl?`<div class="det-sec-t">Origen</div><a class="src" href="${esc(r.sourceUrl)}" target="_blank">${esc(r.sourceUrl)}</a>`:''}
+      <div class="divider"></div>
+      <button class="btn block" onclick="addToPlan('${r.id}')">📅 Añadir al planning</button>
+      <div style="height:10px"></div>
+      ${inProbar?`<button class="btn ghost block" onclick="promoteRecipe('${r.id}')">✅ Ya la probé — mover a un bloque</button><div style="height:10px"></div>`:''}
+      <div class="row-btns" style="margin:0">
+        <button class="btn ghost" onclick="openRecipeForm('${r.id}')">✏️ Editar</button>
+        <button class="btn danger" onclick="deleteRecipe('${r.id}')">🗑️ Borrar</button>
+      </div>
+    </div>`);
+}
+
+function deleteRecipe(id){
+  if(!confirm('¿Borrar esta receta?')) return;
+  db.recipes = db.recipes.filter(r=>r.id!==id);
+  // limpiar del planning
+  Object.values(db.planning).forEach(day=>MEALS.forEach(([m])=>{ if(day[m]&&day[m].recipeId===id) delete day[m]; }));
+  save(); closeModal(); renderRecipes(); toast('Receta borrada');
+}
+
+function suggestBlock(r){
+  const t = (r.title+' '+(r.notes||'')+' '+(r.sourceUrl||'')).toLowerCase();
+  if(/(airfryer|air fryer|air-fryer|freidora|cecotec)/.test(t)) return 'airfryer';
+  if(/(thermomix|thermomagazine|recetasparathermomix|mambo|monsieur cuisine|\btmx\b)/.test(t)) return 'thermomix';
+  if(/(tarta|pastel|postre|dulce|bizcocho|galleta|brownie|crep|tortita|muffin|cheesecake|flan|mousse|repost)/.test(t)) return 'repos';
+  if(/(desayuno|tostada|porridge|avena|granola|yogur|smoothie)/.test(t)) return 'desayunos';
+  if(r.cat==='pescado') return 'pescado';
+  if(/(pasta|fideo|noodle|ramen|ñoqui|lasaña|espagueti|macarr)/.test(t)) return 'pasta';
+  if(/(arroz|risotto|couscous|cuscús|wok|pad thai|patata|boniato|pure|puré|trinxat)/.test(t)) return 'carbo';
+  if(/(sopa|crema|caldo|guiso|potaje|estofado|vichy|marmitako)/.test(t)) return 'cremas';
+  if(/(ensalada|verdura|brócoli|coliflor|calabac|berenjena|espinaca|champi|judía|judias|escalivada|pisto|faves)/.test(t)) return 'verduras';
+  if(r.cat==='carne') return 'prote';
+  if(r.cat==='vegano'||r.cat==='vegetariano') return 'verduras';
+  return 'prote';
+}
+function promoteRecipe(id){
+  const r = db.recipes.find(x=>x.id===id);
+  const sug = suggestBlock(r);
+  const sb = getBlock(sug) || db.blocks.find(b=>b.id!=='probar');
+  const others = db.blocks.filter(b=>b.id!=='probar' && b.id!==sb.id);
+  openSheet(`<div class="sheet-head"><h2>Mover a un grupo</h2><button class="x" onclick="openRecipe('${id}')">✕</button></div>
+    <div class="sheet-body">
+      <p class="hint">Por el tipo de plato “${esc(r.title)}”, te recomiendo este grupo:</p>
+      <button class="btn block" style="margin:10px 0 4px" onclick="moveToBlock('${id}','${sb.id}')">⭐ ${sb.icon} ${esc(sb.name)} · recomendado</button>
+      <div class="det-sec-t">O elige otro grupo</div>
+      <div class="chips">${others.map(b=>`<button class="chip" onclick="moveToBlock('${id}','${b.id}')">${b.icon} ${esc(b.name)}</button>`).join('')}</div>
+    </div>`);
+}
+function moveToBlock(id, blockId){
+  const r = db.recipes.find(x=>x.id===id);
+  r.blockIds = r.blockIds.filter(b=>b!=='probar');
+  if(!r.blockIds.includes(blockId)) r.blockIds.push(blockId);
+  r.tested = true; save(); openRecipe(id); toast('Movida ✅');
+}
+
+/* ---------- formulario receta ---------- */
+let formDraft = null;
+function openRecipeForm(id){
+  const r = id ? JSON.parse(JSON.stringify(db.recipes.find(x=>x.id===id))) :
+    {id:null,title:'',emoji:'🍲',photo:'',cat:'vegetariano',blockIds:['probar'],baseServings:2,time:30,difficulty:'Fácil',sourceUrl:'',notes:'',ingredients:[{name:'',qty:'',unit:'',section:'Otros'}],steps:['']};
+  formDraft = r;
+  renderForm();
+}
+function renderForm(){
+  const r = formDraft;
+  const catChips = Object.entries(CATS).map(([k,v])=>`<button class="chip ${r.cat===k?'on':''}" onclick="formDraft.cat='${k}';renderForm()"><span class="dot c-${k}"></span> ${v}</button>`).join('');
+  const blockChips = db.blocks.map(b=>`<button class="chip ${b.id==='probar'?'probar':''} ${r.blockIds.includes(b.id)?'on':''}" onclick="toggleFormBlock('${b.id}')">${b.icon} ${esc(b.name)}</button>`).join('');
+  const ingRows = r.ingredients.map((i,idx)=>`
+    <div class="ing-row">
+      <input class="nm" placeholder="Ingrediente" value="${esc(i.name)}" oninput="formDraft.ingredients[${idx}].name=this.value">
+      <input class="q" placeholder="Cant." value="${i.qty}" oninput="formDraft.ingredients[${idx}].qty=this.value">
+      <input class="u" placeholder="ud/g" value="${esc(i.unit)}" oninput="formDraft.ingredients[${idx}].unit=this.value">
+      <button class="rm" onclick="formDraft.ingredients.splice(${idx},1);renderForm()">✕</button>
+    </div>`).join('');
+  openSheet(`
+    <div class="sheet-head"><h2>${r.id?'Editar receta':'Nueva receta'}</h2><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="sheet-body">
+      <div class="seg">
+        <button class="on" id="tabManual" onclick="switchFormTab('manual')">✏️ Manual</button>
+        <button id="tabPaste" onclick="switchFormTab('paste')">📋 Pegar texto</button>
+      </div>
+      <div id="pasteArea" style="display:none">
+        <label class="f">Importar desde un enlace web (blog de recetas)</label>
+        <div style="display:flex;gap:8px"><input class="field" id="importUrl" placeholder="https://..." style="flex:1"><button class="btn sm" onclick="importFromLink()">🌐 Traer</button></div>
+        <div class="hint">Pega un enlace de blog y traigo ingredientes y pasos solos. (Funciona con la app publicada en Netlify; en local usa “pegar texto”.)</div>
+        <div class="divider"></div>
+        <label class="f">…o pega aquí la receta (de Instagram, web o donde sea)</label>
+        <textarea class="field" id="pasteText" placeholder="Pega título, ingredientes y pasos. La app intentará separarlos."></textarea>
+        <div class="hint">Truco: separa los ingredientes en líneas. Lo que parezca un ingrediente irá a ingredientes, lo demás a pasos.</div>
+        <div style="height:10px"></div>
+        <button class="btn block" onclick="parsePaste()">✨ Convertir en receta</button>
+        <div class="hint" style="margin-top:10px">La extracción automática real de enlaces de Instagram llegará en una versión futura. Por ahora, pega el texto.</div>
+      </div>
+      <div id="manualArea">
+        <label class="f">Título</label>
+        <input class="field" id="f_title" value="${esc(r.title)}" placeholder="Nombre de la receta">
+        <label class="f">Foto (opcional)</label>
+        <input type="file" accept="image/*" class="field" onchange="loadPhoto(this)">
+        ${r.photo?`<div class="hint">✅ Foto cargada. <a class="src" onclick="formDraft.photo='';renderForm()">Quitar</a></div>`:`<div class="hint">Si no pones foto, se usa un emoji. <input value="${esc(r.emoji)}" style="width:50px;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:4px;text-align:center" oninput="formDraft.emoji=this.value"></div>`}
+        <label class="f">Tipo (para el equilibrio saludable)</label>
+        <div class="chips">${catChips}</div>
+        <label class="f">Bloques (puede estar en varios)</label>
+        <div class="chips">${blockChips}</div>
+        <div style="display:flex;gap:10px">
+          <div style="flex:1"><label class="f">Personas base</label><input class="field" type="number" min="1" id="f_serv" value="${r.baseServings}"></div>
+          <div style="flex:1"><label class="f">Tiempo (min)</label><input class="field" type="number" min="0" id="f_time" value="${r.time}"></div>
+        </div>
+        <label class="f">Dificultad</label>
+        <select class="field" id="f_diff">${["Fácil","Media","Difícil"].map(d=>`<option ${r.difficulty===d?'selected':''}>${d}</option>`).join('')}</select>
+        <label class="f">Ingredientes</label>
+        <div id="ingList">${ingRows}</div>
+        <button class="btn ghost sm" onclick="formDraft.ingredients.push({name:'',qty:'',unit:''});renderForm()">＋ Ingrediente</button>
+        <label class="f">Pasos (uno por línea)</label>
+        <textarea class="field" id="f_steps" placeholder="Un paso por línea">${r.steps.map(esc).join('\n')}</textarea>
+        <label class="f">Enlace de origen (opcional)</label>
+        <input class="field" id="f_src" value="${esc(r.sourceUrl)}" placeholder="https://instagram.com/…">
+        <label class="f">Notas (opcional)</label>
+        <textarea class="field" id="f_notes" placeholder="Trucos, variantes…">${esc(r.notes)}</textarea>
+        <div style="height:18px"></div>
+        <button class="btn block" onclick="saveRecipe()">💾 Guardar receta</button>
+      </div>
+    </div>`);
+}
+function switchFormTab(t){
+  syncFormInputs();
+  document.getElementById('tabManual').classList.toggle('on', t==='manual');
+  document.getElementById('tabPaste').classList.toggle('on', t==='paste');
+  document.getElementById('manualArea').style.display = t==='manual'?'block':'none';
+  document.getElementById('pasteArea').style.display = t==='paste'?'block':'none';
+}
+function toggleFormBlock(id){
+  syncFormInputs();
+  const i = formDraft.blockIds.indexOf(id);
+  if(i>=0) formDraft.blockIds.splice(i,1); else formDraft.blockIds.push(id);
+  renderForm();
+}
+function loadPhoto(input){
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{ resizeImg(e.target.result, d=>{ formDraft.photo=d; renderForm(); }); };
+  reader.readAsDataURL(file);
+}
+function resizeImg(src, cb){
+  const img = new Image();
+  img.onload = ()=>{ const max=720; let w=img.width,h=img.height; if(w>max){h=h*max/w;w=max;}
+    const c=document.createElement('canvas'); c.width=w;c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+    cb(c.toDataURL('image/jpeg',0.8)); };
+  img.src = src;
+}
+function syncFormInputs(){
+  const g=id=>document.getElementById(id);
+  if(g('f_title')) formDraft.title=g('f_title').value;
+  if(g('f_serv')) formDraft.baseServings=Math.max(1,parseInt(g('f_serv').value)||1);
+  if(g('f_time')) formDraft.time=parseInt(g('f_time').value)||0;
+  if(g('f_diff')) formDraft.difficulty=g('f_diff').value;
+  if(g('f_src')) formDraft.sourceUrl=g('f_src').value;
+  if(g('f_notes')) formDraft.notes=g('f_notes').value;
+  if(g('f_steps')) formDraft.steps=g('f_steps').value.split('\n').map(s=>s.trim()).filter(Boolean);
+}
+function saveRecipe(){
+  syncFormInputs();
+  const r = formDraft;
+  if(!r.title.trim()){ toast('Ponle un título'); return; }
+  r.ingredients = r.ingredients.filter(i=>i.name.trim()).map(i=>({name:i.name.trim(),qty:parseFloat(String(i.qty).replace(',','.'))||0,unit:(i.unit||'').trim(),section:guessSection(i.name)}));
+  if(!r.blockIds.length) r.blockIds=['probar'];
+  if(r.id){ const idx=db.recipes.findIndex(x=>x.id===r.id); db.recipes[idx]=r; }
+  else { r.id=uid(); db.recipes.push(r); }
+  save();
+  if(pendingSlot){ const ps=pendingSlot; pendingSlot=null; if(!db.planning[ps.k]) db.planning[ps.k]={}; db.planning[ps.k][ps.m]={recipeId:r.id, diners:r.baseServings}; save(); closeModal(); go('planning'); toast('Añadida al día ✅'); return; }
+  closeModal(); renderRecipes(); toast('Receta guardada ✅');
+}
+async function importFromLink(){
+  const url=(document.getElementById('importUrl').value||'').trim();
+  if(!url){ toast('Pega un enlace'); return; }
+  toast('Trayendo de la web…');
+  try{
+    const res=await fetch('/.netlify/functions/import?url='+encodeURIComponent(url));
+    if(!res.ok) throw 0;
+    const d=await res.json();
+    if(!d.found){ toast('No encontré receta legible en esa página'); return; }
+    if(d.title && !formDraft.title) formDraft.title=d.title;
+    if(d.image) formDraft.photo=d.image;
+    if(d.ingredients&&d.ingredients.length) formDraft.ingredients=d.ingredients.map(parseIngLine);
+    if(d.steps&&d.steps.length) formDraft.steps=d.steps;
+    formDraft.sourceUrl=url;
+    const y=parseInt(d.yield); if(y) formDraft.baseServings=y;
+    switchFormTab('manual'); renderForm(); toast('¡Traído! Revisa y guarda ✅');
+  }catch(e){ toast('El importador solo va con la app publicada (Netlify). En local, pega el texto.'); }
+}
+function parsePaste(){
+  const txt = document.getElementById('pasteText').value.trim();
+  if(!txt){ toast('Pega algo primero'); return; }
+  const lines = txt.split('\n').map(l=>l.trim()).filter(Boolean);
+  // título = primera línea corta
+  if(lines.length && lines[0].length<60 && !/^\d/.test(lines[0])) formDraft.title = lines.shift();
+  const ings=[], steps=[];
+  const KNOWN=['g','gr','gramo','gramos','kg','ml','cl','l','litro','litros','taza','tazas','cucharada','cucharadas','cucharadita','cucharaditas','cda','cdta','ud','uds','unidad','unidades','diente','dientes','lata','latas','bote','botes','filete','filetes','loncha','lonchas','rebanada','rebanadas','manojo','manojos','sobre','sobres','hoja','hojas','pizca','puñado','puñados','rodaja','rodajas','vaso','vasos'];
+  const verbRe=/(a\u00f1ad|mezcl|cocin|cort|pela|pica|sofr|rehog|hornea|hierv|sirve|bate|tritur|reserv|escurr|calient|pon\b|coloca|dora|vierte|sazona|salpimienta|incorpora|deja|retira|tapa|remueve|precalienta)/i;
+  lines.forEach(l=>{
+    const raw = l.replace(/^[-•*·\u2013\u2022\s]+/,'').trim();
+    if(!raw) return;
+    const m = raw.match(/^(\d+(?:[.,]\d+)?(?:\s*\/\s*\d+)?)\s+(.*)$/);
+    if(m){
+      const qty = (function(t){ t=t.replace(/\s/g,'').replace(',','.'); if(t.includes('/')){const p=t.split('/');return parseFloat(p[0])/parseFloat(p[1]);} return parseFloat(t)||0; })(m[1]);
+      let rest=m[2].trim(); let unit=''; let name=rest;
+      const w=rest.split(/\s+/);
+      if(w.length>1 && KNOWN.includes(w[0].toLowerCase())){ unit=w[0]; name=w.slice(1).join(' '); }
+      name=name.replace(/^de\s+/i,'').trim();
+      ings.push({name,qty,unit,section:guessSection(name)});
+    } else if(raw.length<=42 && raw.split(' ').length<=5 && !verbRe.test(raw) && !/[.:]$/.test(raw)){
+      ings.push({name:raw,qty:0,unit:'',section:guessSection(raw)});
+    } else { steps.push(raw); }
+  });
+  if(ings.length) formDraft.ingredients = ings; else formDraft.ingredients=[{name:'',qty:'',unit:''}];
+  if(steps.length) formDraft.steps = steps;
+  switchFormTab('manual'); renderForm();
+  toast('Hecho — revisa y ajusta 👇');
+}
+function guessSection(name){
+  const n = name.toLowerCase();
+  if(/(merluza|salm|atún|pescado|gamba|almeja|marisco|bacalao|dorada|lubina|sardina)/.test(n)) return 'Pescadería';
+  if(/(pollo|ternera|cerdo|carne|chuleta|lomo|jamón|pavo|salchicha|bacon)/.test(n)) return 'Carnicería';
+  if(/(leche|queso|yogur|nata|mantequilla|huevo|feta)/.test(n)) return 'Lácteos y huevos';
+  if(/(pan|baguette|tortilla de trigo|wrap)/.test(n)) return 'Panadería';
+  if(/(congelad|guisante|edamame|helado)/.test(n)) return 'Congelados';
+  if(/(agua|vino|cerveza|refresco|zumo|bebida)/.test(n)) return 'Bebidas';
+  if(/(papel|jabón|detergente|limpia|pilas|bolsa|servilleta)/.test(n)) return 'Limpieza/Hogar';
+  if(/(tomate|cebolla|ajo|patata|zanahoria|pimiento|espinaca|lechuga|aguacate|limón|fruta|verdura|brócoli|calabac|jengibre|perejil|cebolleta)/.test(n)) return 'Frutas y verduras';
+  return 'Despensa';
+}
+
+/* ============================================================
+   BLOQUES
+   ============================================================ */
+function openBlocks(){
+  const list = db.blocks.map(b=>`
+    <div class="item">
+      <span style="font-size:20px">${b.icon||'📁'}</span>
+      <span class="nm">${esc(b.name)}</span>
+      ${b.id==='probar'?'<span class="qty">fijo</span>':`<button class="del" onclick="deleteBlock('${b.id}')">🗑️</button>`}
+    </div>`).join('');
+  openSheet(`<div class="sheet-head"><h2>🗂️ Mis bloques</h2><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="sheet-body">
+      <p class="hint">Organiza tus recetas como quieras. “Por probar” es fijo: ahí van las recetas nuevas hasta que las pruebes.</p>
+      <div style="height:12px"></div>
+      ${list}
+      <div class="divider"></div>
+      <label class="f">Nuevo bloque</label>
+      <div class="addrow" style="margin-bottom:0">
+        <input id="newBlockIcon" placeholder="🍝" style="width:54px;text-align:center;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:11px">
+        <input id="newBlockName" placeholder="Nombre del bloque">
+        <button class="btn sm" onclick="addBlock()">＋</button>
+      </div>
+    </div>`);
+}
+function addBlock(){
+  const name=document.getElementById('newBlockName').value.trim();
+  const icon=document.getElementById('newBlockIcon').value.trim()||'📁';
+  if(!name){ toast('Pon un nombre'); return; }
+  db.blocks.push({id:uid(),name,icon}); save(); openBlocks(); renderRecipes();
+}
+function deleteBlock(id){
+  if(!confirm('¿Borrar el bloque? Las recetas no se borran, solo salen de él.')) return;
+  db.blocks = db.blocks.filter(b=>b.id!==id);
+  db.recipes.forEach(r=>{ r.blockIds=r.blockIds.filter(b=>b!==id); if(!r.blockIds.length) r.blockIds=['probar']; });
+  save(); openBlocks(); renderRecipes();
+}
+
+/* ============================================================
+   PLANNING
+   ============================================================ */
+function mondayOf(d){ d=new Date(d); const day=(d.getDay()+6)%7; d.setHours(0,0,0,0); d.setDate(d.getDate()-day); return d; }
+function dkey(d){ return d.toISOString().slice(0,10); }
+function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+function shiftWeek(n){ weekStart=addDays(weekStart,n*7); renderPlanning(); renderShopping(); }
+function weekLabel(){
+  const end=addDays(weekStart,6);
+  const f=d=>d.toLocaleDateString('es-ES',{day:'numeric',month:'short'});
+  return `${f(weekStart)} – ${f(end)}`;
+}
+function planningText(){
+  const out=['🍽️ Menú de la semana ('+weekLabel()+')',''];
+  for(let i=0;i<7;i++){ const d=addDays(weekStart,i); const k=dkey(d); const day=db.planning[k]||{};
+    out.push('*'+DAYS[i]+'* ('+d.getDate()+'/'+(d.getMonth()+1)+')');
+    MEALS.forEach(([m,lbl])=>{ const s=day[m]; const r=s?(s.custom?{title:s.title}:db.recipes.find(x=>x.id===s.recipeId)):null; out.push('  • '+lbl+': '+(r?r.title:'—')); });
+    out.push('');
+  }
+  return out.join('\n');
+}
+function copyPlanning(){ const t=planningText(); if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>toast('Menú copiado ✅'),()=>window.prompt('Copia el menú:',t)); } else { window.prompt('Copia el menú:',t); } }
+function sharePlanningWA(){ window.open('https://wa.me/?text='+encodeURIComponent(planningText()),'_blank'); }
+function copyPrevWeek(){
+  let any=false, hasNow=false;
+  for(let i=0;i<7;i++){ if(db.planning[dkey(addDays(weekStart,i))]) hasNow=true; if(db.planning[dkey(addDays(weekStart,i-7))]) any=true; }
+  if(!any){ toast('La semana anterior está vacía'); return; }
+  if(hasNow && !confirm('Esto sobrescribirá lo que tengas planificado esta semana con la anterior. ¿Continuar?')) return;
+  for(let i=0;i<7;i++){ const src=dkey(addDays(weekStart,i-7)); const dst=dkey(addDays(weekStart,i));
+    if(db.planning[src]) db.planning[dst]=JSON.parse(JSON.stringify(db.planning[src])); }
+  save(); renderPlanning(); toast('Semana copiada ✅');
+}
+function clearWeek(){
+  let has=false; for(let i=0;i<7;i++){ if(db.planning[dkey(addDays(weekStart,i))]) has=true; }
+  if(!has){ toast('La semana ya está vacía'); return; }
+  if(!confirm('¿Vaciar toda la planificación de esta semana?')) return;
+  for(let i=0;i<7;i++){ delete db.planning[dkey(addDays(weekStart,i))]; }
+  save(); renderPlanning(); toast('Semana vaciada');
+}
+function renderPlanning(){
+  document.getElementById('weekLbl').textContent = weekLabel();
+  document.getElementById('weekLbl2').textContent = weekLabel();
+  const todayK = dkey(new Date());
+  const ws = getWeekShot();
+  let html = ws
+    ? `<div class="shot" onclick="go('despertar')"><span class="se">${ws.emoji}</span><span class="st"><span class="k">Chupito de la semana</span><b>${esc(ws.nombre)}</b><span class="shot-badge">${esc(ws.para)}</span></span><span class="ar">›</span></div>`
+    : `<div class="shot" onclick="go('despertar')"><span class="se">☀️</span><span class="st"><span class="k">Despertar</span><b>Elige tu chupito de la semana</b><span class="shot-badge">toca para elegir</span></span><span class="ar">›</span></div>`;
+  html += `<div class="row-btns" style="margin:0 0 14px"><button class="btn ghost sm" onclick="copyPrevWeek()">📋 Copiar semana anterior</button><button class="btn ghost sm" onclick="clearWeek()">🧹 Vaciar semana</button></div>`;
+  for(let i=0;i<7;i++){
+    const d=addDays(weekStart,i); const k=dkey(d); const day=db.planning[k]||{};
+    html += `<div class="dayrow ${k===todayK?'today':''}">
+      <div class="drh"><b>${DAYS[i]}</b><span class="dn">${d.getDate()}/${d.getMonth()+1}</span></div>
+      <div class="meals2">`;
+    MEALS.forEach(([m,lbl])=>{
+      const slot=day[m];
+      const isCustom = slot && slot.custom;
+      const rec=(slot && !isCustom)?db.recipes.find(r=>r.id===slot.recipeId):null;
+      const gb=rec?getBlock((rec.blockIds||[])[0]):null;
+      const filled = rec||isCustom;
+      html += `<div class="mslot"><div class="ml">${lbl}</div>
+        <button class="pick ${filled?'':'empty'}" onclick="pickRecipe('${k}','${m}')">
+          ${rec?`<span class="dot c-${rec.cat}"></span><span class="nm">${esc(rec.title)}${gb?`<span class="pgrp">${gb.icon||'📁'} ${esc(gb.name)}</span>`:''}${slot.leftover?`<span class="pgrp">♻️ sobras</span>`:''}</span>`
+            : isCustom?`<span class="dot" style="background:var(--muted2)"></span><span class="nm">${esc(slot.title)}<span class="pgrp">✏️ a mano</span>${slot.leftover?`<span class="pgrp">♻️ sobras</span>`:''}</span>`
+            : '<span class="nm">＋ Añadir</span>'}
+        </button>
+        ${filled?`<select class="diners" onchange="setDiners('${k}','${m}',this.value)" title="Comensales">${[1,2,3,4,5,6,7,8].map(n=>`<option value="${n}" ${slot.diners==n?'selected':''}>${n} 👤</option>`).join('')}</select>`:''}
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+  html += `<div class="row-btns" style="margin:6px 0 0"><button class="btn ghost sm" onclick="copyPlanning()">📋 Copiar menú</button><button class="btn ghost sm" onclick="sharePlanningWA()">🟢 Enviar por WhatsApp</button></div>`;
+  document.getElementById('planDays').innerHTML=html;
+}
+
+/* ---------- Despertar (chupitos de la mañana) ---------- */
+function getWeekShot(){ const id=db.shotWeek[dkey(weekStart)]; return id?db.despertar.find(d=>d.id===id):null; }
+const SHOT_DAYS=7;
+function scaleLine(line, mult){
+  const m=line.match(/(\d+\s*\/\s*\d+|\d+(?:[.,]\d+)?)/);
+  if(!m) return mult+'× '+line;
+  const tok=m[1].replace(/\s/g,'').replace(',','.');
+  let val; if(tok.includes('/')){ const p=tok.split('/'); val=parseFloat(p[0])/parseFloat(p[1]); } else val=parseFloat(tok);
+  const r=Math.round(val*mult*100)/100;
+  return line.slice(0,m.index)+r+line.slice(m.index+m[1].length);
+}
+function shotWeekIngredients(){ const d=getWeekShot(); if(!d) return []; return d.ingredientes.map(l=>scaleLine(l,SHOT_DAYS)); }
+function setWeekShot(id){ db.shotWeek[dkey(weekStart)]=id; save(); closeModal(); renderDespertar(); toast('Elegido ✅ · ingredientes añadidos a la compra'); }
+function renderDespertar(){
+  const selId=db.shotWeek[dkey(weekStart)];
+  let html=`<div class="view-title">Despertar · chupitos de la mañana</div>`;
+  html+=`<div class="safety"><b>⚠️ Por tu medicación:</b> evita el <b>pomelo</b> (interacciona con la quetiapina). La <b>cúrcuma</b> y el <b>jengibre</b> en cantidades altas pueden sumar al efecto de la paroxetina sobre el sangrado (una pizca puntual es de bajo riesgo). Mantente bien hidratado (va bien con el valaciclovir). Esto es informativo, no consejo médico: confírmalo con tu médico o farmacéutico.</div>`;
+  html+=`<button class="btn block" style="margin-bottom:16px" onclick="openDrinkForm()">＋ Añadir bebida</button>`;
+  html+=`<div class="view-title" style="margin-top:2px">Tu biblioteca · elige el de la semana (${weekLabel()})</div>`;
+  db.despertar.forEach(d=>{
+    const sel=d.id===selId;
+    html+=`<div class="drink ${sel?'sel':''}" onclick="openDrink('${d.id}')">
+      <span class="de">${d.emoji}</span>
+      <span class="dt"><b>${esc(d.nombre)}</b><small>${d.para?`<span class="badge para">${esc(d.para)}</span>`:''}${d.aviso?`<span class="badge warn">⚠️ ojo medicación</span>`:''}${sel?'<span class="badge para">de esta semana</span>':''}</small></span>
+      <span class="ar" style="color:var(--muted2)">›</span></div>`;
+  });
+  document.getElementById('despertarContent').innerHTML=html;
+}
+function openDrink(id){
+  const d=db.despertar.find(x=>x.id===id); if(!d) return;
+  const sel=db.shotWeek[dkey(weekStart)]===id;
+  openSheet(`<div class="sheet-head"><h2>${d.emoji} ${esc(d.nombre)}</h2><button class="x" onclick="closeModal()">✕</button></div>
+   <div class="sheet-body">
+    <div class="det-meta">${d.para?`<span class="pill">✨ ${esc(d.para)}</span>`:''}<span class="pill">🥤 1 vaso</span><span class="pill">🔪 Thermomix</span></div>
+    <div class="det-sec-t">Ingredientes (1 vaso)</div>
+    ${d.ingredientes.map(i=>`<div class="det-ing"><span>${esc(i)}</span></div>`).join('')}
+    <div class="det-sec-t">Para toda la semana (×7)</div>
+    ${d.ingredientes.map(i=>`<div class="det-ing"><span>${esc(scaleLine(i,7))}</span></div>`).join('')}
+    ${d.prep?`<div class="det-sec-t">Cómo se hace</div><div class="note-box">${esc(d.prep)}</div>`:''}
+    ${d.aviso?`<div class="avisobox">⚠️ ${esc(d.aviso)}</div>`:''}
+    ${d.fuenteUrl?`<div class="det-sec-t">Fuente</div><a class="src" href="${esc(d.fuenteUrl)}" target="_blank" rel="noopener">${esc(d.fuenteUrl)}</a>`:''}
+    <div class="divider"></div>
+    <button class="btn block" onclick="setWeekShot('${id}')">${sel?'✅ Es tu chupito de esta semana':'⭐ Poner como chupito de esta semana'}</button>
+    <p class="hint">Al elegirlo, los ingredientes ×7 se añaden solos a tu lista de la compra.</p>
+    <div style="height:10px"></div>
+    <div class="row-btns" style="margin:0"><button class="btn ghost" onclick="openDrinkForm('${id}')">✏️ Editar</button><button class="btn danger" onclick="deleteDrink('${id}')">🗑️ Borrar</button></div>
+   </div>`);
+}
+let drinkDraft=null;
+function openDrinkForm(id){
+  drinkDraft = id ? JSON.parse(JSON.stringify(db.despertar.find(d=>d.id===id))) : {id:null,emoji:"🥤",nombre:"",para:"",ingredientes:[""],prep:"",fuenteUrl:"",aviso:""};
+  const d=drinkDraft;
+  openSheet(`<div class="sheet-head"><h2>${d.id?'Editar bebida':'Nueva bebida'}</h2><button class="x" onclick="closeModal()">✕</button></div>
+   <div class="sheet-body">
+    <div style="display:flex;gap:10px"><div style="width:72px"><label class="f">Emoji</label><input class="field" id="d_emoji" value="${esc(d.emoji)}" style="text-align:center"></div>
+    <div style="flex:1"><label class="f">Nombre</label><input class="field" id="d_nombre" value="${esc(d.nombre)}" placeholder="Mi chupito"></div></div>
+    <label class="f">Para qué va bien (ej. Energía, Digestión)</label><input class="field" id="d_para" value="${esc(d.para)}">
+    <label class="f">Ingredientes (uno por línea)</label><textarea class="field" id="d_ing">${d.ingredientes.map(esc).join('\n')}</textarea>
+    <label class="f">Cómo se hace (Thermomix)</label><textarea class="field" id="d_prep">${esc(d.prep)}</textarea>
+    <label class="f">Fuente / enlace (opcional)</label><input class="field" id="d_fuente" value="${esc(d.fuenteUrl)}" placeholder="https://...">
+    <label class="f">Aviso de interacción (opcional)</label><textarea class="field" id="d_aviso" placeholder="ej. lleva cúrcuma, ojo con la medicación">${esc(d.aviso)}</textarea>
+    <div style="height:14px"></div>
+    <button class="btn block" onclick="saveDrink()">💾 Guardar bebida</button>
+   </div>`);
+}
+function saveDrink(){
+  const g=id=>document.getElementById(id).value;
+  const d=drinkDraft;
+  d.emoji=g('d_emoji').trim()||"🥤"; d.nombre=g('d_nombre').trim(); d.para=g('d_para').trim();
+  d.ingredientes=g('d_ing').split('\n').map(s=>s.trim()).filter(Boolean);
+  d.prep=g('d_prep').trim(); d.fuenteUrl=g('d_fuente').trim(); d.aviso=g('d_aviso').trim();
+  if(!d.nombre){ toast('Ponle un nombre'); return; }
+  if(d.id){ const i=db.despertar.findIndex(x=>x.id===d.id); db.despertar[i]=d; }
+  else { d.id=uid(); db.despertar.push(d); }
+  save(); closeModal(); renderDespertar(); toast('Guardado ✅');
+}
+function deleteDrink(id){
+  if(!confirm('¿Borrar esta bebida?')) return;
+  db.despertar=db.despertar.filter(d=>d.id!==id);
+  Object.keys(db.shotWeek).forEach(k=>{ if(db.shotWeek[k]===id) delete db.shotWeek[k]; });
+  save(); closeModal(); renderDespertar(); toast('Borrada');
+}
+let pendingSlot=null;
+function parseIngLine(raw){
+  raw=(raw||'').replace(/^[-•*·\s]+/,'').trim();
+  const KNOWN=['g','gr','gramo','gramos','kg','ml','cl','l','litro','litros','taza','tazas','cucharada','cucharadas','cucharadita','cucharaditas','cda','cdta','ud','uds','unidad','unidades','diente','dientes','lata','latas','bote','botes','filete','filetes','loncha','lonchas','rebanada','rebanadas','manojo','manojos','sobre','sobres','hoja','hojas','pizca','puñado','puñados','rodaja','rodajas','vaso','vasos'];
+  const m=raw.match(/^(\d+(?:[.,]\d+)?(?:\s*\/\s*\d+)?)\s+(.*)$/);
+  if(m){
+    const qty=(function(t){t=t.replace(/\s/g,'').replace(',','.');if(t.includes('/')){const p=t.split('/');return parseFloat(p[0])/parseFloat(p[1]);}return parseFloat(t)||0;})(m[1]);
+    let rest=m[2].trim(),unit='',name=rest; const w=rest.split(/\s+/);
+    if(w.length>1 && KNOWN.includes(w[0].toLowerCase())){ unit=w[0]; name=w.slice(1).join(' '); }
+    name=name.replace(/^de\s+/i,'').trim();
+    return {name,qty,unit,section:guessSection(name)};
+  }
+  return {name:raw,qty:0,unit:'',section:guessSection(raw)};
+}
+function addMealByHand(k,m){
+  openSheet(`<div class="sheet-head"><h2>✏️ Plato a mano</h2><button class="x" onclick="pickRecipe('${k}','${m}')">✕</button></div>
+   <div class="sheet-body">
+    <p class="hint">Solo para este día (no se guarda en tus recetas). Si quieres una receta de verdad, créala desde la pestaña Recetas.</p>
+    <label class="f">Nombre del plato</label>
+    <input class="field" id="qh_title" placeholder="ej. Ensalada rápida">
+    <label class="f">Ingredientes (uno por línea, ej. 200 g de tomate)</label>
+    <textarea class="field" id="qh_ing" placeholder="2 huevos&#10;1 tomate&#10;100 g de queso"></textarea>
+    <label class="f">Comensales</label>
+    <select class="field" id="qh_diners">${[1,2,3,4,5,6,7,8].map(n=>`<option value="${n}" ${n===2?'selected':''}>${n}</option>`).join('')}</select>
+    <div style="height:14px"></div>
+    <button class="btn block" onclick="saveHandMeal('${k}','${m}')">💾 Guardar en este día</button>
+   </div>`);
+}
+function saveHandMeal(k,m){
+  const title=document.getElementById('qh_title').value.trim();
+  if(!title){ toast('Ponle un nombre'); return; }
+  const diners=parseInt(document.getElementById('qh_diners').value)||2;
+  const lines=document.getElementById('qh_ing').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const ingredients=lines.map(parseIngLine);
+  if(!db.planning[k]) db.planning[k]={};
+  db.planning[k][m]={custom:true,title,ingredients,diners,base:diners};
+  save(); closeModal(); go('planning'); toast('Añadido al día ✅');
+}
+let pickCtx={k:null,m:null};
+function pickRecipe(k,m){
+  pickCtx={k:k,m:m};
+  const slot=(db.planning[k]||{})[m];
+  openSheet(`<div class="sheet-head"><h2>Elegir receta</h2><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="sheet-body">
+      ${slot?`<button class="btn ghost block" onclick="toggleLeftover('${k}','${m}')">${slot.leftover?'🛒 Contar en la compra':'♻️ Marcar como sobras (no comprar)'}</button><div style="height:10px"></div>`:''}
+      ${slot?`<button class="btn danger block" onclick="clearSlot('${k}','${m}')">✕ Quitar del planning</button><div style="height:10px"></div>`:''}
+      <button class="btn ghost block" onclick="addMealByHand('${k}','${m}')">✏️ Añadir a mano</button>
+      <input class="search" style="margin:14px 0 6px" placeholder="🔍 Buscar receta…" oninput="renderPickList(this.value)">
+      <div id="pickList"></div>
+    </div>`);
+  renderPickList('');
+}
+function renderPickList(q){
+  q=(q||'').toLowerCase();
+  const k=pickCtx.k, m=pickCtx.m;
+  let html='';
+  db.blocks.forEach(bl=>{
+    let list=db.recipes.filter(r=>r.blockIds.includes(bl.id));
+    if(q) list=list.filter(r=>r.title.toLowerCase().includes(q));
+    list.sort((a,b)=>a.title.localeCompare(b.title,'es'));
+    if(!list.length) return;
+    html+=`<div class="block-head" style="margin:14px 2px 10px"><h2 style="font-size:15px">${bl.icon||'📁'} ${esc(bl.name)}</h2><span class="count">${list.length}</span></div>`;
+    html+=`<div class="rgrid">`+list.map(r=>cardHtml(r,`setRecipe('${k}','${m}','${r.id}')`)).join('')+`</div>`;
+  });
+  const e=document.getElementById('pickList'); if(e) e.innerHTML = html || '<div class="empty">Nada coincide.</div>';
+}
+function addToPlan(id){
+  let html=`<p class="hint">Semana: ${weekLabel()}. Elige día y comida (puedes añadir a varios).</p>`;
+  for(let i=0;i<7;i++){ const d=addDays(weekStart,i); const k=dkey(d);
+    html+=`<div class="det-sec-t" style="margin:13px 0 7px">${DAYS[i]} <span style="color:var(--muted2);font-weight:400">${d.getDate()}/${d.getMonth()+1}</span></div><div style="display:flex;gap:10px">`;
+    MEALS.forEach(([m,lbl])=>{
+      const slot=(db.planning[k]||{})[m];
+      const rec=slot?db.recipes.find(r=>r.id===slot.recipeId):null;
+      html+=`<button class="btn ghost" style="flex:1;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:9px 11px;min-height:54px" onclick="assignPlan('${k}','${m}','${id}')">
+        <span style="font-size:10.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.5px;font-weight:700">${lbl}</span>
+        <span style="font-size:12.5px;line-height:1.2;font-weight:600;${rec?'':'color:var(--muted2)'}">${rec?`<span class="dot c-${rec.cat}" style="display:inline-block;margin-right:4px"></span>`+esc(rec.title):'＋ vacío'}</span>
+      </button>`;
+    });
+    html+='</div>';
+  }
+  openSheet(`<div class="sheet-head"><h2>📅 Añadir a la semana</h2><button class="x" onclick="openRecipe('${id}')">✕</button></div><div class="sheet-body">${html}</div>`);
+}
+function assignPlan(k,m,id){ if(!db.planning[k])db.planning[k]={}; const r=db.recipes.find(x=>x.id===id); db.planning[k][m]={recipeId:id,diners:(db.planning[k][m]&&db.planning[k][m].diners)||r.baseServings}; save(); toast('Añadido al planning ✅'); addToPlan(id); }
+function setRecipe(k,m,id){
+  if(!db.planning[k]) db.planning[k]={};
+  const r=db.recipes.find(x=>x.id===id);
+  db.planning[k][m]={recipeId:id, diners:(db.planning[k][m]?.diners)||r.baseServings};
+  save(); closeModal(); renderPlanning();
+}
+function setDiners(k,m,v){ if(db.planning[k]&&db.planning[k][m]){ db.planning[k][m].diners=parseInt(v); save(); } }
+function clearSlot(k,m){ if(db.planning[k]) delete db.planning[k][m]; save(); closeModal(); renderPlanning(); }
+function toggleLeftover(k,m){ const s=(db.planning[k]||{})[m]; if(!s) return; s.leftover=!s.leftover; save(); closeModal(); renderPlanning(); toast(s.leftover?'Marcado como sobras ♻️':'Vuelve a contar en la compra'); }
+
+/* ============================================================
+   LISTA DE LA COMPRA
+   ============================================================ */
+function fmtQty(q){
+  if(!q||q===0) return '';
+  if(Number.isInteger(q)) return q.toString();
+  return (Math.round(q*10)/10).toString().replace('.',',');
+}
+function smartRound(qty, unit){
+  const u=(unit||'').toLowerCase();
+  if(COUNTABLE.includes(u) || u===''){ return Math.max(qty>0?1:0, Math.ceil(qty-0.001)); } // unidades enteras, redondeo arriba
+  // granel: redondear a entero si grande, 1 decimal si pequeño
+  if(qty>=20) return Math.round(qty);
+  return Math.round(qty*10)/10;
+}
+function shoppingText(){
+  const bySec=buildShopping(); const out=['🛒 Lista de la compra ('+weekLabel()+')',''];
+  [...SECTIONS,"Despertar ☀️"].forEach(sec=>{ const items=(bySec[sec]||[]); if(!items.length) return;
+    out.push('— '+sec+' —'); items.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(it=>{ out.push('• '+it.name+(it.qty?' ('+fmtQty(it.qty)+' '+it.unit+')':'')); }); out.push(''); });
+  return out.join('\n');
+}
+function copyShopping(){ const t=shoppingText(); if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>toast('Lista copiada ✅'),()=>window.prompt('Copia la lista:',t)); } else { window.prompt('Copia la lista:',t); } }
+function shareWhatsApp(){ window.open('https://wa.me/?text='+encodeURIComponent(shoppingText()),'_blank'); }
+function openPantry(){
+  const items=(db.pantry||[]);
+  const list=items.length? items.map((n,i)=>`<div class="item"><span class="nm">${esc(n)}</span><button class="del" onclick="removePantry(${i})">✕</button></div>`).join('') : '<p class="hint">Vacía. Añade básicos que sueles tener (aceite, sal, ajo, especias…) y no aparecerán en la lista de la compra.</p>';
+  openSheet(`<div class="sheet-head"><h2>🧺 Mi despensa</h2><button class="x" onclick="closeModal()">✕</button></div>
+   <div class="sheet-body">
+    <p class="hint">Lo que pongas aquí no se añadirá a la lista de la compra (das por hecho que lo tienes en casa).</p>
+    <div class="addrow" style="margin:12px 0 16px"><input id="pantryInput" placeholder="ej. Aceite de oliva" onkeydown="if(event.key==='Enter')addPantry()"><button class="btn sm" onclick="addPantry()">＋</button></div>
+    ${list}
+   </div>`);
+}
+function addPantry(){ const el=document.getElementById('pantryInput'); const v=el.value.trim(); if(!v) return; if(!db.pantry)db.pantry=[]; if(!db.pantry.some(x=>x.toLowerCase()===v.toLowerCase())) db.pantry.push(v); save(); openPantry(); }
+function removePantry(i){ db.pantry.splice(i,1); save(); openPantry(); }
+function buildShopping(){
+  const agg={}; // key name|unit
+  const pantry=new Set((db.pantry||[]).map(s=>s.toLowerCase().trim()));
+  for(let i=0;i<7;i++){
+    const k=dkey(addDays(weekStart,i)); const day=db.planning[k]; if(!day) continue;
+    MEALS.forEach(([m])=>{
+      const slot=day[m]; if(!slot) return;
+      if(slot.leftover) return; // sobras: ya cocinado, no se compra
+      let ings, base;
+      if(slot.custom){ ings=slot.ingredients||[]; base=slot.base||slot.diners||1; }
+      else { const r=db.recipes.find(x=>x.id===slot.recipeId); if(!r) return; ings=r.ingredients; base=r.baseServings||1; }
+      const factor = slot.diners / (base||1);
+      ings.forEach(ing=>{
+        if(pantry.has(ing.name.toLowerCase().trim())) return;
+        const key=(ing.name.toLowerCase())+'|'+(ing.unit||'').toLowerCase();
+        if(!agg[key]) agg[key]={name:ing.name,unit:ing.unit,section:ing.section||'Otros',qty:0};
+        agg[key].qty += (ing.qty||0)*factor;
+      });
+    });
+  }
+  // agrupar por sección
+  const bySec={};
+  Object.entries(agg).forEach(([key,it])=>{
+    it.qty = smartRound(it.qty, it.unit);
+    const id='r:'+key;
+    (bySec[it.section]=bySec[it.section]||[]).push({...it,id});
+  });
+  // extras (no-comida y manuales) por su sección
+  (db.extras||[]).forEach(e=>{ (bySec[e.section]=bySec[e.section]||[]).push({name:e.name,unit:'',qty:0,section:e.section,id:'e:'+e.id,isExtra:true,extraId:e.id}); });
+  shotWeekIngredients().forEach((line,idx)=>{ (bySec["Despertar ☀️"]=bySec["Despertar ☀️"]||[]).push({name:line,unit:'',qty:0,section:"Despertar ☀️",id:'shot:'+idx}); });
+  return bySec;
+}
+function renderShopping(){
+  document.getElementById('weekLbl2').textContent = weekLabel();
+  const bySec=buildShopping();
+  let html='';
+  [...SECTIONS,"Despertar ☀️"].forEach(sec=>{
+    const items=bySec[sec]; if(!items||!items.length) return;
+    items.sort((a,b)=>a.name.localeCompare(b.name));
+    html += `<div class="sec"><h3>${sec}</h3>`;
+    items.forEach(it=>{
+      const done = db.shopState[it.id];
+      html += `<div class="item ${done?'done':''}" onclick="toggleShop('${it.id}')">
+        <div class="chk">${done?'✓':''}</div>
+        <span class="nm">${esc(it.name)}</span>
+        ${it.qty?`<span class="qty">${fmtQty(it.qty)} ${esc(it.unit)}</span>`:''}
+        ${it.isExtra?`<button class="del" onclick="event.stopPropagation();removeExtra('${it.extraId}')">✕</button>`:''}
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  if(!html) html=`<div class="empty">Tu lista está vacía.<br>Planifica comidas en la pestaña Planning y aparecerán aquí los ingredientes. También puedes añadir cosas sueltas arriba.</div>`;
+  else html += `<div class="row-btns" style="margin:0 0 10px"><button class="btn ghost sm" onclick="copyShopping()">📋 Copiar lista</button><button class="btn ghost sm" onclick="shareWhatsApp()">🟢 WhatsApp</button></div><button class="btn ghost block" onclick="clearChecked()">🧹 Quitar lo ya comprado</button>`;
+  document.getElementById('shopList').innerHTML=html;
+}
+function toggleShop(id){ db.shopState[id]=!db.shopState[id]; save(); renderShopping(); }
+function addExtra(){
+  const inp=document.getElementById('extraInput'); const v=inp.value.trim(); if(!v) return;
+  db.extras.push({id:uid(),name:v,section:guessSection(v)}); inp.value=''; save(); renderShopping();
+}
+function removeExtra(id){ db.extras=db.extras.filter(e=>e.id!==id); delete db.shopState['e:'+id]; save(); renderShopping(); }
+function clearChecked(){
+  Object.keys(db.shopState).forEach(id=>{
+    if(db.shopState[id] && id.startsWith('e:')){ const eid=id.slice(2); db.extras=db.extras.filter(e=>e.id!==eid); }
+  });
+  db.shopState={}; save(); renderShopping(); toast('Lista limpia');
+}
+
+/* ============================================================
+   SALUD / EQUILIBRIO
+   ============================================================ */
+function renderSalud(){
+  // analizar semana
+  const counts={pescado:0,vegano:0,vegetariano:0,carne:0}; let total=0;
+  for(let i=0;i<7;i++){
+    const day=db.planning[dkey(addDays(weekStart,i))]; if(!day) continue;
+    MEALS.forEach(([m])=>{ const s=day[m]; if(!s) return; const r=db.recipes.find(x=>x.id===s.recipeId); if(r){ counts[r.cat]++; total++; } });
+  }
+  const veggie = counts.vegano+counts.vegetariano;
+  const colors={pescado:'var(--fish)',vegano:'var(--veg)',vegetariano:'var(--egg)',carne:'var(--meat)'};
+  let bars='';
+  Object.entries(CATS).forEach(([k,v])=>{
+    const pct = total? Math.round(counts[k]/total*100):0;
+    bars += `<div class="bar"><div class="blab"><span>${v}</span><span>${counts[k]} comida${counts[k]!==1?'s':''} · ${pct}%</span></div>
+      <div class="track"><div class="fill" style="width:${pct}%;background:${colors[k]}"></div></div></div>`;
+  });
+
+  let score=null, tips=[], goals=[];
+  if(total>0){
+    const vegPct=veggie/total;
+    const gPescado = counts.pescado>=2;
+    const gVeggie = vegPct>=0.5;
+    const gCarne = counts.carne<=2;
+    const sP = gPescado?34:Math.round(Math.min(1,counts.pescado/2)*34);
+    const sV = gVeggie?33:Math.round(Math.min(1,vegPct/0.5)*33);
+    const sC = gCarne?33:Math.max(0,33-(counts.carne-2)*12);
+    score=Math.max(0,Math.min(100,Math.round(sP+sV+sC)));
+    goals=[
+      ['🐟','Pescado 2-3 veces/semana', counts.pescado+' comida'+(counts.pescado!==1?'s':''), gPescado],
+      ['🥦','Mitad vegetal/legumbre', Math.round(vegPct*100)+'%', gVeggie],
+      ['🥩','Carne puntual (≤2)', counts.carne+' comida'+(counts.carne!==1?'s':''), gCarne],
+    ];
+    if(!gPescado) tips.push(['🐟','Mete más pescado: las guías recomiendan al menos 2-3 raciones por semana, 1-2 de pescado azul (omega-3).']);
+    if(!gVeggie) tips.push(['🥦','Sube las verduras y legumbres: lo ideal es que sean la base (medio plato) en la mayoría de comidas.']);
+    if(!gCarne) tips.push(['🥩','Vas con bastante carne. Las guías la limitan (roja 1-2/semana máx.); cámbiala por legumbre, huevo o pescado.']);
+    if(total<10) tips.push(['📅','Te faltan comidas por planificar; complétalas para que el equilibrio sea real.']);
+    if(!tips.length) tips.push(['✅','¡Semana muy equilibrada según las guías! Pescado, base vegetal y poca carne.']);
+  }
+
+  let weakest='pescado', min=Infinity;
+  ['pescado','vegano','vegetariano'].forEach(k=>{ if(counts[k]<min){min=counts[k];weakest=k;} });
+  const sugg = db.recipes.filter(r=>r.cat===weakest && !r.blockIds.includes('probar')).slice(0,6);
+  const suggHtml = sugg.length? `<div class="rgrid">`+sugg.map(r=>cardHtml(r)).join('')+`</div>` : `<div class="hint">Añade más recetas de ${CATS[weakest].toLowerCase()} (fuera de “Por probar”) para tener sugerencias aquí.</div>`;
+
+  let html = `
+    <div class="panel">
+      <h3>Equilibrio de la semana</h3>
+      ${total? `<div class="score" style="color:${score>=80?'var(--acc)':score>=60?'var(--warn)':'var(--danger)'}">${score}</div><div class="score-lbl">de 100 · ${weekLabel()}</div><div class="divider"></div>${bars}`
+        : `<div class="empty">Aún no has planificado nada esta semana. Ve a Planning y añade comidas para ver tu equilibrio.</div>`}
+    </div>`;
+  if(goals.length){
+    html += `<div class="panel"><h3>Objetivos de la semana</h3>${goals.map(g=>`<div class="tip"><span class="ic">${g[3]?'✅':'⬜'}</span><span><b>${g[1]}</b> — llevas ${g[2]}</span></div>`).join('')}<div class="tip" style="border-top:1px solid var(--line)"><span class="ic">📚</span><span>Referencia: Plato de Harvard y guías AESAN/SENC (½ plato verdura, ¼ integral, ¼ proteína priorizando pescado y legumbre).</span></div></div>`;
+  }
+  if(tips.length){
+    html += `<div class="panel"><h3>Consejos</h3>${tips.map(t=>`<div class="tip"><span class="ic">${t[0]}</span><span>${t[1]}</span></div>`).join('')}</div>`;
+  }
+  html += `<div class="panel"><h3>Te puede encajar — ${CATS[weakest]}</h3>${suggHtml}</div>`;
+  html += `<div class="panel"><h3>Tu estilo de alimentación</h3>
+    <div class="tip"><span class="ic">🌱</span><span>Base vegetariana: legumbres, verduras, cereales integrales.</span></div>
+    <div class="tip"><span class="ic">🥚</span><span>Huevo y lácteos como proteína fácil y completa.</span></div>
+    <div class="tip"><span class="ic">🐟</span><span>Pescado varias veces por semana, prioriza el azul.</span></div>
+    <div class="tip"><span class="ic">🥩</span><span>Carne solo puntualmente, mejor de calidad.</span></div></div>`;
+  document.getElementById('saludContent').innerHTML=html;
+}
+
+const FUENTES=[
+ {grupo:"🍳 Recetas en general (en español)", items:[
+   {n:"Directo al Paladar", d:"Enorme y bien explicado, con secciones de saludable, pescado y verduras", u:"https://www.directoalpaladar.com/"},
+   {n:"Bon Viveur", d:"Recetas caseras paso a paso, muy claras", u:"https://www.bonviveur.es/"},
+   {n:"Recetas de Rechupete", d:"Tradicional y casera, con mucho pescado", u:"https://www.recetasderechupete.com/"},
+   {n:"MyRealFood", d:"Comida real / saludable, ideal para tu estilo", u:"https://www.myrealfood.app/es"},
+   {n:"Cookpad", d:"Comunidad enorme, busca cualquier plato", u:"https://cookpad.com/es"},
+   {n:"Karlos Arguiñano (Hogarmanía)", d:"Recetas de toda la vida, muchas de pescado", u:"https://www.hogarmania.com/cocina/recetas/"},
+ ]},
+ {grupo:"🔪 Thermomix", items:[
+   {n:"Cookidoo (oficial Thermomix)", d:"Recetario oficial, se guía solo en la máquina", u:"https://cookidoo.es/"},
+   {n:"Velocidad Cuchara", d:"El blog de Thermomix más popular, sano y práctico", u:"https://www.velocidadcuchara.com/"},
+   {n:"Recetas para Thermomix", d:"Gran archivo de recetas para TMX", u:"https://recetasparathermomix.com/"},
+   {n:"Juani de Ana Sevilla", d:"Clásicos caseros adaptados a Thermomix", u:"https://www.juanideanasevilla.com/"},
+ ]},
+ {grupo:"🌀 Freidora de aire (airfryer)", items:[
+   {n:"Bon Viveur · Freidora de aire", d:"Recetas de airfryer fáciles y sin apenas aceite", u:"https://bonviveur.com/es/recetas/lista/freidora-aire/"},
+   {n:"Directo al Paladar · Airfryer", d:"Selección de recetas crujientes con poco aceite", u:"https://www.directoalpaladar.com/recetario/seis-mejores-recetas-para-freidora-aire-directo-al-paladar-aceite-bien-crujientes"},
+   {n:"Nuevo Estilo · 130 recetas airfryer", d:"Comidas, cenas y meriendas rápidas y ligeras", u:"https://www.nuevoestilo.es/recetas-trucos-cocina/g61384961/recetas-freidora-sin-aceite/"},
+   {n:"Cosori · Recetas", d:"Blog dedicado a la freidora de aire", u:"https://cosori.es/blogs/recetas"},
+ ]},
+];
+function renderFuentes(){
+  let html=`<div class="view-title">Dónde buscar recetas</div>`;
+  FUENTES.forEach(g=>{
+    html+=`<div class="panel"><h3>${g.grupo}</h3>`;
+    g.items.forEach(it=>{
+      html+=`<a class="lnk" href="${it.u}" target="_blank" rel="noopener"><span class="li">🔗</span><span class="lt"><b>${esc(it.n)}</b><small>${esc(it.d)}</small></span><span class="ar">›</span></a>`;
+    });
+    html+=`</div>`;
+  });
+  html+=`<p class="hint">Truco: las recetas de estos blogs se importan mucho mejor que las de Instagram (tienen ingredientes y pasos en orden). ¿Quieres que añada más fuentes o alguna concreta? Dímelo y la meto aquí.</p>`;
+  document.getElementById('fuentesContent').innerHTML=html;
+}
+
+const HKEY=STORE+'_hist';
+function loadHist(){ try{ return JSON.parse(localStorage.getItem(HKEY))||[]; }catch(e){ return []; } }
+function snapshot(reason){
+  let hist=loadHist(); const data=JSON.stringify(db);
+  if(hist.length && hist[hist.length-1].data===data) return;
+  hist.push({ts:Date.now(),reason:reason||'',data});
+  while(hist.length>3) hist.shift();
+  try{ localStorage.setItem(HKEY,JSON.stringify(hist)); }
+  catch(e){ while(hist.length>1){ hist.shift(); try{ localStorage.setItem(HKEY,JSON.stringify(hist)); break; }catch(e2){} } }
+}
+function histHtml(){
+  const hist=loadHist();
+  if(!hist.length) return '<p class="hint">Aún no hay versiones. Se crean solas al abrir la app y al hacer copias.</p>';
+  return hist.slice().reverse().map((it,ri)=>{ const i=hist.length-1-ri; const d=new Date(it.ts);
+    return `<div class="item"><span class="nm">${d.toLocaleDateString('es-ES')} ${d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}${it.reason?' · '+esc(it.reason):''}</span><button class="btn ghost sm" onclick="restoreHist(${i})">Restaurar</button></div>`;
+  }).join('');
+}
+function restoreHist(i){
+  const hist=loadHist(); const it=hist[i]; if(!it) return;
+  if(!confirm('¿Restaurar la versión del '+new Date(it.ts).toLocaleString('es-ES')+'? Reemplaza tus datos actuales.')) return;
+  snapshot('antes de restaurar');
+  db=ensureDefaults(JSON.parse(it.data)); save(); closeModal(); currentBlock=null; go('recetas'); checkBackup(); toast('Versión restaurada ✅');
+}
+/* ---------- Copia en la nube (Supabase) ---------- */
+const SB_URL='https://gikhtruabdqvhzdnyrkg.supabase.co';
+const SB_KEY='sb_publishable_nBKPs5bPEf0odzWLY0dxhQ_jxOtLZLH';
+let sb=null, cloudUser=null;
+try{ if(window.supabase) sb=window.supabase.createClient(SB_URL,SB_KEY); }catch(e){ console.warn('Supabase init',e); }
+async function cloudInit(){ if(!sb) return; try{ const {data}=await sb.auth.getSession(); cloudUser=(data&&data.session)?data.session.user:null; if(cloudUser) await cloudSync(); }catch(e){} }
+async function cloudSync(){
+  if(!sb||!cloudUser) return;
+  try{
+    const {data,error}=await sb.from('user_backups').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();
+    if(error) return;
+    if(data&&data.data){
+      const cloudT=Date.parse(data.updated_at)||0; const localT=db.updatedAt||0;
+      if(cloudT>localT+1500){ db=ensureDefaults(data.data); db.updatedAt=cloudT; localStorage.setItem(STORE,JSON.stringify(db)); currentBlock=null; renderRecipes(); toast('Actualizado desde la nube ☁️'); return; }
+    }
+    cloudPushNow();
+  }catch(e){}
+}
+async function cloudSignIn(email,pass){
+  if(!sb){ toast('Nube no disponible'); return; }
+  email=(email||'').trim(); if(!email||!pass){ toast('Pon email y contraseña'); return; }
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error){ toast(error.message); return; }
+  cloudUser=data.user; await cloudSync(); toast('Sesión iniciada ✅'); openSettings();
+}
+async function cloudSignUp(email,pass){
+  if(!sb){ toast('Nube no disponible'); return; }
+  email=(email||'').trim(); if(!email||(pass||'').length<6){ toast('Email y contraseña (mín. 6)'); return; }
+  const {data,error}=await sb.auth.signUp({email,password:pass});
+  if(error){ toast(error.message); return; }
+  if(data.session){ cloudUser=data.session.user; }
+  else { const r=await sb.auth.signInWithPassword({email,password:pass}); if(r.error){ toast('Cuenta creada. Si pide confirmar email, revísalo y luego pulsa Entrar.'); return; } cloudUser=r.data.user; }
+  await cloudPushNow(); toast('Conectado a la nube ✅'); openSettings();
+}
+async function cloudSignOut(){ if(sb) await sb.auth.signOut(); cloudUser=null; toast('Sesión cerrada'); openSettings(); }
+async function cloudPushNow(){ if(!sb||!cloudUser) return; try{ await sb.from('user_backups').upsert({user_id:cloudUser.id,data:db,updated_at:new Date(db.updatedAt||Date.now()).toISOString()}); }catch(e){ console.warn('push',e); } }
+let cloudTimer=null;
+function cloudPush(){ if(!sb||!cloudUser) return; clearTimeout(cloudTimer); cloudTimer=setTimeout(cloudPushNow,1500); }
+async function cloudPushManual(){ if(!sb||!cloudUser){ toast('Inicia sesión primero'); return; } db.updatedAt=Date.now(); await cloudPushNow(); toast('Guardado en la nube ✅'); }
+async function cloudRestore(){
+  if(!sb||!cloudUser){ toast('Inicia sesión primero'); return; }
+  const {data,error}=await sb.from('user_backups').select('data').eq('user_id',cloudUser.id).maybeSingle();
+  if(error){ toast('Error al leer la nube'); return; }
+  if(!data||!data.data){ toast('Aún no hay copia en la nube'); return; }
+  if(!confirm('Esto reemplazará tus datos actuales por los de la nube. ¿Continuar?')) return;
+  snapshot('antes de restaurar nube');
+  db=ensureDefaults(data.data); save(); closeModal(); currentBlock=null; go('recetas'); checkBackup(); toast('Restaurado de la nube ✅');
+}
+function cloudSettingsHtml(){
+  if(!sb) return `<div class="det-sec-t">☁️ Copia en la nube</div><p class="hint">No se pudo cargar la nube (¿sin conexión?). Vuelve a abrir con internet.</p><div class="divider"></div>`;
+  if(cloudUser) return `<div class="det-sec-t">☁️ Copia en la nube</div>
+    <div class="panel" style="margin-bottom:10px">✅ Conectado como <b>${esc(cloudUser.email||'')}</b>. Tus cambios se guardan solos en la nube.</div>
+    <button class="btn block" onclick="cloudPushManual()">☁️⬆️ Guardar en la nube ahora</button>
+    <div style="height:8px"></div>
+    <button class="btn ghost block" onclick="cloudRestore()">☁️⬇️ Restaurar de la nube (en otro dispositivo)</button>
+    <div style="height:8px"></div>
+    <button class="btn ghost block" onclick="cloudSignOut()">Cerrar sesión</button>
+    <div class="divider"></div>`;
+  return `<div class="det-sec-t">☁️ Copia en la nube</div>
+    <p class="hint">Entra con tu email y una contraseña para que tus datos se guarden solos en la nube y los recuperes en cualquier dispositivo.</p>
+    <input class="field" id="cl_email" placeholder="tu@email.com" autocomplete="email" style="margin:8px 0">
+    <input class="field" id="cl_pass" type="password" placeholder="contraseña (mín. 6)">
+    <div class="row-btns" style="margin:10px 0 0">
+      <button class="btn" onclick="cloudSignIn(document.getElementById('cl_email').value,document.getElementById('cl_pass').value)">Entrar</button>
+      <button class="btn ghost" onclick="cloudSignUp(document.getElementById('cl_email').value,document.getElementById('cl_pass').value)">Crear cuenta</button>
+    </div>
+    <div class="divider"></div>`;
+}
+function openSettings(){
+  const lb=db.lastBackup;
+  const days = lb? Math.floor((Date.now()-lb)/86400000) : null;
+  const status = lb? `Última copia: ${days===0?'hoy':'hace '+days+' día'+(days===1?'':'s')}.` : 'Aún no has hecho ninguna copia.';
+  const stale = !lb || days>=14;
+  openSheet(`<div class="sheet-head"><h2>⚙️ Ajustes y copia</h2><button class="x" onclick="closeModal()">✕</button></div>
+   <div class="sheet-body">
+    ${stale?`<div class="safety">⚠️ ${status} Te recomiendo descargar una copia para no perder nada.</div>`:`<div class="panel" style="margin-bottom:14px">✅ ${status}</div>`}
+    ${cloudSettingsHtml()}
+    <div class="det-sec-t">Copia de seguridad (archivo)</div>
+    <p class="hint">Tus datos (recetas, planning, chupitos…) se guardan solo en este navegador. Descarga una copia y guárdala donde quieras (Drive, email, una carpeta). Si cambias de móvil o se borran los datos, la importas y lo recuperas todo.</p>
+    <div style="height:12px"></div>
+    <button class="btn block" onclick="exportBackup()">⬇️ Descargar copia de seguridad</button>
+    <div style="height:10px"></div>
+    <label class="btn ghost block" style="text-align:center;cursor:pointer">⬆️ Importar una copia<input type="file" accept="application/json,.json" style="display:none" onchange="importBackup(this)"></label>
+    <p class="hint">Importar <b>reemplaza</b> tus datos actuales por los de la copia.</p>
+    <div class="divider"></div>
+    <div class="det-sec-t">Versiones guardadas (últimas 3)</div>
+    ${histHtml()}
+    <div class="divider"></div>
+    <div class="det-sec-t">Resumen</div>
+    <p class="hint">${db.recipes.length} recetas · ${db.blocks.length} bloques · ${(db.despertar||[]).length} chupitos.</p>
+   </div>`);
+}
+function exportBackup(){
+  db.lastBackup=Date.now(); save(); snapshot('copia'); checkBackup();
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const d=new Date(), p=n=>String(n).padStart(2,'0');
+  a.href=url; a.download='mi-cocina-backup-'+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  toast('Copia descargada ✅'); openSettings();
+}
+function importBackup(input){
+  const f=input.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=e=>{
+    let r; try{ r=JSON.parse(e.target.result); }catch(err){ toast('No se pudo leer el archivo'); return; }
+    if(!r||!Array.isArray(r.recipes)){ toast('El archivo no es una copia válida'); return; }
+    if(!confirm('Esto reemplazará tus datos actuales por los de la copia. ¿Continuar?')) return;
+    db=ensureDefaults(r); save(); closeModal(); currentBlock=null; go('recetas'); checkBackup(); toast('Copia restaurada ✅');
+  };
+  rd.readAsText(f);
+}
+function checkBackup(){ const b=document.getElementById('setBtn'); if(!b) return; const lb=db.lastBackup; const stale=!lb || (Date.now()-lb)/86400000>=14; b.classList.toggle('alert',stale); }
+
+/* ============================================================
+   INIT  ·  Mi Cocina V1 (con recetas importadas de Notion)
+   ============================================================ */
+renderRecipes();
+checkBackup();
+snapshot('apertura');
+if(sb){ cloudInit(); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>

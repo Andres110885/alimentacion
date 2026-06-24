@@ -1,0 +1,7 @@
+# Configuración de Netlify para Mi Cocina
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
