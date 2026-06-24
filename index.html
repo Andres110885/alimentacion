@@ -201,7 +201,7 @@
   .modal.open{display:flex}
   .sheet{background:var(--bg2);width:100%;max-width:760px;max-height:94vh;overflow-y:auto;border-radius:22px 22px 0 0;border:1px solid var(--line);border-bottom:none;animation:up .25s ease}
   @keyframes up{from{transform:translateY(40px);opacity:.5}to{transform:translateY(0);opacity:1}}
-  .sheet-head{position:sticky;top:0;background:var(--bg2);padding:16px 18px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);z-index:2}
+  .sheet-head{position:sticky;top:0;background:var(--bg2);padding:calc(14px + env(safe-area-inset-top)) 18px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);z-index:2}
   .sheet-head h2{font-size:18px;flex:1}
   .sheet-head .x{background:var(--card2);width:34px;height:34px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center}
   .sheet-body{padding:16px 18px 30px}
@@ -366,7 +366,7 @@ const GRANEL = ["g","gr","gramo","gramos","kg","ml","cl","l","litro","litros","t
 let db = load();
 let weekStart = mondayOf(new Date());
 
-function ensureDefaults(r){ if(!r.despertar||!r.despertar.length) r.despertar=JSON.parse(JSON.stringify(DESPERTAR_DEFAULT)); if(!r.shotWeek) r.shotWeek={}; if(!r.shotPick) r.shotPick={}; if(!r.pantry) r.pantry=[]; r.blocks=(r.blocks||[]).filter(b=>b.id!=="fav"); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>b!=="fav"); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); if(!r.allToProbar){ (r.recipes||[]).forEach(rc=>{ rc.blockIds=["probar"]; }); r.allToProbar=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } if(!r.blocksV4){ r.blocks=JSON.parse(JSON.stringify(BLOCKS_V2)); const valid=new Set(BLOCKS_V2.map(b=>b.id)); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>valid.has(b)); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); r.blocksV4=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } return r; }
+function ensureDefaults(r){ if(!r.despertar||!r.despertar.length) r.despertar=JSON.parse(JSON.stringify(DESPERTAR_DEFAULT)); if(!r.shotWeek) r.shotWeek={}; if(!r.shotPick) r.shotPick={}; if(!r.pantry) r.pantry=[]; if(r.netlifyUrl===undefined) r.netlifyUrl=''; r.blocks=(r.blocks||[]).filter(b=>b.id!=="fav"); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>b!=="fav"); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); if(!r.allToProbar){ (r.recipes||[]).forEach(rc=>{ rc.blockIds=["probar"]; }); r.allToProbar=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } if(!r.blocksV4){ r.blocks=JSON.parse(JSON.stringify(BLOCKS_V2)); const valid=new Set(BLOCKS_V2.map(b=>b.id)); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>valid.has(b)); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); r.blocksV4=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } return r; }
 function load(){
   try{ const r = JSON.parse(localStorage.getItem(STORE)); if(r&&r.recipes) return ensureDefaults(r); }catch(e){}
   return ensureDefaults(seed());
@@ -586,7 +586,7 @@ function renderForm(){
       <div id="pasteArea" style="display:none">
         <label class="f">Importar desde un enlace web (blog de recetas)</label>
         <div style="display:flex;gap:8px"><input class="field" id="importUrl" placeholder="https://..." style="flex:1"><button class="btn sm" onclick="importFromLink()">🌐 Traer</button></div>
-        <div class="hint">Pega un enlace de blog y traigo ingredientes y pasos solos. (Funciona con la app publicada en Netlify; en local usa “pegar texto”.)</div>
+        <div class="hint">Pega un enlace de blog y traigo ingredientes y pasos solos. En el ordenador (archivo local) funciona si pones tu URL de Netlify en ⚙️.</div>
         <div class="divider"></div>
         <label class="f">…o pega aquí la receta (de Instagram, web o donde sea)</label>
         <textarea class="field" id="pasteText" placeholder="Pega título, ingredientes y pasos. La app intentará separarlos."></textarea>
@@ -676,9 +676,14 @@ function saveRecipe(){
 async function importFromLink(){
   const url=(document.getElementById('importUrl').value||'').trim();
   if(!url){ toast('Pega un enlace'); return; }
+  let base='';
+  if(location.protocol!=='http:' && location.protocol!=='https:'){
+    base=(db.netlifyUrl||'').replace(/\/+$/,'');
+    if(!base){ toast('Pon tu URL de Netlify en ⚙️ para importar desde el ordenador'); return; }
+  }
   toast('Trayendo de la web…');
   try{
-    const res=await fetch('/.netlify/functions/import?url='+encodeURIComponent(url));
+    const res=await fetch(base+'/.netlify/functions/import?url='+encodeURIComponent(url));
     if(!res.ok) throw 0;
     const d=await res.json();
     if(!d.found){ toast('No encontré receta legible en esa página'); return; }
@@ -689,7 +694,7 @@ async function importFromLink(){
     formDraft.sourceUrl=url;
     const y=parseInt(d.yield); if(y) formDraft.baseServings=y;
     switchFormTab('manual'); renderForm(); toast('¡Traído! Revisa y guarda ✅');
-  }catch(e){ toast('El importador solo va con la app publicada (Netlify). En local, pega el texto.'); }
+  }catch(e){ toast('No pude conectar con el importador. Revisa tu URL de Netlify en ⚙️ o tu conexión.'); }
 }
 function parsePaste(){
   const txt = document.getElementById('pasteText').value.trim();
@@ -1324,6 +1329,10 @@ function openSettings(){
    <div class="sheet-body">
     ${stale?`<div class="safety">⚠️ ${status} Te recomiendo descargar una copia para no perder nada.</div>`:`<div class="panel" style="margin-bottom:14px">✅ ${status}</div>`}
     ${cloudSettingsHtml()}
+    <div class="det-sec-t">🌐 Importador desde enlace</div>
+    <p class="hint">Para usar “Traer de la web” también desde el ordenador (abriendo el archivo), pega aquí la URL de tu app publicada en Netlify.</p>
+    <input class="field" id="set_netlify" value="${esc(db.netlifyUrl||'')}" placeholder="https://tuapp.netlify.app" onchange="db.netlifyUrl=this.value.trim();save();toast('URL guardada ✅')">
+    <div class="divider"></div>
     <div class="det-sec-t">Copia de seguridad (archivo)</div>
     <p class="hint">Tus datos (recetas, planning, chupitos…) se guardan solo en este navegador. Descarga una copia y guárdala donde quieras (Drive, email, una carpeta). Si cambias de móvil o se borran los datos, la importas y lo recuperas todo.</p>
     <div style="height:12px"></div>
