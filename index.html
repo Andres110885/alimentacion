@@ -232,6 +232,8 @@
   .det-sec-t{font-size:15px;font-weight:700;margin:20px 0 10px;color:var(--acc)}
   .det-ing{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px}
   .det-ing .q{color:var(--muted);font-weight:600}
+  .det-serv{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:5px 8px;font-size:13px;font-weight:600}
+  .cookstep{font-size:22px;line-height:1.5;padding:26px 10px;font-weight:500}
   .det-step{display:flex;gap:12px;margin-bottom:13px}
   .det-step .n{width:25px;height:25px;border-radius:50%;background:var(--acc);color:#06150d;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .det-step .t{font-size:14.5px;line-height:1.5;padding-top:1px}
@@ -479,13 +481,14 @@ function renderRecipes(){
   wrap.innerHTML = html;
 }
 
-function openRecipe(id){
+function openRecipe(id, serv){
   const r = db.recipes.find(x=>x.id===id); if(!r) return;
-  // imagen del hero vía imgTag
   const blocks = r.blockIds.map(getBlock).filter(Boolean).map(b=>`${b.icon} ${esc(b.name)}`).join(' · ');
-  let ing = r.ingredients.map(i=>`<div class="det-ing"><span>${esc(i.name)}</span><span class="q">${fmtQty(i.qty)} ${esc(i.unit||'')}</span></div>`).join('');
+  const base = r.baseServings||1; const sv = serv || base; const f = sv/base;
+  let ing = r.ingredients.map(i=>{ const q = i.qty? smartRound(i.qty*f, i.unit):0; return `<div class="det-ing"><span>${esc(i.name)}</span><span class="q">${q?fmtQty(q)+' '+esc(i.unit||''):''}</span></div>`; }).join('');
   let steps = r.steps.map((s,i)=>`<div class="det-step"><div class="n">${i+1}</div><div class="t">${esc(s)}</div></div>`).join('');
   const inProbar = r.blockIds.includes('probar');
+  const servSel = `<select class="det-serv" onchange="openRecipe('${r.id}',parseInt(this.value))">${[1,2,3,4,5,6,7,8,10,12].map(n=>`<option value="${n}" ${n===sv?'selected':''}>para ${n}</option>`).join('')}</select>`;
   openSheet(`
     <div class="sheet-head"><h2>${esc(r.title)}</h2><button class="x" onclick="closeModal()">✕</button></div>
     <div class="det-hero cbg-${r.cat}"><span class="emo">${r.emoji||'🍲'}</span>${imgTag(r,'rimg')}</div>
@@ -494,17 +497,17 @@ function openRecipe(id){
         <span class="pill"><span class="dot c-${r.cat}"></span>${CATS[r.cat]||''}</span>
         <span class="pill">⏱ ${r.time||'–'} min</span>
         <span class="pill">📊 ${esc(r.difficulty||'')}</span>
-        <span class="pill">👥 ${r.baseServings} pers.</span>
       </div>
       <div class="hint">📂 ${blocks||'Sin bloque'}</div>
-      <div class="det-sec-t">Ingredientes <span style="color:var(--muted2);font-weight:400">(para ${r.baseServings})</span></div>
+      <div class="det-sec-t" style="display:flex;align-items:center;justify-content:space-between">Ingredientes ${servSel}</div>
       ${ing||'<div class="hint">Sin ingredientes.</div>'}
       <div class="det-sec-t">Preparación</div>
       ${steps||'<div class="hint">Sin pasos.</div>'}
       ${r.notes?`<div class="det-sec-t">Notas</div><div class="note-box">${esc(r.notes)}</div>`:''}
       ${r.sourceUrl?`<div class="det-sec-t">Origen</div><a class="src" href="${esc(r.sourceUrl)}" target="_blank">${esc(r.sourceUrl)}</a>`:''}
       <div class="divider"></div>
-      <button class="btn block" onclick="addToPlan('${r.id}')">📅 Añadir al planning</button>
+      ${r.steps&&r.steps.length?`<button class="btn block" onclick="openCook('${r.id}',0)">👨‍🍳 Modo cocina</button><div style="height:10px"></div>`:''}
+      <button class="btn ghost block" onclick="addToPlan('${r.id}')">📅 Añadir al planning</button>
       <div style="height:10px"></div>
       ${inProbar?`<button class="btn ghost block" onclick="promoteRecipe('${r.id}')">✅ Ya la probé — mover a un bloque</button><div style="height:10px"></div>`:''}
       <div class="row-btns" style="margin:0">
@@ -513,6 +516,24 @@ function openRecipe(id){
       </div>
     </div>`);
 }
+let cookLock=null;
+async function openCook(id,idx){
+  const r=db.recipes.find(x=>x.id===id); if(!r) return;
+  if(!r.steps||!r.steps.length){ toast('Esta receta no tiene pasos'); return; }
+  idx=Math.max(0,Math.min(idx,r.steps.length-1));
+  try{ if(navigator.wakeLock && !cookLock) cookLock=await navigator.wakeLock.request('screen'); }catch(e){}
+  openSheet(`<div class="sheet-head"><h2>👨‍🍳 ${esc(r.title)}</h2><button class="x" onclick="closeCook('${id}')">✕</button></div>
+    <div class="sheet-body" style="text-align:center">
+      <div class="hint">Paso ${idx+1} de ${r.steps.length}</div>
+      <div class="cookstep">${esc(r.steps[idx])}</div>
+      <div class="row-btns" style="margin-top:22px">
+        <button class="btn ghost" style="flex:1;${idx===0?'opacity:.35;pointer-events:none':''}" onclick="openCook('${id}',${idx-1})">‹ Anterior</button>
+        ${idx<r.steps.length-1?`<button class="btn" style="flex:1" onclick="openCook('${id}',${idx+1})">Siguiente ›</button>`:`<button class="btn" style="flex:1" onclick="closeCook('${id}')">✅ Terminar</button>`}
+      </div>
+      <p class="hint" style="margin-top:16px">La pantalla se mantiene encendida mientras cocinas.</p>
+    </div>`);
+}
+function closeCook(id){ if(cookLock){ try{cookLock.release();}catch(e){} cookLock=null; } openRecipe(id); }
 
 function deleteRecipe(id){
   if(!confirm('¿Borrar esta receta?')) return;
@@ -687,7 +708,7 @@ async function importFromLink(){
     if(!res.ok) throw 0;
     const d=await res.json();
     if(!d.found){ toast('No encontré receta legible en esa página'); return; }
-    if(d.title && !formDraft.title) formDraft.title=d.title;
+    if(d.title){ let t=d.title.trim(); t=t.split(/\s[-–]\s|:\s/)[0]; if(t.length>55) t=t.slice(0,55).replace(/\s\S*$/,''); formDraft.title=t; }
     if(d.image) formDraft.photo=d.image;
     if(d.ingredients&&d.ingredients.length) formDraft.ingredients=d.ingredients.map(parseIngLine);
     if(d.steps&&d.steps.length) formDraft.steps=d.steps;
@@ -798,6 +819,30 @@ function planningText(){
 }
 function copyPlanning(){ const t=planningText(); if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>toast('Menú copiado ✅'),()=>window.prompt('Copia el menú:',t)); } else { window.prompt('Copia el menú:',t); } }
 function sharePlanningWA(){ window.open('https://wa.me/?text='+encodeURIComponent(planningText()),'_blank'); }
+function fillWeek(){
+  const slots=[]; const counts={pescado:0,vegano:0,vegetariano:0,carne:0}; let total=0; const used=new Set();
+  for(let i=0;i<7;i++){ const k=dkey(addDays(weekStart,i));
+    MEALS.forEach(([m])=>{ const s=(db.planning[k]||{})[m];
+      if(s){ const r=!s.custom&&db.recipes.find(x=>x.id===s.recipeId); if(r){ counts[r.cat]=(counts[r.cat]||0)+1; total++; used.add(r.id); } }
+      else slots.push({k,m});
+    });
+  }
+  if(!slots.length){ toast('La semana ya está completa'); return; }
+  const pool=db.recipes.filter(r=>(r.ingredients&&r.ingredients.length) || !r.blockIds.includes('probar'));
+  const base=pool.length?pool:db.recipes.slice();
+  if(!base.length){ toast('No tienes recetas para rellenar'); return; }
+  if(!confirm('Voy a rellenar '+slots.length+' hueco(s) vacío(s) con tus recetas buscando equilibrio (pescado, verdura/legumbre, carne puntual). ¿Sigo?')) return;
+  const finalTotal=total+slots.length;
+  const targets={pescado:Math.round(finalTotal*0.30), vegano:Math.round(finalTotal*0.30), vegetariano:Math.round(finalTotal*0.25), carne:Math.max(1,Math.round(finalTotal*0.15))};
+  function pick(){
+    const order=['pescado','vegano','vegetariano','carne'].sort((a,b)=>(counts[a]-targets[a])-(counts[b]-targets[b]));
+    for(const cat of order){ const c=base.filter(r=>r.cat===cat && !used.has(r.id)); if(c.length) return c[Math.floor(Math.random()*c.length)]; }
+    const any=base.filter(r=>!used.has(r.id)); if(any.length) return any[Math.floor(Math.random()*any.length)];
+    return base[Math.floor(Math.random()*base.length)];
+  }
+  slots.forEach(({k,m})=>{ const r=pick(); if(!r) return; if(!db.planning[k])db.planning[k]={}; db.planning[k][m]={recipeId:r.id,diners:2}; counts[r.cat]=(counts[r.cat]||0)+1; used.add(r.id); });
+  save(); renderPlanning(); toast('Semana rellenada ✨');
+}
 function copyPrevWeek(){
   let any=false, hasNow=false;
   for(let i=0;i<7;i++){ if(db.planning[dkey(addDays(weekStart,i))]) hasNow=true; if(db.planning[dkey(addDays(weekStart,i-7))]) any=true; }
@@ -822,7 +867,7 @@ function renderPlanning(){
   let html = ws
     ? `<div class="shot" onclick="go('despertar')"><span class="se">${ws.emoji}</span><span class="st"><span class="k">Chupito de la semana</span><b>${esc(ws.nombre)}</b><span class="shot-badge">${esc(ws.para)}</span></span><span class="ar">›</span></div>`
     : `<div class="shot" onclick="go('despertar')"><span class="se">☀️</span><span class="st"><span class="k">Despertar</span><b>Elige tu chupito de la semana</b><span class="shot-badge">toca para elegir</span></span><span class="ar">›</span></div>`;
-  html += `<div class="row-btns" style="margin:0 0 14px"><button class="btn ghost sm" onclick="copyPrevWeek()">📋 Copiar semana anterior</button><button class="btn ghost sm" onclick="clearWeek()">🧹 Vaciar semana</button></div>`;
+  html += `<div class="row-btns" style="margin:0 0 14px"><button class="btn ghost sm" onclick="fillWeek()">✨ Rellenar semana</button><button class="btn ghost sm" onclick="copyPrevWeek()">📋 Copiar anterior</button><button class="btn ghost sm" onclick="clearWeek()">🧹 Vaciar</button></div>`;
   for(let i=0;i<7;i++){
     const d=addDays(weekStart,i); const k=dkey(d); const day=db.planning[k]||{};
     html += `<div class="dayrow ${k===todayK?'today':''}">
@@ -933,17 +978,27 @@ function deleteDrink(id){
 }
 let pendingSlot=null;
 function parseIngLine(raw){
-  raw=(raw||'').replace(/^[-•*·\s]+/,'').trim();
-  const KNOWN=['g','gr','gramo','gramos','kg','ml','cl','l','litro','litros','taza','tazas','cucharada','cucharadas','cucharadita','cucharaditas','cda','cdta','ud','uds','unidad','unidades','diente','dientes','lata','latas','bote','botes','filete','filetes','loncha','lonchas','rebanada','rebanadas','manojo','manojos','sobre','sobres','hoja','hojas','pizca','puñado','puñados','rodaja','rodajas','vaso','vasos'];
-  const m=raw.match(/^(\d+(?:[.,]\d+)?(?:\s*\/\s*\d+)?)\s+(.*)$/);
-  if(m){
-    const qty=(function(t){t=t.replace(/\s/g,'').replace(',','.');if(t.includes('/')){const p=t.split('/');return parseFloat(p[0])/parseFloat(p[1]);}return parseFloat(t)||0;})(m[1]);
-    let rest=m[2].trim(),unit='',name=rest; const w=rest.split(/\s+/);
-    if(w.length>1 && KNOWN.includes(w[0].toLowerCase())){ unit=w[0]; name=w.slice(1).join(' '); }
-    name=name.replace(/^de\s+/i,'').trim();
-    return {name,qty,unit,section:guessSection(name)};
+  raw=(raw||'').replace(/\u00a0/g,' ').replace(/^[\s\-•*·–]+/,'').trim();
+  if(!raw) return {name:'',qty:0,unit:'',section:'Otros'};
+  raw=raw.replace(/^(\d+(?:[.,]\d+)?)([a-zA-Z])/,'$1 $2');
+  const FR={'½':0.5,'¼':0.25,'¾':0.75,'⅓':1/3,'⅔':2/3,'⅛':0.125,'⅕':0.2};
+  const WORD={'un':1,'una':1,'uno':1,'dos':2,'tres':3,'cuatro':4,'cinco':5,'seis':6,'siete':7,'ocho':8,'diez':10,'medio':0.5,'media':0.5,'par':2};
+  const KNOWN=['g','gr','gramo','gramos','kg','kilo','kilos','ml','cl','l','litro','litros','taza','tazas','cucharada','cucharadas','cucharadita','cucharaditas','cda','cdas','cdta','cdtas','ud','uds','unidad','unidades','diente','dientes','lata','latas','bote','botes','filete','filetes','loncha','lonchas','rebanada','rebanadas','manojo','manojos','sobre','sobres','hoja','hojas','pizca','pizcas','puñado','puñados','rodaja','rodajas','vaso','vasos','ramita','ramitas','trozo','trozos','chorro','chorrito','lata'];
+  let qty=0, unit='', name=raw, mm;
+  if((mm=raw.match(/^(\d+(?:[.,]\d+)?)\s*\/\s*(\d+)\s+(.*)$/))){ qty=parseFloat(mm[1].replace(',','.'))/parseFloat(mm[2]); name=mm[3]; }
+  else if((mm=raw.match(/^(\d+(?:[.,]\d+)?)\s*(?:[-aá]|a)\s*\d+(?:[.,]\d+)?\s+(.*)$/))){ qty=parseFloat(mm[1].replace(',','.')); name=mm[2]; }
+  else if((mm=raw.match(/^([½¼¾⅓⅔⅛⅕])\s+(.*)$/))){ qty=FR[mm[1]]; name=mm[2]; }
+  else if((mm=raw.match(/^(\d+(?:[.,]\d+)?)\s+(.*)$/))){ qty=parseFloat(mm[1].replace(',','.')); name=mm[2]; }
+  else {
+    const w=raw.split(/\s+/); const f=w[0].toLowerCase().replace(/[.,]/g,'');
+    if(WORD[f]!==undefined && w.length>1){ qty=WORD[f]; name=w.slice(1).join(' '); }
   }
-  return {name:raw,qty:0,unit:'',section:guessSection(raw)};
+  name=name.trim();
+  const w2=name.split(/\s+/);
+  if(w2.length>1 && KNOWN.includes(w2[0].toLowerCase().replace(/[.,]/g,''))){ unit=w2[0].replace(/[.,]/g,''); name=w2.slice(1).join(' '); }
+  name=name.replace(/^de\s+/i,'').replace(/^\(.*?\)\s*/,'').trim();
+  if(!name){ name=raw; qty=0; unit=''; }
+  return {name, qty:qty||0, unit, section:guessSection(name)};
 }
 function addMealByHand(k,m){
   openSheet(`<div class="sheet-head"><h2>✏️ Plato a mano</h2><button class="x" onclick="pickRecipe('${k}','${m}')">✕</button></div>
