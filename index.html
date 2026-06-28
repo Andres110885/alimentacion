@@ -698,6 +698,19 @@ function saveRecipe(){
   if(pendingSlot){ const ps=pendingSlot; pendingSlot=null; if(!db.planning[ps.k]) db.planning[ps.k]={}; db.planning[ps.k][ps.m]={recipeId:r.id, diners:r.baseServings}; save(); closeModal(); go('planning'); toast('Añadida al día ✅'); return; }
   closeModal(); renderRecipes(); toast('Receta guardada ✅');
 }
+function handleShare(){
+  try{
+    const p=new URLSearchParams(location.search);
+    const shared=((p.get('url')||'')+' '+(p.get('text')||'')+' '+(p.get('title')||'')).trim();
+    if(!shared) return;
+    history.replaceState(null,'',location.pathname);
+    openRecipeForm();
+    switchFormTab('paste');
+    const m=shared.match(/https?:\/\/\S+/);
+    if(m){ const i=document.getElementById('importUrl'); if(i){ i.value=m[0]; importFromLink(); } }
+    else { const t=document.getElementById('pasteText'); if(t){ t.value=shared; } }
+  }catch(e){}
+}
 async function importFromLink(){
   const url=(document.getElementById('importUrl').value||'').trim();
   if(!url){ toast('Pega un enlace'); return; }
@@ -711,14 +724,20 @@ async function importFromLink(){
     const res=await fetch(base+'/.netlify/functions/import?url='+encodeURIComponent(url));
     if(!res.ok) throw 0;
     const d=await res.json();
-    if(!d.found){ toast('No encontré receta legible en esa página'); return; }
-    if(d.title){ let t=d.title.trim(); t=t.split(/\s[-–]\s|:\s/)[0]; if(t.length>55) t=t.slice(0,55).replace(/\s\S*$/,''); formDraft.title=t; }
+    let ings=(d.ingredients||[]).map(parseIngLine).filter(i=>i&&i.name);
+    let steps=d.steps||[];
+    let title=d.title||'';
+    if(!ings.length && d.text){ const p=parseRecipeText(d.text); if(p.ingredients.length) ings=p.ingredients; if(p.steps.length) steps=p.steps; if(p.title&&!title) title=p.title; }
     if(d.image) formDraft.photo=d.image;
-    if(d.ingredients&&d.ingredients.length) formDraft.ingredients=d.ingredients.map(parseIngLine);
-    if(d.steps&&d.steps.length) formDraft.steps=d.steps;
     formDraft.sourceUrl=url;
+    if(title){ let t=title.trim(); t=t.split(/\s[-–]\s|:\s/)[0]; if(t.length>55) t=t.slice(0,55).replace(/\s\S*$/,''); if(t.length>2) formDraft.title=t; }
+    if(ings.length) formDraft.ingredients=ings;
+    if(steps.length) formDraft.steps=steps;
     const y=parseInt(d.yield); if(y) formDraft.baseServings=y;
-    switchFormTab('manual'); renderForm(); toast('¡Traído! Revisa y guarda ✅');
+    switchFormTab('manual'); renderForm();
+    if(ings.length||steps.length) toast('¡Traído! Revisa y guarda ✅');
+    else if(d.image) toast('Cogí la foto, pero no el texto. Pega la descripción 👇');
+    else toast('No pude leer esa página (Instagram suele bloquear). Pega el texto.');
   }catch(e){ toast('No pude conectar con el importador. Revisa tu URL de Netlify en ⚙️ o tu conexión.'); }
 }
 function parseRecipeText(txt){
@@ -743,7 +762,10 @@ function parseRecipeText(txt){
     if(/^\s*(elaboraci|preparaci|pasos?|instrucciones|m[eé]todo|c[oó]mo se hace|c[oó]mo hacer|paso a paso)/.test(low)){ mode='step'; return; }
     if(mode==='step'){ if(l.length>2) steps.push(l.replace(/^\d+[\).]\s*/,'')); return; }
     const looksStep = l.length>50 || verbRe.test(l) || /[.:]$/.test(l);
-    if(mode==='ing' || !looksStep) ings.push(parseIngLine(l));
+    if(mode==='ing' || !looksStep){
+      if(l.includes(',') && l.length>22){ l.split(/\s*,\s*/).forEach(pp=>{ pp=pp.trim(); if(pp.length>1) ings.push(parseIngLine(pp)); }); }
+      else ings.push(parseIngLine(l));
+    }
     else steps.push(l.replace(/^\d+[\).]\s*/,''));
   });
   return {title, ingredients:ings.filter(i=>i.name), steps};
@@ -1507,6 +1529,7 @@ function checkBackup(){ const b=document.getElementById('setBtn'); if(!b) return
 renderRecipes();
 checkBackup();
 snapshot('apertura');
+handleShare();
 if(sb){ cloudInit(); }
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script>
