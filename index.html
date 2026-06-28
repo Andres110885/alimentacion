@@ -1065,6 +1065,7 @@ function pickRecipe(k,m){
   const slot=(db.planning[k]||{})[m];
   openSheet(`<div class="sheet-head"><h2>Elegir receta</h2><button class="x" onclick="closeModal()">✕</button></div>
     <div class="sheet-body">
+      ${slot?`<button class="btn ghost block" onclick="moveSlot('${k}','${m}')">↔️ Mover a otro día</button><div style="height:10px"></div>`:''}
       ${slot?`<button class="btn ghost block" onclick="toggleLeftover('${k}','${m}')">${slot.leftover?'🛒 Contar en la compra':'♻️ Marcar como sobras (no comprar)'}</button><div style="height:10px"></div>`:''}
       ${slot?`<button class="btn danger block" onclick="clearSlot('${k}','${m}')">✕ Quitar del planning</button><div style="height:10px"></div>`:''}
       <button class="btn ghost block" onclick="addMealByHand('${k}','${m}')">✏️ Añadir a mano</button>
@@ -1105,6 +1106,34 @@ function addToPlan(id){
     html+='</div>';
   }
   openSheet(`<div class="sheet-head"><h2>📅 Añadir a la semana</h2><button class="x" onclick="openRecipe('${id}')">✕</button></div><div class="sheet-body">${html}</div>`);
+}
+function moveSlot(k,m){
+  const slot=(db.planning[k]||{})[m]; if(!slot) return;
+  let html=`<p class="hint">Elige el nuevo día y comida. Se moverá vaciando el sitio actual.</p>`;
+  for(let i=0;i<7;i++){ const d=addDays(weekStart,i); const dk=dkey(d);
+    html+=`<div class="det-sec-t" style="margin:13px 0 7px">${dayName(d)} <span style="color:var(--muted2);font-weight:400">${d.getDate()}/${d.getMonth()+1}</span></div><div style="display:flex;gap:10px">`;
+    MEALS.forEach(([mm,lbl])=>{
+      const cur=(db.planning[dk]||{})[mm];
+      const curName=cur? (cur.custom?cur.title:((db.recipes.find(r=>r.id===cur.recipeId)||{}).title||'')) : '';
+      const same = (dk===k && mm===m);
+      html+=`<button class="btn ghost" style="flex:1;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:9px 11px;min-height:54px;${same?'opacity:.35;pointer-events:none':''}" onclick="moveSlotTo('${k}','${m}','${dk}','${mm}')">
+        <span style="font-size:10.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.5px;font-weight:700">${lbl}</span>
+        <span style="font-size:12.5px;line-height:1.2;font-weight:600;${curName?'':'color:var(--muted2)'}">${curName?esc(curName):'＋ vacío'}</span>
+      </button>`;
+    });
+    html+='</div>';
+  }
+  openSheet(`<div class="sheet-head"><h2>↔️ Mover comida</h2><button class="x" onclick="pickRecipe('${k}','${m}')">✕</button></div><div class="sheet-body">${html}</div>`);
+}
+function moveSlotTo(k,m,dk,dm){
+  const slot=(db.planning[k]||{})[m]; if(!slot) return;
+  if(dk===k && dm===m){ return; }
+  const dest=(db.planning[dk]||{})[dm];
+  if(dest && !confirm('Ese hueco ya tiene comida. ¿Reemplazarla?')) return;
+  if(!db.planning[dk]) db.planning[dk]={};
+  db.planning[dk][dm]=slot;
+  delete db.planning[k][m];
+  save(); closeModal(); renderPlanning(); toast('Movido ✅');
 }
 function assignPlan(k,m,id){ if(!db.planning[k])db.planning[k]={}; const r=db.recipes.find(x=>x.id===id); db.planning[k][m]={recipeId:id,diners:(db.planning[k][m]&&db.planning[k][m].diners)||r.baseServings}; save(); toast('Añadido al planning ✅'); addToPlan(id); }
 function setRecipe(k,m,id){
