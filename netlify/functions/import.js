@@ -33,9 +33,21 @@ function parseRecipe(html) {
     recipe = findRecipe(j);
     if (recipe) break;
   }
-  if (!recipe) return { found: false };
-
   const clean = s => String(s).replace(/<[^>]+>/g, '').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+
+  if (!recipe) {
+    // Sin receta estructurada (ej. Instagram, TikTok): devolver foto y texto de las meta tags
+    const og = extractOg(html);
+    return {
+      found: false,
+      title: clean(og.title || ''),
+      image: og.image || '',
+      text: clean(og.description || ''),
+      ingredients: [],
+      steps: []
+    };
+  }
+
   const ingredients = (recipe.recipeIngredient || recipe.ingredients || [])
     .map(clean).filter(Boolean);
 
@@ -64,6 +76,23 @@ function parseRecipe(html) {
     image: image || '',
     yield: Array.isArray(recipe.recipeYield) ? recipe.recipeYield[0] : (recipe.recipeYield || ''),
     time: recipe.totalTime || ''
+  };
+}
+
+function extractOg(html) {
+  const meta = (prop) => {
+    const re = new RegExp('<meta[^>]+(?:property|name)=["\']' + prop + '["\'][^>]*>', 'i');
+    const tag = (html.match(re) || [])[0] || '';
+    const c = tag.match(/content=["']([\s\S]*?)["']/i);
+    return c ? c[1] : '';
+  };
+  const decode = s => String(s)
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&')
+    .replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&#x?[0-9a-f]+;/gi, ' ');
+  return {
+    title: decode(meta('og:title') || meta('twitter:title')),
+    description: decode(meta('og:description') || meta('twitter:description') || meta('description')),
+    image: meta('og:image') || meta('twitter:image')
   };
 }
 
