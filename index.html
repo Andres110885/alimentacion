@@ -506,7 +506,8 @@ function openRecipe(id, serv){
       ${r.notes?`<div class="det-sec-t">Notas</div><div class="note-box">${esc(r.notes)}</div>`:''}
       ${r.sourceUrl?`<div class="det-sec-t">Origen</div><a class="src" href="${esc(r.sourceUrl)}" target="_blank">${esc(r.sourceUrl)}</a>`:''}
       <div class="divider"></div>
-      ${r.steps&&r.steps.length?`<button class="btn block" onclick="openCook('${r.id}',0)">👨‍🍳 Modo cocina</button><div style="height:10px"></div>`:''}
+      ${(!r.ingredients||!r.ingredients.length)&&r.notes&&r.notes.length>30?`<button class="btn block" onclick="extractNotes('${r.id}')">✨ Sacar ingredientes de la descripción</button><div style="height:10px"></div>`:''}
+      ${r.steps&&r.steps.length?`<button class="btn ghost block" onclick="openCook('${r.id}',0)">👨‍🍳 Modo cocina</button><div style="height:10px"></div>`:''}
       <button class="btn ghost block" onclick="addToPlan('${r.id}')">📅 Añadir al planning</button>
       <div style="height:10px"></div>
       ${inProbar?`<button class="btn ghost block" onclick="promoteRecipe('${r.id}')">✅ Ya la probé — mover a un bloque</button><div style="height:10px"></div>`:''}
@@ -717,34 +718,62 @@ async function importFromLink(){
     switchFormTab('manual'); renderForm(); toast('¡Traído! Revisa y guarda ✅');
   }catch(e){ toast('No pude conectar con el importador. Revisa tu URL de Netlify en ⚙️ o tu conexión.'); }
 }
-function parsePaste(){
-  const txt = document.getElementById('pasteText').value.trim();
-  if(!txt){ toast('Pega algo primero'); return; }
-  const lines = txt.split('\n').map(l=>l.trim()).filter(Boolean);
-  // título = primera línea corta
-  if(lines.length && lines[0].length<60 && !/^\d/.test(lines[0])) formDraft.title = lines.shift();
-  const ings=[], steps=[];
-  const KNOWN=['g','gr','gramo','gramos','kg','ml','cl','l','litro','litros','taza','tazas','cucharada','cucharadas','cucharadita','cucharaditas','cda','cdta','ud','uds','unidad','unidades','diente','dientes','lata','latas','bote','botes','filete','filetes','loncha','lonchas','rebanada','rebanadas','manojo','manojos','sobre','sobres','hoja','hojas','pizca','puñado','puñados','rodaja','rodajas','vaso','vasos'];
-  const verbRe=/(a\u00f1ad|mezcl|cocin|cort|pela|pica|sofr|rehog|hornea|hierv|sirve|bate|tritur|reserv|escurr|calient|pon\b|coloca|dora|vierte|sazona|salpimienta|incorpora|deja|retira|tapa|remueve|precalienta)/i;
+function parseRecipeText(txt){
+  txt=(txt||'').trim();
+  let lines=txt.split(/\n+/).map(l=>l.trim()).filter(Boolean);
+  if(lines.length<=2 && txt.length>120){
+    let t=txt;
+    t=t.replace(/\s*(Ingredientes|Pasos?|Preparaci[oó]n|Elaboraci[oó]n|Instrucciones|M[eé]todo)\s*:?\s*/gi,'\n$1:\n');
+    t=t.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\u{2700}-\u{27BF}]/gu,'\n');
+    t=t.replace(/\s([•·▪‣\-–])\s/g,'\n');
+    t=t.replace(/\s(\d{1,2})[\).]\s/g,'\n$1. ');
+    lines=t.split(/\n+/).map(l=>l.replace(/^[•·▪‣\-–]\s*/,'').trim()).filter(Boolean);
+  }
+  let title='';
+  if(lines.length && lines[0].length<60 && !/^[\d]/.test(lines[0]) && !/ingredient/i.test(lines[0])) title=lines.shift();
+  const ings=[],steps=[];
+  const verbRe=/(añad|mezcl|cocin|cort|pela|pica|sofr|rehog|hornea|hierv|sirve|bate|tritur|reserv|escurr|calient|pon\b|coloca|dora|vierte|sazona|salpimienta|incorpora|deja|retira|tapa|remueve|precalienta|lleva|cuece|cuela|enfr|monta)/i;
+  let mode='auto';
   lines.forEach(l=>{
-    const raw = l.replace(/^[-•*·\u2013\u2022\s]+/,'').trim();
-    if(!raw) return;
-    const m = raw.match(/^(\d+(?:[.,]\d+)?(?:\s*\/\s*\d+)?)\s+(.*)$/);
-    if(m){
-      const qty = (function(t){ t=t.replace(/\s/g,'').replace(',','.'); if(t.includes('/')){const p=t.split('/');return parseFloat(p[0])/parseFloat(p[1]);} return parseFloat(t)||0; })(m[1]);
-      let rest=m[2].trim(); let unit=''; let name=rest;
-      const w=rest.split(/\s+/);
-      if(w.length>1 && KNOWN.includes(w[0].toLowerCase())){ unit=w[0]; name=w.slice(1).join(' '); }
-      name=name.replace(/^de\s+/i,'').trim();
-      ings.push({name,qty,unit,section:guessSection(name)});
-    } else if(raw.length<=42 && raw.split(' ').length<=5 && !verbRe.test(raw) && !/[.:]$/.test(raw)){
-      ings.push({name:raw,qty:0,unit:'',section:guessSection(raw)});
-    } else { steps.push(raw); }
+    const low=l.toLowerCase();
+    if(/^\s*ingredientes?\b/.test(low)){ mode='ing'; const a=l.replace(/^\s*ingredientes?[^:]*:?\s*/i,'').trim(); if(a&&a.length<60) ings.push(parseIngLine(a)); return; }
+    if(/^\s*(elaboraci|preparaci|pasos?|instrucciones|m[eé]todo|c[oó]mo se hace|c[oó]mo hacer|paso a paso)/.test(low)){ mode='step'; return; }
+    if(mode==='step'){ if(l.length>2) steps.push(l.replace(/^\d+[\).]\s*/,'')); return; }
+    const looksStep = l.length>50 || verbRe.test(l) || /[.:]$/.test(l);
+    if(mode==='ing' || !looksStep) ings.push(parseIngLine(l));
+    else steps.push(l.replace(/^\d+[\).]\s*/,''));
   });
-  if(ings.length) formDraft.ingredients = ings; else formDraft.ingredients=[{name:'',qty:'',unit:''}];
-  if(steps.length) formDraft.steps = steps;
+  return {title, ingredients:ings.filter(i=>i.name), steps};
+}
+function parsePaste(){
+  const txt=(document.getElementById('pasteText').value||'').trim();
+  if(!txt){ toast('Pega algo primero'); return; }
+  const r=parseRecipeText(txt);
+  if(r.title && !formDraft.title) formDraft.title=r.title;
+  formDraft.ingredients = r.ingredients.length? r.ingredients : [{name:'',qty:'',unit:''}];
+  if(r.steps.length) formDraft.steps=r.steps;
   switchFormTab('manual'); renderForm();
   toast('Hecho — revisa y ajusta 👇');
+}
+function extractNotes(id){
+  const r=db.recipes.find(x=>x.id===id); if(!r) return;
+  const src=(r.notes&&r.notes.length>20)?r.notes:r.title;
+  const p=parseRecipeText(src);
+  if(!p.ingredients.length && !p.steps.length){ toast('No encontré ingredientes en la descripción'); return; }
+  if(p.ingredients.length) r.ingredients=p.ingredients;
+  if(p.steps.length && (!r.steps||!r.steps.length)) r.steps=p.steps;
+  save(); openRecipe(id); toast('Sacado de la descripción ✅ — revísalo');
+}
+function extractAllNotes(){
+  let n=0;
+  db.recipes.forEach(r=>{
+    if((!r.ingredients||!r.ingredients.length) && r.notes && r.notes.length>30){
+      const p=parseRecipeText(r.notes);
+      if(p.ingredients.length){ r.ingredients=p.ingredients; if(p.steps.length&&(!r.steps||!r.steps.length)) r.steps=p.steps; n++; }
+    }
+  });
+  save(); renderRecipes();
+  toast(n? (n+' receta(s) rellenadas ✅'):'No había descripciones que rellenar');
 }
 function guessSection(name){
   const n = name.toLowerCase();
@@ -1387,6 +1416,9 @@ function openSettings(){
     <div class="det-sec-t">🌐 Importador desde enlace</div>
     <p class="hint">Para usar “Traer de la web” también desde el ordenador (abriendo el archivo), pega aquí la URL de tu app publicada en Netlify.</p>
     <input class="field" id="set_netlify" value="${esc(db.netlifyUrl||'')}" placeholder="https://tuapp.netlify.app" onchange="db.netlifyUrl=this.value.trim();save();toast('URL guardada ✅')">
+    <div style="height:12px"></div>
+    <button class="btn ghost block" onclick="extractAllNotes()">✨ Sacar ingredientes de descripciones guardadas</button>
+    <p class="hint">Rellena ingredientes/pasos en recetas que tengan la descripción escrita pero a\u00fan sin ingredientes.</p>
     <div class="divider"></div>
     <div class="det-sec-t">Copia de seguridad (archivo)</div>
     <p class="hint">Tus datos (recetas, planning, chupitos…) se guardan solo en este navegador. Descarga una copia y guárdala donde quieras (Drive, email, una carpeta). Si cambias de móvil o se borran los datos, la importas y lo recuperas todo.</p>
