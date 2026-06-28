@@ -1413,7 +1413,7 @@ async function cloudSync(){
     if(error) return;
     if(data&&data.data){
       const cloudT=Date.parse(data.updated_at)||0; const localT=db.updatedAt||0;
-      if(cloudT>localT+1500){ db=ensureDefaults(data.data); db.updatedAt=cloudT; localStorage.setItem(STORE,JSON.stringify(db)); currentBlock=null; renderRecipes(); toast('Actualizado desde la nube ☁️'); return; }
+      if(cloudT>localT+1500){ snapshot('local antes de bajar nube'); db=ensureDefaults(data.data); db.updatedAt=cloudT; localStorage.setItem(STORE,JSON.stringify(db)); currentBlock=null; renderRecipes(); toast('Actualizado desde la nube ☁️'); return; }
     }
     cloudPushNow();
   }catch(e){}
@@ -1437,7 +1437,7 @@ async function cloudSignUp(email,pass){
 async function cloudSignOut(){ if(sb) await sb.auth.signOut(); cloudUser=null; toast('Sesión cerrada'); openSettings(); }
 async function cloudPushNow(){ if(!sb||!cloudUser) return; try{ await sb.from('user_backups').upsert({user_id:cloudUser.id,data:db,updated_at:new Date(db.updatedAt||Date.now()).toISOString()}); }catch(e){ console.warn('push',e); } }
 let cloudTimer=null;
-function cloudPush(){ if(!sb||!cloudUser) return; clearTimeout(cloudTimer); cloudTimer=setTimeout(cloudPushNow,1500); }
+function cloudPush(){ if(!sb||!cloudUser) return; clearTimeout(cloudTimer); cloudTimer=setTimeout(cloudPushNow,500); }
 async function cloudPushManual(){ if(!sb||!cloudUser){ toast('Inicia sesión primero'); return; } db.updatedAt=Date.now(); await cloudPushNow(); toast('Guardado en la nube ✅'); }
 async function cloudRestore(){
   if(!sb||!cloudUser){ toast('Inicia sesión primero'); return; }
@@ -1530,7 +1530,7 @@ renderRecipes();
 checkBackup();
 snapshot('apertura');
 handleShare();
-if(sb){ cloudInit(); }
+if(sb){ cloudInit(); document.addEventListener('visibilitychange',()=>{ if(document.hidden) cloudPushNow(); }); window.addEventListener('pagehide',()=>{ try{cloudPushNow();}catch(e){} }); }
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script>
 </body>
