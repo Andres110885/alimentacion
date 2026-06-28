@@ -273,10 +273,13 @@
 <!-- ============ PLANNING ============ -->
 <div class="view" id="v-planning">
   <div class="weeknav">
-    <button onclick="shiftWeek(-1)">‹</button>
+    <button onclick="shiftWeek(-1)" title="Semana anterior">«</button>
+    <button onclick="shiftDay(-1)" title="Un día antes">‹</button>
     <div class="lbl" id="weekLbl"></div>
-    <button onclick="shiftWeek(1)">›</button>
+    <button onclick="shiftDay(1)" title="Un día después">›</button>
+    <button onclick="shiftWeek(1)" title="Semana siguiente">»</button>
   </div>
+  <button class="btn ghost sm block" onclick="goToday()" style="margin-bottom:12px">📆 Empezar la vista hoy</button>
   <div id="planDays"></div>
 </div>
 
@@ -832,6 +835,9 @@ function mondayOf(d){ d=new Date(d); const day=(d.getDay()+6)%7; d.setHours(0,0,
 function dkey(d){ return d.toISOString().slice(0,10); }
 function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
 function shiftWeek(n){ weekStart=addDays(weekStart,n*7); renderPlanning(); renderShopping(); }
+function shiftDay(n){ weekStart=addDays(weekStart,n); renderPlanning(); renderShopping(); }
+function goToday(){ const d=new Date(); d.setHours(0,0,0,0); weekStart=d; renderPlanning(); renderShopping(); }
+function dayName(d){ const s=d.toLocaleDateString('es-ES',{weekday:'long'}); return s.charAt(0).toUpperCase()+s.slice(1); }
 function weekLabel(){
   const end=addDays(weekStart,6);
   const f=d=>d.toLocaleDateString('es-ES',{day:'numeric',month:'short'});
@@ -840,7 +846,7 @@ function weekLabel(){
 function planningText(){
   const out=['🍽️ Menú de la semana ('+weekLabel()+')',''];
   for(let i=0;i<7;i++){ const d=addDays(weekStart,i); const k=dkey(d); const day=db.planning[k]||{};
-    out.push('*'+DAYS[i]+'* ('+d.getDate()+'/'+(d.getMonth()+1)+')');
+    out.push('*'+dayName(d)+'* ('+d.getDate()+'/'+(d.getMonth()+1)+')');
     MEALS.forEach(([m,lbl])=>{ const s=day[m]; const r=s?(s.custom?{title:s.title}:db.recipes.find(x=>x.id===s.recipeId)):null; out.push('  • '+lbl+': '+(r?r.title:'—')); });
     out.push('');
   }
@@ -900,7 +906,7 @@ function renderPlanning(){
   for(let i=0;i<7;i++){
     const d=addDays(weekStart,i); const k=dkey(d); const day=db.planning[k]||{};
     html += `<div class="dayrow ${k===todayK?'today':''}">
-      <div class="drh"><b>${DAYS[i]}</b><span class="dn">${d.getDate()}/${d.getMonth()+1}</span></div>
+      <div class="drh"><b>${dayName(d)}</b><span class="dn">${d.getDate()}/${d.getMonth()+1}</span></div>
       <div class="meals2">`;
     MEALS.forEach(([m,lbl])=>{
       const slot=day[m];
@@ -1084,7 +1090,7 @@ function renderPickList(q){
 function addToPlan(id){
   let html=`<p class="hint">Semana: ${weekLabel()}. Elige día y comida (puedes añadir a varios).</p>`;
   for(let i=0;i<7;i++){ const d=addDays(weekStart,i); const k=dkey(d);
-    html+=`<div class="det-sec-t" style="margin:13px 0 7px">${DAYS[i]} <span style="color:var(--muted2);font-weight:400">${d.getDate()}/${d.getMonth()+1}</span></div><div style="display:flex;gap:10px">`;
+    html+=`<div class="det-sec-t" style="margin:13px 0 7px">${dayName(d)} <span style="color:var(--muted2);font-weight:400">${d.getDate()}/${d.getMonth()+1}</span></div><div style="display:flex;gap:10px">`;
     MEALS.forEach(([m,lbl])=>{
       const slot=(db.planning[k]||{})[m];
       const rec=slot?db.recipes.find(r=>r.id===slot.recipeId):null;
@@ -1143,6 +1149,7 @@ function openPantry(){
 }
 function addPantry(){ const el=document.getElementById('pantryInput'); const v=el.value.trim(); if(!v) return; if(!db.pantry)db.pantry=[]; if(!db.pantry.some(x=>x.toLowerCase()===v.toLowerCase())) db.pantry.push(v); save(); openPantry(); }
 function removePantry(i){ db.pantry.splice(i,1); save(); openPantry(); }
+function pantryFromShop(name){ if(!db.pantry)db.pantry=[]; if(!db.pantry.some(x=>x.toLowerCase()===name.toLowerCase())) db.pantry.push(name); save(); renderShopping(); toast('🧺 A la despensa — no saldrá en la compra'); }
 function buildShopping(){
   const agg={}; // key name|unit
   const pantry=new Set((db.pantry||[]).map(s=>s.toLowerCase().trim()));
@@ -1189,7 +1196,7 @@ function renderShopping(){
         <div class="chk">${done?'✓':''}</div>
         <span class="nm">${esc(it.name)}</span>
         ${it.qty?`<span class="qty">${fmtQty(it.qty)} ${esc(it.unit)}</span>`:''}
-        ${it.isExtra?`<button class="del" onclick="event.stopPropagation();removeExtra('${it.extraId}')">✕</button>`:''}
+        ${it.isExtra?`<button class="del" onclick="event.stopPropagation();removeExtra('${it.extraId}')">✕</button>`:`<button class="del" title="Lo tengo en la despensa" onclick="event.stopPropagation();pantryFromShop('${it.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">🧺</button>`}
       </div>`;
     });
     html += `</div>`;
