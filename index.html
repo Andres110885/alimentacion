@@ -1093,10 +1093,13 @@ function addToPlan(id){
     html+=`<div class="det-sec-t" style="margin:13px 0 7px">${dayName(d)} <span style="color:var(--muted2);font-weight:400">${d.getDate()}/${d.getMonth()+1}</span></div><div style="display:flex;gap:10px">`;
     MEALS.forEach(([m,lbl])=>{
       const slot=(db.planning[k]||{})[m];
-      const rec=slot?db.recipes.find(r=>r.id===slot.recipeId):null;
+      const isCustom=slot&&slot.custom;
+      const rec=(slot&&!isCustom)?db.recipes.find(r=>r.id===slot.recipeId):null;
+      const filled=rec||isCustom;
+      const label = rec?`<span class="dot c-${rec.cat}" style="display:inline-block;margin-right:4px"></span>`+esc(rec.title) : isCustom?`<span class="dot" style="display:inline-block;margin-right:4px;background:var(--muted2)"></span>`+esc(slot.title) : '＋ vacío';
       html+=`<button class="btn ghost" style="flex:1;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:9px 11px;min-height:54px" onclick="assignPlan('${k}','${m}','${id}')">
         <span style="font-size:10.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.5px;font-weight:700">${lbl}</span>
-        <span style="font-size:12.5px;line-height:1.2;font-weight:600;${rec?'':'color:var(--muted2)'}">${rec?`<span class="dot c-${rec.cat}" style="display:inline-block;margin-right:4px"></span>`+esc(rec.title):'＋ vacío'}</span>
+        <span style="font-size:12.5px;line-height:1.2;font-weight:600;${filled?'':'color:var(--muted2)'}">${label}</span>
       </button>`;
     });
     html+='</div>';
