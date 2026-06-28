@@ -1,0 +1,5356 @@
+{
+  "blocks": [
+    {
+      "id": "probar",
+      "icon": "🧪",
+      "name": "Por probar"
+    },
+    {
+      "id": "pasta",
+      "icon": "🍝",
+      "name": "Pasta"
+    },
+    {
+      "id": "carbo",
+      "icon": "🍚",
+      "name": "Carbohidratos"
+    },
+    {
+      "id": "pescado",
+      "icon": "🐟",
+      "name": "Pescado y marisco"
+    },
+    {
+      "id": "prote",
+      "icon": "🍗",
+      "name": "Proteínas y carnes"
+    },
+    {
+      "id": "verduras",
+      "icon": "🥦",
+      "name": "Verduras"
+    },
+    {
+      "id": "cremas",
+      "icon": "🍲",
+      "name": "Cremas y guisos"
+    },
+    {
+      "id": "repos",
+      "icon": "🧁",
+      "name": "Repostería sana"
+    },
+    {
+      "id": "desayunos",
+      "icon": "🍳",
+      "name": "Desayunos"
+    },
+    {
+      "id": "thermomix",
+      "icon": "🔪",
+      "name": "Thermomix"
+    },
+    {
+      "id": "airfryer",
+      "icon": "🌀",
+      "name": "Airfryer"
+    }
+  ],
+  "extras": [],
+  "pantry": [
+    "1050 ml de agua",
+    "7 pizca de canela"
+  ],
+  "recipes": [
+    {
+      "id": "n00",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Preparar todos los ingredientes necesarios para la receta",
+        "Cortar en dos las berenjenas limpias a lo largo dejando la piel y todo",
+        "Mientras se hornean las berenjenas preparamos el relleno. Comenzamos añadiendo dos o tres cucharadas de aceite a una cazuela de tamaño medio",
+        "Cuando la cebolla y el ajo estén bien cocinados, añadir la carne picada y cocinar unos cinco minutos",
+        "Pasada la media hora, las berenjenas ya estarán asadas. Tocar con cuidado por el lado de la piel y comprobar que están blandas",
+        "Cubrir las berenjenas con abundante queso rallado",
+        "Después de estar entre 5 y 10 minutos en el horno, sacar y servir de inmediato. Calentitas es como mejor están",
+        "[Cocina mediterránea](https://cooking.elmundo.es/recetas/tipo-cocina/mediterranea.html)",
+        "Plato típico mediterráneo, especialmente en las Islas Baleares, Italia y Grecia. Permite muchas variantes en el relleno. El verano es la mejor temporada de las berenjenas, aunque se pueden encontrar durante todo el año",
+        "Presentación de berenjenas rellenas de carne"
+      ],
+      "title": "Berenjenas rellenas de carne",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://cooking.elmundo.es/recetas/receta-berenjenas-rellenas-carne.html",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "[ ] 2 berenjenas medianas",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "[ ] 2 cebollas",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "[ ] 1 diente de ajo",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "[ ] 300 g carne de ternera picada",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "[ ] 1 vasito vino blanco",
+          "qty": 0,
+          "unit": "",
+          "section": "Bebidas"
+        },
+        {
+          "name": "[ ] 150 g salsa de tomate",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "[ ] Hierbabuena fresca",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] Aceite de oliva",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] Sal",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] Queso rallado",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n01",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Garbanzos con Pulpo y Gambas",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Pulpo cocido",
+          "qty": 0,
+          "unit": "",
+          "section": "Pescadería"
+        },
+        {
+          "name": "Ajo",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Guindilla (seca o fresca, al gusto)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Garbanzos cocidos",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Pimentón (dulce o picante, ¡tú eliges!)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Sal",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Pimienta",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n02",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "ÓN - Lava y corta el calabacín en trozos de 1 cm de grosor aprox. Salpimentamos al gusto, pincelamos un poco de aceite y horneamos 10 minutos a 180°C. - Decora con los toppings y vuelve a hornear hasta gratinar el queso. ¡Que aproveche! #calabacin #panini #cenasaludable #cenasana #pizzacasera #cenarapida #atun #comerbien #cenassaludables #recetasfaciles #alimentacionsaludable\""
+      ],
+      "title": "Paninis de Calabacin",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "calabacín",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Sal y pimienta negra",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Un poco de",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "AOVE",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Tomate frito",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Huevo duro rallado",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Queso mozzarella rallado",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Atún al natural",
+          "qty": 0,
+          "unit": "",
+          "section": "Pescadería"
+        },
+        {
+          "name": "Orégano",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n03",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Garbanzos con Verduras al Curry",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n04",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Huevos rellenos con aguacate y atun",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n05",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Pasta Gorgonzola Peras y Nueces",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Un chorrito de leche 1 pera grande o 2 pequeñas",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Pimienta negra",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n06",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Garbanzos con huevo y cherrys",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Garbanzos cocidos -100g",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Air",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n07",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Pela las zanahorias, córtalas en trocitos pequeños y sofríelas en una sartén con un poco de aceite",
+        "Añade los guisantes y cocina hasta que las verduras estén tiernas",
+        "Agrega el jamón cocido y saltea todo junto durante unos minutos",
+        "Retira las verduras y el jamón, y en la misma sartén, prepara una tortilla con los huevos batidos. Una vez cuajada, trocéala",
+        "Añade el arroz cocido a la sartén, incorpora un chorrito de salsa de soja y rehoga durante unos minutos para que tome sabor",
+        "Vuelve a incorporar las verduras, el jamón y la tortilla. Mezcla bien todo y deja cocinar un par de minutos más para que se integren los sabores. Tip: Puedes añadir brotes de soja, cebolla tierna o incluso un toque de jengibre si te apetece darle un extra de sabor. No olvides GUARDAR esta receta para no perderla y tenerla a mano cuando te apetezca un arroz rápido y delicioso. Y si te gustó, ¡COMPÁRTELA con tus familiares y amigos para que también la disfruten! #Arroz #Rice #ArrozChino #ArrozFrito #FriedRice #ComidaOriental #RecetasRápidas #RecetaDelDía #RicoYSano #ComidaSana #RecetasFáciles #CocinaSaludable #ReelsFood\""
+      ],
+      "title": "Arroz 3 Delicias",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "arroz cocido",
+          "qty": 400,
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "name": "zanahorias medianas",
+          "qty": 4,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "guisantes",
+          "qty": 1,
+          "unit": "puñado",
+          "section": "Congelados"
+        },
+        {
+          "name": "jamón cocido",
+          "qty": 300,
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "name": "huevos",
+          "qty": 6,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Salsa de soja baja en sodio",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Aceite de oliva virgen extra ‍",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n08",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Guiso de pollo con salsa de cacahuetes",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Sal",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Aceite de oliva",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Un puñadito de cilantro picado",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n09",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Espardeña de Anchoas",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Un buen pan Oliva",
+          "qty": 0,
+          "unit": "",
+          "section": "Panadería"
+        },
+        {
+          "name": "Virgen",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n10",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "ón: - Corta el pollo en trozos de bocado, salpimienta y cocínalo en una sartén con aceite caliente hasta que se dore. Retira a un plato y reserva - En la misma sartén, añade un poco más de aceite y sofríe la cebolla y el ajo - Añade entonces el curry y el jengibre. Cocina un par de minutos más y tritura junto con el mango cortado en trozos y el agua - Lleva de nuevo el pollo a la sartén, añade el puré de mango por encima junto a la leche de coco y un chorrito de jugo de lima. Cocina durante unos minutos para que la salsa reduzca ligeramente y se integren todos los sabores ¡y listo! A mí me gusta servirlo con arroz basmati y un poquito de cilantro #curry #polloalcurry #mango #mangocurry #recetasfaciles\""
+      ],
+      "title": "Pollo al curry con mango",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "(2 raciones):",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "300-400 g de pechuga de pollo",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "¼ de cebolla picada",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "ajo picado",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "trocito de jengibre fresco",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "mango",
+          "qty": 1,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "agua",
+          "qty": 4,
+          "unit": "cucharadas",
+          "section": "Despensa"
+        },
+        {
+          "name": "leche de coco",
+          "qty": 4,
+          "unit": "cucharadas",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Jugo de lima al gusto",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n11",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Pasta con queso feta",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Tomates cherry",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Queso feta",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Albahaca fresca",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Sal y aove",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n12",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Salmon con Ñoquis y Esparragos",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "VE ▶ Programa 195 °C",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n13",
+      "cat": "carne",
+      "time": 55,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Calienta una cazuela amplia y baja con 3 cucharadas de aceite. Retira la piel de los muslos, deshuesa, córtalos en dados, salpimienta, dóralos y reserva.",
+        "Pela y pica en daditos el pimiento rojo, el verde y 2 dientes de ajo. Limpia y corta las judías en trozos. Añade las hortalizas y la ñora troceada (sin tallo ni semillas). Sazona y rehoga 10-12 minutos a fuego medio.",
+        "Incorpora los fideos, el pollo, el pimentón y el azafrán y mezcla. Vierte el caldo y cocina 10-12 minutos. Apaga, tapa con un paño y deja reposar un par de minutos.",
+        "Para la mahonesa de ajo, tritura el huevo con el otro diente de ajo picado, un chorrito de vinagre, una pizca de sal y 150 ml de aceite hasta emulsionar.",
+        "Reparte la fideuá en 4 platos, acompaña con mahonesa de ajo y decora con perejil."
+      ],
+      "title": "Fideuá de pollo y verduras",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.hogarmania.com/cocina/recetas/arroces-cereales/fideua-pollo-verduras.html",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 225,
+          "name": "fideos con agujero",
+          "unit": "g",
+          "section": "Panadería"
+        },
+        {
+          "qty": 2,
+          "name": "muslos de pollo con contramuslo",
+          "unit": "ud",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 1,
+          "name": "pimiento verde",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "pimiento rojo",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 200,
+          "name": "judías verdes",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 3,
+          "name": "dientes de ajo",
+          "unit": "diente",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "ñora",
+          "unit": "ud",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "caldo de pollo",
+          "unit": "l",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 1,
+          "name": "huevo",
+          "unit": "ud",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 0,
+          "name": "aceite de oliva virgen extra",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "vinagre",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "sal",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "pimienta",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "pimentón",
+          "unit": "cucharadita",
+          "section": "Despensa"
+        },
+        {
+          "qty": 15,
+          "name": "hebras de azafrán",
+          "unit": "ud",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "perejil",
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n14",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Crema de calabaza y boniato",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.miscosillasdecocina.com/2020/11/crema-de-calabaza-y-boniato.html",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n15",
+      "cat": "vegetariano",
+      "time": 60,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Limpiar el repollo de tallos gordos y cocerlo en agua con sal unos 10 minutos. Escurrir.",
+        "Cocer la patata con piel en agua con sal hasta que esté tierna; pelar al final.",
+        "Filetear los ajos y saltearlos en una sartén con medio vaso de aceite hasta que tomen color. Reservar.",
+        "Subir el fuego y tostar el bacon o tocineta hasta que cruja; reservar sobre papel absorbente y picar parte.",
+        "Mezclar la patata con el repollo con un tenedor.",
+        "Quitar parte del aceite y saltear el repollo y la patata con los trozos de panceta y casi todos los ajos unos 30 minutos, dando vueltas y salpimentando.",
+        "Cuando se haya consumido y dorado, servir con un aro. Coronar con los ajos restantes y 1-2 lonchas de tocineta por comensal."
+      ],
+      "title": "Trinxat",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.mercadocalabajio.com/2013/02/trinxat-de-la-cerdanya.html?m=1",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 600,
+          "name": "Repollo",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 5,
+          "name": "Bacon o tocineta",
+          "unit": "lonchas",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 3,
+          "name": "Ajo",
+          "unit": "dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Patata",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 0,
+          "name": "Aceite de oliva",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Agua",
+          "unit": "",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 0,
+          "name": "Sal",
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 3
+    },
+    {
+      "id": "n16",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Lava, seca y trocea los calabacines en trozos grandes y ponlos en el vaso con la cebolla troceada y el aceite; sofríe 10 minutos, varoma, velocidad 2.",
+        "Añade la patata, el agua o caldo y la pastilla de caldo y cuece 20 minutos, varoma o 100ºC, velocidad cuchara.",
+        "Agrega los quesitos y tritura 1-2 minutos en velocidad progresiva 5-10, añadiendo leche o caldo si queda muy espesa y rectificando de sal."
+      ],
+      "title": "Crema de calabacín",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.velocidadcuchara.com/crema-de-calabacin/",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 1000,
+          "name": "Calabacines con piel",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Cebolla pequeña o puerro",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Patata mediana",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 500,
+          "name": "Agua o caldo de pollo",
+          "unit": "ml",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 1,
+          "name": "Pastilla de caldo o sal",
+          "unit": "ud",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 0,
+          "name": "Aceite de oliva",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Quesitos",
+          "unit": "ud",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n17",
+      "cat": "vegano",
+      "time": 45,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Pon en el vaso el aceite, el puerro, el ajo y una pizca de sal y trocea 6 segundos velocidad 4. Sofríe 8 minutos, 120ºC o Varoma, velocidad 1.",
+        "Incorpora la zanahoria y la coliflor y rehoga 4 minutos, Varoma, velocidad 1.",
+        "Añade el caldo y cocina 20 minutos, 100ºC, velocidad cuchara.",
+        "Tritura 2 minutos velocidad 5-10. Ajusta la densidad con más caldo si lo deseas y vuelve a triturar."
+      ],
+      "title": "Crema de coliflor con zanahoria",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.velocidadcuchara.com/crema-de-coliflor-con-zanahoria/",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 40,
+          "name": "aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 200,
+          "name": "puerro en trozos",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "diente de ajo",
+          "unit": "diente",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 250,
+          "name": "zanahoria pelada en trozos",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 600,
+          "name": "coliflor en ramilletes",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 650,
+          "name": "caldo de verduras o agua con sal",
+          "unit": "g",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 0,
+          "name": "sal",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "cúrcuma (opcional)",
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n18",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Ñoquis con verdura",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n19",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Bowl boniato, huevo, requeson y aguacate",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n20",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "del vídeo, cualquier duda no dudes en preguntar #receta #boniato #prebiotico #patatas #guacamole #entrante #recetassanas #saluddigestiva #microbiota #recetasdeotoño #batata #camote #moniato #picoteo #bravas #huevosestrellados\""
+      ],
+      "title": "Boniato con guacamole",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "BONIATOS al horno:",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "o 2 boniatos",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Especias (Aceite de",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Oliva",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "VE, tomillo, orégano, pimentón dulce, sal y pimienta)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "GUACAMOLE a mi manera:",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "aguacates",
+          "qty": 2,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "tomate pequeño",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cebolla roja",
+          "qty": 0.5,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Jugo de 1/2 lima o limón",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Cilantro troceado",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Sal al gusto",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Extra por encima:",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Huevos",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Jamón",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n21",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Ensalada de Lentejas con Feta, Cherry y Manzana",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n22",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Lavar y cortar las verduras",
+        "Limpia bien los puerros, retirando la parte verde oscura y las raíces. Córtalos en rodajas finas. Pela y corta las patatas en cubos pequeños. Pela y pica la cebolla",
+        "En una cazuela grande, calienta el aceite a fuego medio. Añade la cebolla y los puerros, y sofríe unos 8–10 min hasta que estén blandos (sin dorar demasiado)",
+        "Añade las patatas y el caldo (o agua). Lleva a ebullición, luego baja el fuego y cocina 20 min o hasta que la patata esté tierna",
+        "Retira del fuego, añade la leche evaporada (o bebida vegetal) y tritura con batidora de mano o de vaso hasta que quede una crema suave",
+        "Ajustar y enfriar",
+        "Salpimienta al gusto, añade un toque de nuez moscada si quieres y deja enfriar. Guarda en la nevera al menos 1 h antes de servir si la quieres tradicional, o tómala caliente si prefieres",
+        "Sirve con cebollino fresco picado o perejil por encima",
+        "** Tips para hacerla aún más ligera**",
+        "Sustituye la patata por calabacín para bajar calorías y carbohidratos",
+        "Usa bebida vegetal sin azúcar para una versión vegana",
+        "Añade un chorrito de limón antes de servir para un toque fresco"
+      ],
+      "title": "Vichyssoise",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "(4 raciones)**",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "cebolla mediana",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "patatas medianas (unos 300 g)",
+          "qty": 2,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "aceite de oliva virgen extra",
+          "qty": 1,
+          "unit": "cucharada",
+          "section": "Despensa"
+        },
+        {
+          "name": "caldo de verduras sin sal añadida (o agua)",
+          "qty": 750,
+          "unit": "ml",
+          "section": "Bebidas"
+        },
+        {
+          "name": "Sal y pimienta negra al gusto",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Nuez moscada (opcional)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Cebollino fresco o perejil para decorar",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n23",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Tacos de Pollo",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.youtube.com/watch?v=sqDOg7h2_D8",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n24",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Cortar un papel vegetal del tamaño del recipiente de la freidora.",
+        "Lavar la berenjena y el pimiento.",
+        "Poner en la bandeja de la freidora y cerrar.",
+        "Cocinar a 190 grados durante 30 minutos, vigilando y dando la vuelta a mitad de cocción.",
+        "Abrir y dejar enfriar un poco.",
+        "Pelar ambas verduras y retirar las semillas del pimiento.",
+        "Servir con sal y aceite o usar en la preparación que se desee."
+      ],
+      "title": "Escalivada (en freidora de aire)",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://glutoniana.com/2022/06/14/escalivada-en-freidora-de-aire-cecotec/",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 1,
+          "name": "pimiento rojo grande",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "berenjena grande",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 6,
+          "name": "tomates de asar",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n25",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "En una cazuela de barro, sofreír en aceite de oliva la panceta troceada y la butifarra negra. Cuando la butifarra dore, sacar y reservar.",
+        "Sobre la panceta dorada, poner las habas desgranadas, la cebolleta en trozos y los ajetes enteros o partidos. Rehogar unos minutos y cubrir con agua caliente.",
+        "Añadir el ramillete de hierbas aromáticas (hierbabuena, mejorana y laurel).",
+        "Tapar y dejar hervir hasta que las habas estén hechas y queden un poco caldosas.",
+        "Unos minutos antes de terminar, añadir la butifarra y dejar reposar. Servir en platos individuales."
+      ],
+      "title": "Faves a la catalana",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.directoalpaladar.com/recetas-de-legumbres-y-verduras/faves-a-la-catalana-receta-tradicional/amp",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 400,
+          "name": "Habas frescas",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 3,
+          "name": "Cebolleta",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 4,
+          "name": "Ajos tiernos",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 200,
+          "name": "Panceta",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 150,
+          "name": "Butifarra negra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Hierbabuena",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Mejorana",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "Laurel",
+          "unit": "hoja",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Aceite de oliva virgen extra",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Sal y pimienta",
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 3
+    },
+    {
+      "id": "n26",
+      "cat": "vegano",
+      "time": 40,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "data:image/jpeg;base64,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",
+      "steps": [
+        "Pon a hervir una olla con agua abundante y una cucharadita de sal; lava, pela y trocea los boniatos en piezas medianas.",
+        "Echa el boniato al agua hirviendo y cuece a fuego suave hasta que esté muy blando, unos 20-30 minutos, y escurre con cuidado.",
+        "Lleva el boniato caliente a una fuente, añade la mantequilla, salpimenta y machaca hasta tener una textura rústica.",
+        "Agrega leche poco a poco machacando sin parar hasta lograr la textura deseada.",
+        "Rectifica de sal y pimienta, añade ajo y nuez moscada al gusto y sirve con un chorrito de aceite de oliva virgen extra."
+      ],
+      "title": "Pure boniato",
+      "tested": true,
+      "blockIds": [
+        "carbo"
+      ],
+      "sourceUrl": "https://www.directoalpaladar.com/recetas-vegetarianas/como-hacer-pure-boniato-guarnicion-deliciosa-alternativa-al-pure-patatas-mucho-facil/amp",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 500,
+          "name": "Boniato pelado",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 30,
+          "name": "Mantequilla",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 200,
+          "name": "Leche entera",
+          "unit": "",
+          "section": "Lácteos y huevos"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n27",
+      "cat": "vegetariano",
+      "time": 10,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Selecciona las patatas fritas de bolsa y, si son muy grandes, aplástalas dentro de la propia bolsa.",
+        "Bate los huevos en un cuenco amplio (añade 1 huevo más si la quieres más jugosa).",
+        "Agrega las patatas aplastadas a los huevos y, opcionalmente, deja reposar 10 minutos para que se reblandezcan.",
+        "Calienta el aceite en una sartén, vierte la mezcla y cuaja por un lado.",
+        "Voltea la tortilla y cuaja por el otro lado.",
+        "Sirve inmediatamente."
+      ],
+      "title": "Tortilla con patatas chips",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.bonviveur.es/recetas/tortilla-con-patatas-de-bolsa",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 3,
+          "name": "huevos M",
+          "unit": "ud",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 100,
+          "name": "patatas fritas de bolsa",
+          "unit": "g",
+          "section": "Limpieza/Hogar"
+        },
+        {
+          "qty": 20,
+          "name": "aceite de oliva",
+          "unit": "ml",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 2
+    },
+    {
+      "id": "n28",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Pulpo y langostinos al ajillo",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n29",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Ensalada tomate burrata y anchoa",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Oliva",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Virgen",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n30",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Berenjena Bruschetta di parmigiano",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.tiktok.com/@luke_magro_/video/7569656468773866774",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n31",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Asar la berenjena: al horno a 180 °C, 40 min. Enfriar, pelar y reservar",
+        "Aliño: picar tomates secos, pistachos, albahaca y cebolleta. Mezclar con miel, AOVE, sal y pimienta",
+        "Montar: colocar la burrata como base, añadir la berenjena asada y cubrir con el aliño. Con cariño ‍ Gabriela. #berenjena #berenjenas #burrata #tomate #tomateseco #pistacho #food #foodie\""
+      ],
+      "title": "Berenjena asada con burrata",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "(4 personas)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "berenjenas",
+          "qty": 2,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "burratas grandes",
+          "qty": 2,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "tomates secos",
+          "qty": 6,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "pistachos pelados",
+          "qty": 2,
+          "unit": "cda",
+          "section": "Despensa"
+        },
+        {
+          "name": "Albahaca fresca",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cebolleta",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cdita miel",
+          "qty": 1,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "AOVE, sal y pimienta",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n32",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Noodles cacahuete y chili",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n33",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "En esta receta podemos emplear las migas, recortes del bacalao o trozos de bacalao más gruesos. Dependiendo del tipo que sea llevará más o menos tiempo desalarlo",
+        "Para desalar el bacalao, el pescado tienen que quedar cubierto de agua en abundancia. Los trozos grandes se desalarán durante 48 horas, con cambio de agua cada 6 horas aproximadamente. Las partes más finas se desalarán durante 36 horas, con cambio de agua cada 8 horas. Los restos y el bacalao desmigado suelen desalarse primero bajo el grifo de agua fría durante 10 minutos",
+        "Luego los dejamos en remojo durante 3 horas con un cambio de agua tras 1 hora y media, con eso es suficiente. Mientras el pescado se esté desalando debe permanecer en frío, en la nevera",
+        "Desmenuzaremos las migas de bacalao un poco más, lo mejor es que nos queden trozos pequeñitos. Normalmente las migas vienen en porciones gruesas. Metemos los trocitos de bacalao en agua hirviendo durante 2 minutos a tope de temperatura",
+        "Escurrimos y reservamos en un cuenco para el final de la receta. Debemos mirar si se ha quedado alguna espina en el bacalao. Es muy fácil, con los dedos vamos tocando en el cuenco y retiramos si hay alguna",
+        "Troceamos la cebolla muy fina y la pochamos en un poquito de aceite de oliva virgen extra en una sartén amplia. Cuando esté lista añadimos las migas de bacalao que tenemos reservado y rehogamos todo unos 2 minutos. Probamos de sal por si nos hemos pasado con el desalado",
+        "Retiramos de la sartén ya que vamos a emplearla para hacer las patatas. En un bol amplio batimos los huevos y reservamos",
+        "Pelamos las patatas, lavamos y secamos. Las rallaremos con una mandolina, este utensilio suele traer varios tipos de corte de patata, el tipo paja es el más fino. Si no tenéis esta herramienta, con paciencia cortamos con un buen cuchillo en trozos alargados y muy finitos, tanto como podáis",
+        "Ponemos las patatas en agua fría y lavamos varias veces para que suelten todo el almidón posible y no se peguen ni oscurezcan demasiado al freír. Secamos con un trapo de algodón antes de freír para que no salte el aceite",
+        "Freímos en abundante aceite de oliva virgen extra hasta que nos queden doradas y crujientes. El proceso es rápido pues son muy finas. Retiramos a un plato con papel absorbente",
+        "Retiramos el aceite de la sartén y dejamos un poquito sólo para que no se nos pegue el revuelto. Añadimos el sofrito del bacalao y la cebolla, las patatas paja y el huevo batido. Ahora toca remover, con fuego medio y dos cucharas de madera, suavemente durante 2-3 minutos hasta cuajar el revuelto. No mucho, que nos quede jugoso, no nos debemos pasar y las patatas deben quedar un poco crujientes",
+        "Picamos el perejil y troceamos las aceitunas (las podéis añadir enteras si queréis) para la decoración final del plato. Disponemos el revuelto sobre la fuente o plato grande en la que lo vamos a servir",
+        "Espolvoreamos con el perejil picado y las aceitunas. Recién hecho y a comer",
+        "He visto varios tipos de preparación de este mismo plato, algunos añaden ajo al sofrito. Incluso un poco de azafrán para que quede más dorado. A mí me gusta tal y como la aprendí, siguiendo un paso a paso en un pequeño papel que me dejó mi compañero portugués Josçe Graça"
+      ],
+      "title": "Bacalao Dorado o Bacalhau à Brás",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.abc.es/recetasderechupete/bacalao-dorado-o-bacalhau-a-bras-receta-portuguesa/8029/",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "[ ] 6 huevos",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "[ ] 1 cebolla grande",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "[ ] 4 patatas grandes especial fritura",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "[ ] 2 g. de pimienta negra recién molida (al gusto)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] 50 g. de aceitunas negras sin hueso (para decorar)",
+          "qty": 0,
+          "unit": "",
+          "section": "Pescadería"
+        },
+        {
+          "name": "[ ] Perejil fresco recién picado (para decorar)",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n34",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Sopa Verduras con Queso Azul y Miso",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.tiktok.com/@soulinthekitchen/video/7199675583406558469",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Stilton (u otro azul)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Sal",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Aceite de oliva virgen extra",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Eso es todo. Espero que os guste . El",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Primero, de",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Apartamentos",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Introducing keyboard shortcuts!",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Go to previous video",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Go to next video",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Like video",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Mute / unmute video",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Play / Pause",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Skip forward",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Skip backward",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Full screen",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n35",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "Estofado de ternera con patatas: receta fácil y deliciosa | TikTok",
+      "photo": "",
+      "steps": [],
+      "title": "Estofado de ternera con patatas",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.tiktok.com/@lacocinademariaymiki/video/7333646879059627297?lang=es-419",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n36",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "Ramen de Pollo Receta Fácil - Shoot the Cook - Recetas fáciles y sabrosas",
+      "photo": "",
+      "steps": [],
+      "title": "Ramen de Pollo Receta Fácil",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.shoothecook.es/ramen-de-pollo-receta-facil/",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n37",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Pasta al Pesto de Espinacas y Albahaca",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.tiktok.com/@alejandradenava7/video/7413921345366412550",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n38",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Pasta con Tomates Cherry, Ajo y Burrata",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.tiktok.com/@recetasdewilly/video/7405719475783339296",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n39",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Migas de Pan",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.tiktok.com/@recetasgloria/video/7356940401611263264?lang=es",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n40",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "ón: Sofríe cebolla, ajo y tomate. Añade patatas, pimentón, laurel y cubre con agua. Incorpora garbanzos y espinacas. Cuando todo esté casi hecho, añade el bacalao y deja que se cocine unos minutos más. Sirve con huevo duro… ¡y disfruta del sabor de siempre! Consejo: Hazlo con antelación. Al día siguiente está incluso mejor. #PotajeDeVigilia #RecetaTradicional #CocinaDeCuaresma #PotajeConBacalao #ComidaCasera #RecetasDeSiempre #SemanaSanta #Garbanzos #CuchareoDelBueno #RecetasConSabor #PimentónDeLaVera\""
+      ],
+      "title": "Potaje de vigilia con Bacalao",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DIgOSxDKPPx/?igsh=OWh0bG0zMDgyc2R3",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "cebolla",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "ajo",
+          "qty": 2,
+          "unit": "dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "tomate triturado (o 1 tomate rallado)",
+          "qty": 5,
+          "unit": "cucharadas",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "patatas",
+          "qty": 2,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Pimentón de",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Vera (obligatorio )",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "laurel",
+          "qty": 2,
+          "unit": "hojas",
+          "section": "Despensa"
+        },
+        {
+          "name": "garbanzos cocidos",
+          "qty": 1,
+          "unit": "bote",
+          "section": "Despensa"
+        },
+        {
+          "name": "grandes de espinacas",
+          "qty": 2,
+          "unit": "puñados",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "lomos de bacalao en su punto de sal",
+          "qty": 4,
+          "unit": "",
+          "section": "Pescadería"
+        },
+        {
+          "name": "Huevos cocidos",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n41",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Guiso Alubias Recao",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DTcyrZCDL1i/?igsh=a3RscWYwc2RuYWN0",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n42",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "Couscous marroquí de cordero, con Thermomix® - Legumbres y platos de cuchara - Blog de MILA MORENO SOLSONA de Thermomix® Barcelona Centro",
+      "photo": "",
+      "steps": [
+        "Pon en el vaso la cebolla, el perejil, el cilantro y 40 g de aceite y trocea 2 seg/vel 5.",
+        "Añade el cordero, la sal y la pimienta y rehoga 10 min/120ºC/giro inverso/vel cuchara.",
+        "En un bol sobre la tapa pesa el cuscús con 40 g de aceite, frótalo para eliminar el almidón, añade 350 g de agua y reserva.",
+        "Añade al vaso las zanahorias, el calabacín, el nabo, el ras el hanout y 400 g de agua y programa 15 min/100ºC/giro inverso/vel cuchara.",
+        "Añade las pasas, el azúcar y los garbanzos, coloca el cuscús remojado en el Varoma, suéltalo con la espátula y programa 15 min/Varoma/giro inverso/vel cuchara, y sirve."
+      ],
+      "title": "Couscous marroquí de cordero",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://thermomix-barcelona-centro.es/mila-moreno-solsona/legumbres-y-platos-de-cuchara/cuscus-marroqui-de-cordero-con-thermomix/",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 200,
+          "name": "Cebolla en cuartos",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 7,
+          "name": "Perejil fresco",
+          "unit": "ramita",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 5,
+          "name": "Cilantro fresco",
+          "unit": "ramita",
+          "section": "Despensa"
+        },
+        {
+          "qty": 80,
+          "name": "Aceite de oliva",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 800,
+          "name": "Pierna de cordero deshuesada en trozos",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 1,
+          "name": "Sal",
+          "unit": "cucharadita",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Pimienta negra molida",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 350,
+          "name": "Cuscús",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 750,
+          "name": "Agua",
+          "unit": "g",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 100,
+          "name": "Zanahorias en rodajas",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 150,
+          "name": "Calabacín con piel en dados",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "Nabo en dados",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 2,
+          "name": "Ras el hanout",
+          "unit": "cucharada",
+          "section": "Despensa"
+        },
+        {
+          "qty": 100,
+          "name": "Pasas sin semillas",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 30,
+          "name": "Azúcar",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 250,
+          "name": "Garbanzos cocidos",
+          "unit": "g",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 1
+    },
+    {
+      "id": "n43",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "Pulpo con garbanzos y huevo Saul Craviotto en Instagram: \"Pulpo con garbanzos y huevo: explosión de sabor 🐙🔥 ¿Buscas una receta fácil y original? Este plato de pulpo con garbanzos es… 🤤🤤🤤 perfecto para una comida diferente o una cena especial. ¡Pruébalo y cuéntame qué tal! 😋👇 🛒 Ingredientes: • 🐙 Pulpo cocido • 🧄 Ajo • 🌶️ Guindilla (seca o fresca, al gusto) • 🧆 Garbanzos cocidos • 🌶️ Pimentón (dulce o picante, ¡tú eliges!) • 🧂 Sal • ⚫ Pimienta • 🥚 Huevos #recetacraviotto #recetafacil #recetasencilla #pulpo #garbanzos @cotoderioja\"",
+      "photo": "",
+      "steps": [],
+      "title": "Pulpo con garbanzos y huevo",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DKHWPRct2TR/?igsh=MTQ2eXc1NWZ1ZTZ5Zw==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 0,
+          "name": "Pulpo cocido",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Ajo",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Guindilla (seca o fresca, al gusto)",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Garbanzos cocidos",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Pimentón (dulce o picante, ¡tú eliges!)",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Sal",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Pimienta",
+          "unit": "",
+          "section": "Otros"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n44",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "Ramen 2 facil Diegodoal en Instagram: \"🇯🇵 igual ponerle leche de avena a un ramen te suena raro, pero piénsalo: la lasaña lleva bechamel, y la bechamel es leche!! cómo te quedas!! ríndete ante los factos!!! 🗒️ingredientesssss carne: - 250g de carne picada - 3 dientes de ajo - 3cm de jengibre fresco - 1 cucharada de doubanjiang (opcional) pasta de saborrrr: - 75g de pasta de sésamo china/crema de cacahuete - 30ml de salsa de soja - 10ml vinagre de arroz/blanco - Pizca generosa de azúcar - 2 cucharillas de aceite de chiles (o más) para 2 boles: - 500ml de caldo - 500ml de leche de avena/soja - Verdura de hoja verde (espinacas, choy sum, bok choy…) - Fideos - La carne picada - Cebolleta china y aceite de chiles para finalizarlo #receta #recetas #tantamen #ramen #comida\"",
+      "photo": "",
+      "steps": [],
+      "title": "Ramen fácil",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DOoGZYJjDfA/?igsh=MWdhMzFndHNvYWFzbw==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "ssss carne:",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "carne picada",
+          "qty": 250,
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "name": "ajo",
+          "qty": 3,
+          "unit": "dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cm de jengibre fresco",
+          "qty": 3,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "doubanjiang (opcional) pasta de saborrrr:",
+          "qty": 1,
+          "unit": "cucharada",
+          "section": "Despensa"
+        },
+        {
+          "name": "pasta de sésamo china/crema de cacahuete",
+          "qty": 75,
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "name": "salsa de soja",
+          "qty": 30,
+          "unit": "ml",
+          "section": "Despensa"
+        },
+        {
+          "name": "vinagre de arroz/blanco",
+          "qty": 10,
+          "unit": "ml",
+          "section": "Despensa"
+        },
+        {
+          "name": "generosa de azúcar",
+          "qty": 0,
+          "unit": "Pizca",
+          "section": "Despensa"
+        },
+        {
+          "name": "cucharillas de aceite de chiles (o más) para 2 boles:",
+          "qty": 2,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "caldo",
+          "qty": 500,
+          "unit": "ml",
+          "section": "Bebidas"
+        },
+        {
+          "name": "leche de avena/soja",
+          "qty": 500,
+          "unit": "ml",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Verdura de hoja verde (espinacas, choy sum, bok choy…)",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Fideos",
+          "qty": 0,
+          "unit": "",
+          "section": "Panadería"
+        },
+        {
+          "name": "La carne picada",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n45",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "Ramen express La Cocina de Santiago en Instagram: \"RAMEN EXPRESS 🍜 👉🏻 Después de vacaciones es común pillar EL GRIPAZO. Así estamos… Hoy te enseño a preparar un ramen para quitarte todos los males. Espero que te guste! -Caldo de Pollo (Casero si puede ser) -Setas Deshidratadas -Pasta de Miso -Crema de Cacahuete -Soja -Huevos y Pollo (o lo que tengas) -Noodles #receta #facil #cocina\"",
+      "photo": "",
+      "steps": [],
+      "title": "Ramen express",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DOGJ9GGjXtv/?igsh=MWNrOWIza2JsMDZuOQ==",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n46",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "Ramen bueno Tony Martínez en Instagram: \"¿Te gusta el ramen? ¡Esta versión es súper fácil de hacer, guarda para que no se te olvide ! 🍜🍜 #delicioso #foodporn #food #good #receta #delicious #ramen #ramennoodles #noodles #japon #asianfood #recetas\"",
+      "photo": "",
+      "steps": [],
+      "title": "Ramen rápido",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DNv7yGA2gwV/?igsh=MTJwanFha2s2dzA1Ng==",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n47",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "Nancy Karim en Instagram: \"Carne guisada🥔🥕 English👇 Ingredientes: - 1/2 Cebolla - 3 Dientes de ajo - 3 Zanahorias - 2tz Papa - 500g Carne - Harina - 1/2cda Pasta de tomate - 1 1/2tz Caldo de carne - 1/3tz Vino tinto - 2cdtas Paprika - 1/2cdta Comino - 1cdta Orégano - Sal a gusto - Cilantro Disfruta!✨ . . . Braised beef 🥔🥕 Ingredients: - 1/2 Onion - 3 Cloves of garlic - 3 Carrots - 2 cups Potato - 500g Beef - Flour - 1/2 tbsp Tomato paste - 1 1/2 cups Beef broth - 1/3 cup Red wine - 2 tsp Paprika - 1/2 tsp Cumin - 1 tsp Oregano - Salt to taste - Cilantro Enjoy! ✨ #recetasfaciles #carneguisada\"",
+      "photo": "",
+      "steps": [],
+      "title": "Carne guisada",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DUTMB7PjmVP/?igsh=MXZ4MWVldjB2d3l5Zg==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Cebolla",
+          "qty": 0.5,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "ajo",
+          "qty": 3,
+          "unit": "Dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Zanahorias",
+          "qty": 3,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Papa",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Carne",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "Harina",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "1/2cda",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Pasta de tomate",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "1/2tz",
+          "qty": 1,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Caldo de carne",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "1/3tz",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Vino tinto",
+          "qty": 0,
+          "unit": "",
+          "section": "Bebidas"
+        },
+        {
+          "name": "cdtas",
+          "qty": 2,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Paprika",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "1/2cdta",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Comino",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "cdta",
+          "qty": 1,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Orégano",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Sal a gusto",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Cilantro",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Disfruta! . . . Braised beef Ingredients:",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "Onion",
+          "qty": 0.5,
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n48",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Chicken katsu curry ramen",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DT2_ge-DzXr/?igsh=MXUybW5kMmtpMWxz",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n49",
+      "cat": "vegano",
+      "time": 40,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Escurre y lava las lentejas en el cestillo. Reserva.",
+        "Pica la zanahoria y la patata en trozos grandes, 4 seg velocidad 4. Reserva.",
+        "Sin lavar el vaso, pica cebolla, ajos y pimiento, 4 seg velocidad 4. Baja los restos hacia las cuchillas.",
+        "Añade el aceite y el tomate y sofríe 10 min Varoma velocidad 1.",
+        "Agrega el pimentón, 4 seg velocidad 4.",
+        "Incorpora las lentejas escurridas, zanahoria y patata, agua, jamón o chorizo, pastilla de carne, laurel, perejil y sal, 30 min 100º giro a la izquierda velocidad cuchara."
+      ],
+      "title": "Lentejas de mamá Thermomix",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.juanideanasevilla.com/thermomix/2012/02/lentejas-de-mama",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 350,
+          "name": "lentejas pardinas remojadas 8 horas (peso sin remojar)",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 100,
+          "name": "zanahoria sin piel",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 200,
+          "name": "patata sin piel",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "cebolla",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 3,
+          "name": "dientes de ajo",
+          "unit": "diente",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 85,
+          "name": "pimiento verde italiano",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 25,
+          "name": "aceite",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 60,
+          "name": "tomate natural triturado",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "pimentón dulce",
+          "unit": "cucharada",
+          "section": "Despensa"
+        },
+        {
+          "qty": 900,
+          "name": "caldo de carne (o agua y pastilla)",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 90,
+          "name": "jamón serrano o chorizo en tacos",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 1,
+          "name": "hoja de laurel",
+          "unit": "ud",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "sal",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "perejil picado",
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n50",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Fideos a la cazuela chistorra",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DUVxpWZCE8z/?igsh=cHA1anpucXFybnV1",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "; para 5 raciones",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "chistorras",
+          "qty": 2,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "bandeja de champiñones cortados a cuartos",
+          "qty": 1,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "costilla de cerdo",
+          "qty": 650,
+          "unit": "gr",
+          "section": "Carnicería"
+        },
+        {
+          "name": "ajo",
+          "qty": 2,
+          "unit": "dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "pimiento verde",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "½ pimiento rojo",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cebolla grande",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cditas de tomate concentrado",
+          "qty": 2,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "salsa de tomate",
+          "qty": 270,
+          "unit": "gr",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "vino tinto",
+          "qty": 1,
+          "unit": "chorro",
+          "section": "Bebidas"
+        },
+        {
+          "name": "fideos",
+          "qty": 350,
+          "unit": "gr",
+          "section": "Panadería"
+        },
+        {
+          "name": "caldo de pollo",
+          "qty": 1,
+          "unit": "L",
+          "section": "Carnicería"
+        },
+        {
+          "name": "Perejil fresco picado",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Sal y pimienta",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n51",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Sopa Coreana ternera con nabo",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DTI1t11CBs5/?igsh=MTQ0dmphYThpYmd4bQ==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "súper.El nabo, en",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n52",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Wok huevo y col",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DQ_n29iiF8s/?igsh=MWI2a3FzMGxjOGJ4MA==",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n53",
+      "cat": "pescado",
+      "time": 45,
+      "emoji": "🐟",
+      "notes": "Marmitako de bonito con thermomix - Recetas para Thermomix",
+      "photo": "",
+      "steps": [
+        "Cascar las patatas: clavar el cuchillo sin cortar del todo y tirar para que se rompan.",
+        "Poner en el vaso el aceite, la chalota, el tomate, el ajo y el pimiento y trocear 8 seg / vel 3.",
+        "Sofreír 8 min / Varoma / vel 4.",
+        "Añadir el pimentón dulce y programar 7 seg / vel 4.",
+        "Poner la mariposa, añadir zanahorias y patatas y rehogar 3 min / 100 ºC / giro izquierda / vel cuchara.",
+        "Incorporar el caldo de pescado y cocinar 30 min / Varoma / giro izquierda / vel cuchara.",
+        "Añadir el bonito en tacos y el perejil y programar 3 min / Varoma / giro izquierda / vel cuchara.",
+        "Dejar reposar unos 10 minutos antes de servir."
+      ],
+      "title": "Marmitako de bonito",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://recetasparathermomix.com/marmitako-bonito-thermomix/",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 50,
+          "name": "aceite de oliva",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 100,
+          "name": "chalota",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 100,
+          "name": "pimiento verde",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 2,
+          "name": "ajo",
+          "unit": "dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 125,
+          "name": "tomate triturado",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 2,
+          "name": "pimentón dulce",
+          "unit": "cdas",
+          "section": "Despensa"
+        },
+        {
+          "qty": 800,
+          "name": "patatas cascadas",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 70,
+          "name": "zanahoria en rodajas",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 500,
+          "name": "caldo de pescado",
+          "unit": "g",
+          "section": "Pescadería"
+        },
+        {
+          "qty": 0,
+          "name": "sal",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 300,
+          "name": "bonito del norte en dados",
+          "unit": "g",
+          "section": "Pescadería"
+        },
+        {
+          "qty": 0,
+          "name": "perejil picado",
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n54",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Bulgogi coreano",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DSIaebdjOWB/?igsh=NTMxOXh6ZnlyemFs",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Bulgogi de",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Ternera",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "Arroz",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Tostado",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Huevoa",
+          "qty": 2,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Fritoa",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Semillas de",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Sésamo",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Cebolleta",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Fresca",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Ssamjang",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Bulgogi:",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Ternera muy fino",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "cdas de",
+          "qty": 3,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Salsa de",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Soja",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "1/2 cdas de",
+          "qty": 1,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Azúcar",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Moreno",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Ajo",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Prensados",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "cdtas de",
+          "qty": 2,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n55",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Judias verdes champi y jamon",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DVWjgeaiGkz/?igsh=MW9qMXBmMmsxMWpkNw==",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n56",
+      "cat": "vegano",
+      "time": 70,
+      "emoji": "🥗",
+      "notes": "Hamburguesa de quinoa con Thermomix - Recetas para Thermomix",
+      "photo": "",
+      "steps": [
+        "Lavar la quinoa y echarla al vaso con el agua. Programar velocidad cuchara / giro inverso / 100º / 15 minutos.",
+        "Añadir el calabacín troceado y programar velocidad cuchara / giro inverso / 100º / 5 minutos. Reservar.",
+        "En un bol mezclar varios granos de maíz con el huevo, la mezcla reservada, la sal y la pimienta.",
+        "Formar las hamburguesas y pasarlas por harina de garbanzos.",
+        "Freír en una sartén con aceite, un minuto por cada lado.",
+        "Montar la hamburguesa con su pan, lechuga, tomate, cebolla y ketchup."
+      ],
+      "title": "Hamburguesa de quinoa",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://recetasparathermomix.com/hamburguesa-de-quinoa-con-thermomix/",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 220,
+          "name": "Quinoa",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 500,
+          "name": "Agua",
+          "unit": "g",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 110,
+          "name": "Calabacín",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 0,
+          "name": "Aceite de oliva",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "Huevo",
+          "unit": "ud",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 0,
+          "name": "Sal y pimienta negra",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Harina de garbanzos",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Maíz cocido",
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n57",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Pon a hervir agua y cuando llegue a ebullición apaga el fuego, echa los fideos y en 2-3 minutos escúrrelos.",
+        "Corta y trocea las verduras muy finas y ponlas a sofreír en una sartén engrasada.",
+        "Bate el huevo y haz una tortilla, y trocéala también fina.",
+        "Cuando la verdura esté tierna, añade los fideos, el huevo y las salsas y sofríe todo junto.",
+        "Sirve con cebollino por encima."
+      ],
+      "title": "Veggie Pad Thai",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/Ci0iQfgvGzX8h3CI2M8D",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 100,
+          "name": "Calabacín",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "Cebolla dulce",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "Fideos de arroz",
+          "unit": "g",
+          "section": "Panadería"
+        },
+        {
+          "qty": 100,
+          "name": "Shiitake",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 100,
+          "name": "Zanahoria",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 30,
+          "name": "Huevo de gallina",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 15,
+          "name": "Salsa de soja sin gluten",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 10,
+          "name": "Aceite de sésamo",
+          "unit": "g",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 1
+    },
+    {
+      "id": "n58",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "s: into a large skillet or pan sauté the chicken until is browned Remove and sauté the onions and the garlic until sweat add the tomato paste and cook for 5 mins by stirring then add the diced tomatoes, the salt and the peppe, the parsley and let cook for another 5 minutes add the 2 cups of water, add the chicken and the tomato sauce into an oven pan / casserole and bake into a preheated oven at 400F ( 200C) for about 30 minutes add the couscous and the extra 4 cups of water into pan mix well so the couscous is evenly spread and bake another 15-20 additional minutes take out of the oven before all the juices/ liquids are absorbed ( we need some liquid) extra tip add a few ice cubes over the couscous to stop immediately the cooking process and mix serve and enjoy with freshly grated kefalograviera, Greek horiatiki salad and freshly baked bread",
+        "Kali Oreksi"
+      ],
+      "title": "Couscous de pollo griego",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DUtZDypkW6H/?igsh=MTBvMWt0bXdtb3E5OA==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "at our",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "Recipe below",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "ingredients :",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "lb chicken any cut",
+          "qty": 2,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "couscous 1 big or 2 medium sized onions diced",
+          "qty": 2,
+          "unit": "cups",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "3-4 garlic cloves chopped/minced",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "3-4 tomatoes diced",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "tomato paste",
+          "qty": 1,
+          "unit": "tbsp",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "handful parsley",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "water for the chicken",
+          "qty": 2,
+          "unit": "cups",
+          "section": "Carnicería"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n59",
+      "cat": "carne",
+      "time": 12,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Echa todos los ingredientes al vaso del robot, excepto el fuet. Programa a velocidad 2 hasta conseguir una mezcla homogénea.",
+        "En un recipiente mezcla el fuet con el contenido del vaso.",
+        "Introduce el recipiente en el frigorífico durante 40 minutos antes de servir."
+      ],
+      "title": "Tartar de fuet",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://recetasparathermomix.com/tartar-de-fuet-con-thermomix/",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 2,
+          "name": "yemas de huevo",
+          "unit": "ud",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 210,
+          "name": "fuet troceado",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 1,
+          "name": "alcaparras",
+          "unit": "cucharada",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "cebolla morada",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 3,
+          "name": "pepinillos",
+          "unit": "ud",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "sal",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "pimienta molida",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "salsa Worcestershire",
+          "unit": "cucharada",
+          "section": "Despensa"
+        },
+        {
+          "qty": 2,
+          "name": "mostaza",
+          "unit": "cucharada",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "aceite de oliva",
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n60",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Preparar la cebolla caramelizada. Calentar una sartén antiadherente, echar el aceite y dorar el contramuslo cortado en tiras. Reservar.",
+        "Poner una tortilla en la sartén caliente, colocar el queso, el pollo, un tomate seco, jalapeño picado y una cucharada de cebolla caramelizada; doblar. Pasar a una bandeja de horno y aplanar. Repetir con el resto.",
+        "Hornear 3-4 minutos a 240 grados. Cortar por la mitad y rociar con jalapeños en rodajas."
+      ],
+      "title": "Quesadillas de pollo y cebolla",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/xZBKeoPdurkoAovoc2Rx",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 200,
+          "name": "contramuslo deshuesado de pollo",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 150,
+          "name": "queso Arzúa-Ulloa",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 100,
+          "name": "cebolla dulce",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 3,
+          "name": "tortillas integrales",
+          "unit": "ud",
+          "section": "Despensa"
+        },
+        {
+          "qty": 60,
+          "name": "queso de cabra",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 30,
+          "name": "dátiles",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 20,
+          "name": "jalapeños",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 15,
+          "name": "aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 15,
+          "name": "tomate seco",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 3
+    },
+    {
+      "id": "n61",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Arroz/Pasta Carbonara",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DTbU-uHiG9v/?igsh=MWxtZTRqdnQwNnE5OQ==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "Queso rallado (pecorino, grana padano, parmigiano…)",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "Aceite de oliva y sal",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n62",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "Luis Güell en Instagram: \"Lo pasamos bien haciendo este jajajajaja #cocinacasera #arroz #paella #guanciale\"",
+      "photo": "",
+      "steps": [],
+      "title": "Paella de marisco",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DTz3g6XjQhn/?igsh=djluYXN1a25iMGlu",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n63",
+      "cat": "carne",
+      "time": 35,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Hacer un sofrito con cebolla, zanahoria, ajo y calabaza.",
+        "Cuando estén las verduras, añadir el pavo y dorar por fuera.",
+        "Añadir curry al gusto y la leche de coco, y dejar al fuego para que reduzca la salsa y se termine de hacer el pavo.",
+        "En una olla aparte, hervir el arroz basmati con sal y un diente de ajo.",
+        "Servir el pavo en salsa acompañado del arroz."
+      ],
+      "title": "Pavo al curry con arroz basmati",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/b6YdAF6bczAB4s9l0LhF",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 1000,
+          "name": "Pavo a tacos",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 400,
+          "name": "Leche de coco",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 200,
+          "name": "Calabaza",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 180,
+          "name": "Arroz basmati",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 100,
+          "name": "Cebolla",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 80,
+          "name": "Zanahoria",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 60,
+          "name": "Aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 3,
+          "name": "Curry",
+          "unit": "g",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n64",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Fish and chips",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/C9TcIxEMdOd/?igsh=MW81cjE3ZG1oOXNidQ==",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n65",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "Pasta con salsa calabacin, albahaca y parmesano Recetas de Willy Pascual en Instagram: \"PASTA CON SALSA DE CALABACÍN, ALBAHACA Y PARMESANO 🥒🌿🧀 ⠀ Si te gusta la pasta, no puedes perderte esta receta de pasta rigatoni con una salsa deliciosa de calabacín salteado con albahaca y queso parmesano y un toque crujiente de almendras. Una textura muy parecida al tradicional pesto, pero más suave y ligera. ¿Te animas a preparar esta receta de pasta conmigo? ⠀ Ingredientes para 4 personas: 🥒 2 calabacines 🌿 Albahaca fresca al gusto. 🧀 50 gramos de queso parmesano rallado. 🧄 1 diente de ajo. 🌾 400 gramos de pasta al gusto. 🥜 1 puñado de almendras tostadas. 🧂 Sal y pimienta negra al gusto. 🫒 Aceite de oliva virgen extra. ⠀ Receta paso a paso: 1. Ponemos agua a hervir, cocemos el tiempo indicado, colamos y reservamos. 2. Ahora lavamos y cortamos el calabacín finamente y lo añadimos a una sartén caliente y con aceite junto al ajo rallado, sal y pimienta negra al gusto. Dejamos cocinar a fuego medio hasta que tengamos el calabacín bien dorado y pochado. 3. Ahora ponemos el calabacín en un vaso junto a la albahaca, el queso parmesano, las almendras, un buen chorro de aceite de oliva y trituramos súper bien (puedes triturar más o menos dependiendo si te gusta notar trozos pequeños o no). 4. Ponemos la pasta ya cocida en un bol, añadimos la salsa, removemos y listo, ¡a disfrutar! ⠀ ¿Te ha gustado esta receta de pasta con salsa de calabacín? Si te ha gustado esta receta fácil y saludable, dímelo en los comentarios ❤️ ⠀ #pasta #pastaitaliana #calabacin #receta #recetas #recetafacil #recetasfaciles\"",
+      "photo": "",
+      "steps": [],
+      "title": "Pasta con Salsa de Calabacín, Albahaca y Parmesano",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/C7j--UkOila/?igsh=MXIxeHhlc2hpcjBkeA==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 0,
+          "name": "2 calabacines",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Albahaca fresca al gusto",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "50 gramos de queso parmesano rallado",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "1 diente de ajo",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "400 gramos de pasta al gusto",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "1 puñado de almendras tostadas",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Sal y pimienta negra al gusto",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Aceite de oliva virgen extra",
+          "unit": "",
+          "section": "Otros"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n66",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "Pasta con salsa calabacin queso crema y nuez Food and Glory | RECETAS en Instagram: \"PASTA CON SALSA DE CALABACÍN ❤️ Apóyanos con tu like para no perderte ninguna de nuestras recetas 🥰🙏 ⬇️⬇️⬇️⁣ ⁣ 🛒 Ingredientes (2 personas):⁣ ⁣ 🔸 160 g de pasta (yo he usado rigatoni)⁣ 🔹 500 g de calabacín⁣ 🔸 1 cucharada colmada de queso crema (65 g aprox. )⁣ 🔹 Ralladura de ¼ de limón⁣ 🔸 Un poco de queso de cabra desmenuzado⁣ 🔹 Un puñado de nueces 🔸 AOVE @olivar_de_plata 🔹 Pimienta⁣ 🔸 Sal⁣ ⁣ ⁣ 🍳Pasos:⁣ ⁣ 1️⃣ Lava y seca el #calabacín . Córtalo en rodajas en forma de media luna. Pon un poco de aceite de oliva en una sartén grande, caliéntalo y añade el calabacín junto con un poco de sal y pimienta molida al gusto. Rehógalo a fuego medio hasta que esté dorado. Reserva.⁣ 2️⃣ Pon a calentar una olla con abundante agua (recuerda que tienes que poner 1 litro de agua por cada 100 g de pasta). Cuando empiece a hervir, echa la pasta y un puñadito de sal gruesa. Cocínala, a fuego medio, hasta un minuto menos de lo indicado por el fabricante.⁣ 3️⃣ Mientras se cuece, pon en el vaso de la batidora la mitad del calabacín, el queso crema y un cucharón del agua de cocción. Tritura hasta obtener una salsa fina. Viértela en la sartén junto con la ralladura de ¼ de limón. ⁣ 4️⃣ Vierte la pasta escurrida encima y mézclala a fuego medio-bajo, hasta que esté toda impregnada. Si ves que queda muy espesa, puedes añadir otro poco del agua de cocción.⁣ 5️⃣ Sírvela con queso de cabra desmenuzado por encima, un extra de pimienta y unas nueces troceadas para darle una textura crujiente.⁣ ⁣ 👌 Notas: puedes sustituir la ralladura de limón por menta seca o fresca y también por albahaca. Los toppings (el queso de cabra y las nueces) son opcionales, queda también rica sencilla, aunque le dan un plus.⁣ ⁣ ⁣ 💫✅Usa nuestro código GLORY en Olivar de Plata para tener un 5 % de descuento en su AOVE de máxima calidad (no afiliado).⁣ ⁣ ⁣ Si te ha gustado la receta, guárdala para tenerla siempre a mano 👉💾. ⁣ #pasta #salsadecalabacín #comidaitaliana #foodandglory\"",
+      "photo": "",
+      "steps": [],
+      "title": "Pasta con Salsa de Calabacín",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DOTiatgCFtr/?igsh=MTVmMWFkeWxob2wyYw==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 0,
+          "name": "(2 personas):⁣ ⁣",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "160 g de pasta (yo he usado rigatoni)⁣",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "500 g de calabacín⁣",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "1 cucharada colmada de queso crema (65 g aprox. )⁣",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Ralladura de ¼ de limón⁣",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Un poco de queso de cabra desmenuzado⁣",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Un puñado de nueces",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "AOVE @olivar_de_plata",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Pimienta⁣",
+          "unit": "",
+          "section": "Otros"
+        },
+        {
+          "qty": 0,
+          "name": "Sal⁣ ⁣ ⁣",
+          "unit": "",
+          "section": "Otros"
+        }
+      ],
+      "baseServings": 2
+    },
+    {
+      "id": "n67",
+      "cat": "vegetariano",
+      "time": 60,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Lava y pela los champiñones grandes y reserva los troncos.",
+        "Pica la cebolla y el ajo, sofríe en una sartén con AOVE unos 10 minutos a fuego suave y añade las espinacas congeladas.",
+        "Cuando estén descongeladas y hechas, añade los troncos de los champiñones, cocina unos minutos y agrega los tacos de jamón serrano.",
+        "Retira del fuego, añade el mascarpone y mezcla bien.",
+        "Salpimenta los champiñones, rellénalos y ralla queso por encima.",
+        "Hornea entre 180 y 200 grados con el horno precalentado durante 20-25 minutos."
+      ],
+      "title": "Champiñones rellenos de espinacas y mascarpone",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/Rfo4uCtG9QjXYpbJAarJ",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 300,
+          "name": "Espinacas ultracongeladas",
+          "unit": "g",
+          "section": "Congelados"
+        },
+        {
+          "qty": 270,
+          "name": "Champiñón",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "Cebolla dulce",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 60,
+          "name": "Aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 60,
+          "name": "Jamón serrano",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 45,
+          "name": "Queso mascarpone",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 3,
+          "name": "Ajo",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 3
+    },
+    {
+      "id": "n68",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Sopa de Cebolla",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/C3nhiGOr8-3/?igsh=MXF3d2VnNWRqYjNpNw==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "[ ] -20 gr. aceite",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] -50 gr. mantequilla",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "[ ] -1/2 cucharadita de sal",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] -10 gr. harina",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] -unos 1.200 gr. agua caliente",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] -cacito o pastilla de pollo",
+          "qty": 0,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "[ ] -150 gr. queso rallado (100 + 50 para espolvorear)",
+          "qty": 0,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "[ ] -pimienta negra",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "[ ] -4-6 rebanadas de pan",
+          "qty": 0,
+          "unit": "",
+          "section": "Panadería"
+        },
+        {
+          "name": "[ ] Si deseas adquirir una mambo pincha",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "AQUI",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "</aside>",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n69",
+      "cat": "vegetariano",
+      "time": 45,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Aceite y mantequilla, 4 min velocidad 1, 110º.",
+        "Cebolla y sal, 20 min velocidad 1, 120º.",
+        "Tuesta el pan en el horno o en la tostadora.",
+        "Harina, 3 min velocidad 2, 105º.",
+        "Agua, cacito o pastilla y pimienta, 10 min velocidad 1, 120º.",
+        "Añade 100 g de queso rallado y mezcla bien con la espátula.",
+        "Vuelca en 4-6 cazuelitas de barro, pon una tostada encima de cada una, espolvorea con el resto de queso y gratina. Sirve caliente."
+      ],
+      "title": "Sopa de cebolla TX",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.juanideanasevilla.com/mambo/2011/03/sopa-de-cebolla",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 20,
+          "name": "aceite",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 50,
+          "name": "mantequilla",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 1,
+          "name": "cebollas peladas en aros o juliana",
+          "unit": "kg",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 0.5,
+          "name": "sal",
+          "unit": "cucharadita",
+          "section": "Despensa"
+        },
+        {
+          "qty": 10,
+          "name": "harina",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1200,
+          "name": "agua caliente",
+          "unit": "g",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 1,
+          "name": "cacito o pastilla de pollo",
+          "unit": "ud",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 150,
+          "name": "queso rallado",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 0,
+          "name": "pimienta negra",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 6,
+          "name": "rebanadas de pan",
+          "unit": "ud",
+          "section": "Panadería"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n70",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Cortar la cebolla y los ajos finos y sofreír en una sartén con AOVE. Cortar los pimientos en cuadros y añadir. Incorporar las especias al gusto.",
+        "Añadir la carne picada; cuando deje de estar rosada, agregar el tomate triturado y cocer 15-20 min a fuego medio. Rectificar de especias si hace falta.",
+        "Añadir los frijoles y el maíz y cocinar 5-10 min más. Servir con arroz o tortillas."
+      ],
+      "title": "Chili con carne",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/umeirOUHlYFgdBwpzpt3",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 800,
+          "name": "salsa de tomate",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 600,
+          "name": "carne picada de cerdo",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 400,
+          "name": "frijoles negros",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 200,
+          "name": "pimiento rojo",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "cebolla",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "maíz dulce",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 100,
+          "name": "pimiento verde",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 15,
+          "name": "aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 9,
+          "name": "ajo",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 5,
+          "name": "comino",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 5,
+          "name": "orégano",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 5,
+          "name": "pimentón de la vera",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 5,
+          "name": "sal",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 3,
+          "name": "cayena",
+          "unit": "g",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 5
+    },
+    {
+      "id": "n71",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "@patrimediolimon - Recetas veg en Instagram: \"🌱Fideos en 15’🌱 En mi top 3 de cosas favoritas está el hablar de comida, las otras dos os las voy a ir contando🤭 Estos fideos son una de mis recetas confort food, también están el hummus y el salmorejo, vamos con la receta de los fideos, al final te cuento una forma de hacerlos súper exprés: 🌱En una sartén coloca 1 cucharada sopera bien colmada de crema de cacahuete, un puñadito de cebolla tierna troceada, una cucharadita de aceite picante (o normal si no quieres que pique), una cucharada de gochugan (o tomate concentrado), una cucharada de semillas de sésamo y un buen puñado de espinacas frescas. 🌱Añade 200 ml de caldo de verduras y 100 ml de leche de soja sin azúcar (la gente le pone leche de coco, pero a mi ultimamente 🤐), llévalo a ebullición y cuando hierva, añade los fideos, dejando que se cocine todo junto 3-4 minutos. 🌱Mientras tanto: ralla 200 gr de tofu en la cesta de la freidora de aire y adereza como quieras, yo le puse aceite en spray, ajo en polvo y pimentón, mezcla bien y cocina 5 min a máxima potencia, removiendo a la mitad, sirve por encima y listo! 📋Si quieres variar de verdura el brócoli funciona muy bien, y también el pack choi, otras proteínas que puedes añadir son el tempeh o los texturizados. Para hacerlo sin más rápido, puedes cocer los fideos con brócoli, apartar 100 ml de su agua de cocción y mezclar con una cucharada sopera de crema de cacahuete, un chorrito de salsa de soja, 1/2 cucharadita de ajo en polvo y otra 1/2 de aceite picante, escurre los fideos, añade la salsa y acompaña con una prote que tengas en casa. Prometo que te va a encantar! #fideos #noodles #sopa #tofu #recetasveganas\"",
+      "photo": "",
+      "steps": [],
+      "title": "Fideos en 15’",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DWgSE0TAuFw/?igsh=MXdwa2U0bWwzdTllMQ==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "; para 5 raciones",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "chistorras",
+          "qty": 2,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "bandeja de champiñones cortados a cuartos",
+          "qty": 1,
+          "unit": "",
+          "section": "Carnicería"
+        },
+        {
+          "name": "costilla de cerdo",
+          "qty": 650,
+          "unit": "gr",
+          "section": "Carnicería"
+        },
+        {
+          "name": "ajo",
+          "qty": 2,
+          "unit": "dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "pimiento verde",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "½ pimiento rojo",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cebolla grande",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "cditas de tomate concentrado",
+          "qty": 2,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "salsa de tomate",
+          "qty": 270,
+          "unit": "gr",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "vino tinto",
+          "qty": 1,
+          "unit": "chorro",
+          "section": "Bebidas"
+        },
+        {
+          "name": "fideos",
+          "qty": 350,
+          "unit": "gr",
+          "section": "Panadería"
+        },
+        {
+          "name": "caldo de pollo",
+          "qty": 1,
+          "unit": "L",
+          "section": "Carnicería"
+        },
+        {
+          "name": "Perejil fresco picado",
+          "qty": 0,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "Sal y pimienta",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n72",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Lavar la coliflor y trocearla en ramilletes pequeños. Pelar y cortar las zanahorias en rodajas finas, y el puerro o cebolla en trozos pequeños.",
+        "En una olla, saltear el puerro con el ajo en aceite de oliva 2-3 minutos. Añadir las zanahorias y la coliflor y rehogar un par de minutos más.",
+        "Cubrir con el caldo o agua, llevar a ebullición y cocinar 15-20 minutos hasta que esté tierno.",
+        "Retirar parte del líquido (reservar) y triturar todo hasta obtener una crema suave. Salpimentar y añadir nuez moscada.",
+        "Ajustar la textura con el líquido reservado si está muy espesa y calentar de nuevo.",
+        "Servir con un chorrito de aceite de oliva y perejil fresco picado."
+      ],
+      "title": "Crema de Coliflor con Zanahoria",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-coliflor-con-zanahoria",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 300,
+          "name": "Coliflor en ramilletes",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 2,
+          "name": "Zanahorias medianas",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Puerro pequeño o media cebolla",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Ajo",
+          "unit": "diente",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Aceite de oliva virgen extra",
+          "unit": "cda",
+          "section": "Despensa"
+        },
+        {
+          "qty": 500,
+          "name": "Caldo de verduras o agua",
+          "unit": "ml",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 0,
+          "name": "Sal y pimienta",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Nuez moscada",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Perejil fresco",
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 2
+    },
+    {
+      "id": "n73",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "data:image/jpeg;base64,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",
+      "steps": [],
+      "title": "Pure de patata",
+      "tested": true,
+      "blockIds": [
+        "carbo"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DVttJsniDI7/?igsh=MWZvaGZ1OGZ2ZjVqaA==",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 500,
+          "name": "Patatas",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 100,
+          "name": "Leche",
+          "unit": "ml",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 50,
+          "name": "Mantequilla",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n74",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🐟",
+      "notes": "Marc ballo en Instagram: \"bacalao a la mostaza Es una receta muy facil, que tendrás lista en 12´ sin complicaciones para cuidarte esta Semana Santa. Dale like ❤️ guarda esta receta Ingredientes: 2 lomos de bacalao 1/2 calabacín 1/2 zanahoria 1/2 patata perejil fresco Salsa mostaza : 1 cda mostaza dijon, 1 cda mostaza en grano, zumo 1/2 limón, 2 cdas de aceite de oliva, perejil fresco picado, sal y pimienta. Pela el calabacín, patata y zanahoria con una mandolina muy fina. Dobla el papel de horno por los lados largos formando pliegues y ata con cordón alimentario los dos laterales , dejando un hueco en el centro para colocar el pescado y verduras, todo en forma de un lazo. Coloca una capa de patatas separadas en la base, otra capa de calabacín y luego zanahoria. Ahora añade los lomos de bacalao y vierte la salsa emulsionada por encima . Cocina en tu airfryer por 12´a 185ºC o al horno por 16´a 185ºC. Así de fácil ¡Disfruta! ¿Te apuntas a probar esta receta saludable de bacalao rico? #bacalao #recetasconbacalao #recetasespañolas #recetasespaña #recetassaludables\"",
+      "photo": "",
+      "steps": [],
+      "title": "Bacalao a la mostaza",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DWyfSrqjC4T/?igsh=MWowNjk2eHo3eHJrMA==",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n75",
+      "cat": "vegano",
+      "time": 20,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Pon la coliflor lavada en un bol y llévala al microondas 5 minutos a máxima potencia.",
+        "Bate la coliflor cocida con los anacardos, el queso, la leche, el caldo y las especias (sal, pimienta y orégano), añadiendo más líquido si queda espesa.",
+        "Añade la salsa a tu plato de pasta cocida (espaguetis integrales)."
+      ],
+      "title": "Pasta con salsa de coliflor y anacardos",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/PQZ0yorzdLTSy6uk2ydv",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 100,
+          "name": "Espaguetis integrales",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 60,
+          "name": "Coliflor",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 50,
+          "name": "Bebida vegetal",
+          "unit": "g",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 30,
+          "name": "Anacardos crudos",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 25,
+          "name": "Queso emmental",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 10,
+          "name": "Caldo de pollo",
+          "unit": "g",
+          "section": "Carnicería"
+        }
+      ],
+      "baseServings": 2
+    },
+    {
+      "id": "n76",
+      "cat": "vegano",
+      "time": 100,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Precalienta el horno a 200 grados en modo arriba y abajo.",
+        "Trocea la coliflor y cocínala hasta que esté tierna (cocida o al vapor). Escurre bien con un paño.",
+        "Tritura la coliflor con un tenedor y deja enfriar un poco (puedes acelerar en la nevera).",
+        "Cuando esté templada, añade los demás ingredientes y mezcla (el ajo y la cebolla en crudo).",
+        "Forma las croquetas con una cuchara y colócalas en la bandeja sobre papel de horno.",
+        "Pinta con AOVE y hornea hasta que estén doradas."
+      ],
+      "title": "Croquetas de coliflor",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/Biuf3yFbo9NssGtHhKSM",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 400,
+          "name": "coliflor",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 60,
+          "name": "cebolla",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 40,
+          "name": "queso",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 30,
+          "name": "perejil",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 10,
+          "name": "aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 10,
+          "name": "ajo",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 5,
+          "name": "pimienta negra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 2,
+          "name": "sal",
+          "unit": "g",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 1
+    },
+    {
+      "id": "n77",
+      "cat": "vegano",
+      "time": 25,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Lavar el brócoli y cortar los ramilletes. Lavar y cortar el calabacín en cubos. Picar la cebolla y el ajo.",
+        "En una olla, calentar el aceite y sofreír la cebolla y el ajo 2-3 minutos a fuego medio.",
+        "Añadir el calabacín, el brócoli y los guisantes y rehogar 2 minutos más.",
+        "Cubrir con el caldo, llevar a ebullición y cocer a fuego bajo 15 minutos hasta que las verduras estén tiernas.",
+        "Triturar todo hasta obtener una crema lisa, ajustando la textura con más caldo si es necesario.",
+        "Rectificar de sal y pimienta, añadir levadura nutricional o queso si se desea y servir caliente."
+      ],
+      "title": "Crema de Brócoli, Guisantes y Calabacín",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-brocoli-guisantes-y-calabacin/%3E%3Clink%20rel=",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 1,
+          "name": "brócoli mediano (ramilletes)",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "calabacín mediano",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 150,
+          "name": "guisantes",
+          "unit": "g",
+          "section": "Congelados"
+        },
+        {
+          "qty": 1,
+          "name": "cebolla pequeña",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "ajo",
+          "unit": "diente",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "aceite de oliva virgen extra",
+          "unit": "cda",
+          "section": "Despensa"
+        },
+        {
+          "qty": 600,
+          "name": "caldo de verduras",
+          "unit": "ml",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 0,
+          "name": "sal y pimienta",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "levadura nutricional o queso rallado",
+          "unit": "",
+          "section": "Lácteos y huevos"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n78",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Pelar y cortar la calabaza en cubos. Lavar y cortar la parte blanca del puerro en rodajas. Pelar y trocear la patata.",
+        "En una olla, sofreír el puerro en aceite de oliva a fuego medio 4-5 minutos, hasta que esté blando y translúcido.",
+        "Incorporar la calabaza y la patata, y remover un par de minutos.",
+        "Añadir el caldo, llevar a ebullición y cocinar 20 minutos hasta que todo esté muy tierno.",
+        "Retirar del fuego y triturar hasta conseguir una crema lisa. Ajustar textura con más caldo si es necesario.",
+        "Salpimentar y añadir nuez moscada. Servir caliente con semillas de calabaza por encima."
+      ],
+      "title": "Crema de Calabaza y Puerro",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-calabaza-y-puerro",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 500,
+          "name": "Calabaza pelada y troceada",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Puerro grande (parte blanca)",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Patata pequeña",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Aceite de oliva virgen extra",
+          "unit": "cda",
+          "section": "Despensa"
+        },
+        {
+          "qty": 600,
+          "name": "Caldo de verduras",
+          "unit": "ml",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 0,
+          "name": "Sal y pimienta",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Nuez moscada",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "Semillas de calabaza",
+          "unit": "",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n79",
+      "cat": "vegano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Lava y pela la patata, la cebolla y el calabacín, limpia el puerro y córtalo en rodajas, y trocea la col y el repollo en tiras finas.",
+        "En una olla grande añade todas las verduras con el agua y la leche, salpimenta y cocina a fuego medio 20-25 minutos hasta que estén blandas.",
+        "Retira del fuego y tritura hasta conseguir una crema suave, añadiendo más agua o leche si queda espesa.",
+        "Rectifica de sal y pimienta y sirve la crema caliente en platos hondos.",
+        "Acompaña con picatostes, semillas de calabaza y un chorrito de aceite de oliva virgen extra por encima."
+      ],
+      "title": "Crema de 5 verduras",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://dieta.thermomagazine.net/blog/crema-de-5-verduras",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 200,
+          "name": "Col blanca",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 200,
+          "name": "Repollo",
+          "unit": "g",
+          "section": "Carnicería"
+        },
+        {
+          "qty": 1,
+          "name": "Cebolla",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Patata",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Calabacín",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "Puerro",
+          "unit": "ud",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 50,
+          "name": "Semillas de calabaza",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 200,
+          "name": "Pan tostado para picatostes",
+          "unit": "g",
+          "section": "Panadería"
+        },
+        {
+          "qty": 30,
+          "name": "Aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 200,
+          "name": "Agua",
+          "unit": "ml",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 200,
+          "name": "Leche",
+          "unit": "ml",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 0,
+          "name": "Sal y pimienta",
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n80",
+      "cat": "pescado",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Lasaña atun",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DPg-OpfDUyw/?igsh=anBpNTFiZTdveGNx",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "cebolla",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "ajo",
+          "qty": 4,
+          "unit": "dientes",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "tomates",
+          "qty": 3,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "pasta de tomate",
+          "qty": 100,
+          "unit": "gr",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "zanahoria",
+          "qty": 1,
+          "unit": "",
+          "section": "Frutas y verduras"
+        },
+        {
+          "name": "tza de vino tinto",
+          "qty": 0.25,
+          "unit": "",
+          "section": "Bebidas"
+        },
+        {
+          "name": "atún",
+          "qty": 3,
+          "unit": "latas",
+          "section": "Pescadería"
+        },
+        {
+          "name": "Sal y pimienta",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "name": "mantequilla",
+          "qty": 100,
+          "unit": "gr",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "harina sin preparar",
+          "qty": 100,
+          "unit": "gr",
+          "section": "Despensa"
+        },
+        {
+          "name": "leche fresca",
+          "qty": 1,
+          "unit": "litro",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "name": "paquete de queso edam",
+          "qty": 1,
+          "unit": "",
+          "section": "Lácteos y huevos"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n81",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "",
+      "photo": "",
+      "steps": [],
+      "title": "Ensalada de patata",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/Cf6dpXqDTnb/?igsh=ZG40d3E2c2dqMXRo",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "son",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n82",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍗",
+      "notes": "Coles bruselas con bacon Laia Puig en Instagram: \"Amor-odi. Les cols de Brussel·les són clarament això. A mi m’agraden tant pel gust com per les propietats, però també entenc perfectament que no siguin per a tothom. I està bé així. Aquesta recepta és la meva manera de fer-les més accessibles: senzilles, sense massa història, i amb aquell punt salat i cruixent que ho canvia tot. Cols de Brussel·les amb mostassa i bacon: 1.- Renta 500 g de cols de Brussel·les i talla-les a quarts. 2.- En un bol, prepara una vinagreta amb 3 cullerades d’oli d’oliva verge extra, 1 cullerada grossa de mostassa de Dijon i un pessic de pebre. 3.- Barreja-ho bé amb les cols fins que quedin ben impregnades. 4.- Cap al forn, 30 minuts a 180 °C. 5.- A mitja cocció, treu la safata, remena-les i afegeix 100 g de bacon. 6.- Torna-les a enfornar fins que quedin tendres per dins i daurades per fora. Espero que, com jo, les gaudeixis. I si no… demà més i millor🫂\"",
+      "photo": "",
+      "steps": [],
+      "title": "Coles de Bruselas con bacon",
+      "tested": false,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DUOl-ksjtq8/?igsh=dnc1cnV1NDh3bmxs",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n83",
+      "cat": "vegano",
+      "time": 10,
+      "emoji": "🥗",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Cuece el brócoli (puedes usar congelado o fresco).",
+        "En el vaso de la batidora pon el brócoli, la albahaca y el AOVE. Tritura.",
+        "Añade el queso y los anacardos y tritura sin moler del todo los anacardos para que queden trocitos.",
+        "Cuece la pasta que prefieras, conservando el agua de la cocción.",
+        "En una sartén pon una cucharada de pesto por persona y añade agua de la cocción para aligerarlo.",
+        "Deja hervir un minuto, añade la pasta y remueve 1 minuto más."
+      ],
+      "title": "Pestocoli (pesto de brócoli)",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.myrealfood.app/es/recipe/bM3ZJj66aq4KBijjbMeJ",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 250,
+          "name": "brócoli",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 20,
+          "name": "albahaca",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 20,
+          "name": "anacardos crudos",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 20,
+          "name": "queso parmesano",
+          "unit": "g",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 5,
+          "name": "aceite de oliva virgen extra",
+          "unit": "g",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n84",
+      "cat": "pescado",
+      "time": 80,
+      "emoji": "🐟",
+      "notes": "",
+      "photo": "",
+      "steps": [
+        "Para el fumet: pelar los langostinos y reservar los cuerpos. Poner en el vaso 20 ml de aceite con las cabezas y pieles y cocinar 6 min / Varoma / vel 2. Marcar los langostinos en una sartén y reservar.",
+        "Añadir 100 ml de agua y 100 ml de leche de coco y cocinar 8 min / 100 ºC / vel 2-3. Colar el líquido y reservar.",
+        "Para el curry: en el vaso limpio poner aceite, cebolla y jengibre y trocear 5 seg / vel 4. Sofreír 5 min / 120 ºC o Varoma / vel 1.",
+        "Añadir el tomate frito, la guindilla y el curry y sofreír 4 min / 120 ºC / vel 1.",
+        "Incorporar la leche de coco, el fumet, el zumo de lima y la sal y cocinar 15 min / Varoma / vel 1. Opcionalmente triturar la salsa 30 seg / vel 5-10.",
+        "Añadir los anacardos y los langostinos y cocer 4 min / Varoma / giro izquierda / vel cuchara. Reservar.",
+        "Para el arroz: poner el litro de agua, el chorro de aceite y el cestillo con el arroz; programar 20-22 min / 100 ºC / vel 4.",
+        "Servir el arroz y el curry juntos o por separado, espolvoreado con cilantro fresco picado."
+      ],
+      "title": "Curry de langostinos con basmati",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.velocidadcuchara.com/curry-de-langostinos-con-basmati/",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "qty": 50,
+          "name": "aceite de oliva virgen extra",
+          "unit": "ml",
+          "section": "Despensa"
+        },
+        {
+          "qty": 0,
+          "name": "pieles y cabezas de langostinos",
+          "unit": "",
+          "section": "Pescadería"
+        },
+        {
+          "qty": 100,
+          "name": "agua",
+          "unit": "ml",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 400,
+          "name": "leche de coco",
+          "unit": "ml",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 550,
+          "name": "langostinos",
+          "unit": "g",
+          "section": "Pescadería"
+        },
+        {
+          "qty": 150,
+          "name": "cebolleta o cebolla",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "jengibre pelado",
+          "unit": "cm",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "tomate frito",
+          "unit": "cda",
+          "section": "Frutas y verduras"
+        },
+        {
+          "qty": 1,
+          "name": "guindilla o cayena",
+          "unit": "ud",
+          "section": "Despensa"
+        },
+        {
+          "qty": 2,
+          "name": "curry en polvo",
+          "unit": "cdas",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "zumo de lima",
+          "unit": "chorro",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 0,
+          "name": "sal",
+          "unit": "",
+          "section": "Despensa"
+        },
+        {
+          "qty": 50,
+          "name": "anacardos",
+          "unit": "g",
+          "section": "Despensa"
+        },
+        {
+          "qty": 1,
+          "name": "agua (arroz)",
+          "unit": "l",
+          "section": "Bebidas"
+        },
+        {
+          "qty": 350,
+          "name": "arroz basmati",
+          "unit": "g",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n85",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍝",
+      "notes": "Sarah Pound en Instagram: \"SLOW COOKER BEEF BRISKET PASTA 🍝 ✨ Serves: 4 Cook Time: 8 hours on low or 4 hours on high Ingredients 1.2 kg beef brisket ½ tsp salt 1 tsp black pepper 2 tbsp extra virgin olive oil 1 brown onion, finely chopped 3 garlic cloves, chopped 400g tin diced tomatoes 3 tablespoons tomato paste ⅓ cup red wine 1 cup beef stock 1 tablespoon dried Italian herbs 350g pasta (any kind you like) To serve: Grated Parmesan cheese Fresh parsley Method: 1. Pat the beef brisket dry and season with salt and pepper. Heat olive oil in a frying pan over medium-high heat. Sear the brisket on all sides until well browned. 2. Transfer the seared brisket to your slow cooker. Add onion, garlic, tinned tomatoes, tomato paste, red wine, beef stock, and dried Italian herbs. 3. Cover and cook on low for 8 hours or high for 4 hours, until the brisket is fall-apart tender. 4. Remove the brisket, shred it using two forks, then return it to the sauce in the slow cooker. Stir well to combine. 5. Meanwhile, cook your pasta separately according to packet instructions. Drain and add it to the slow cooker. Stir through the brisket sauce until well coated. 6. Dish it up with a generous sprinkle of grated Parmesan and fresh parsley. Season to taste. #slowcook #slowcooker #slowcookermeals #slowcookerrecipes #slowcooking\"",
+      "photo": "",
+      "steps": [
+        "Pat the beef brisket dry and season with salt and pepper. Heat olive oil in a frying pan over medium-high heat. Sear the brisket on all sides until well browned",
+        "Transfer the seared brisket to your slow cooker. Add onion, garlic, tinned tomatoes, tomato paste, red wine, beef stock, and dried Italian herbs",
+        "Cover and cook on low for 8 hours or high for 4 hours, until the brisket is fall-apart tender",
+        "Remove the brisket, shred it using two forks, then return it to the sauce in the slow cooker. Stir well to combine",
+        "Favorita: No",
+        "Para niños: No",
+        "Fuente: https://www.instagram.com/reel/DYl1QMNBgeL/",
+        "Pendiente hacer: No"
+      ],
+      "title": "Slow Cooker Beef Brisket Pasta",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DYl1QMNBgeL/",
+      "difficulty": "Media",
+      "ingredients": [
+        {
+          "name": "beef brisket",
+          "qty": 1.2,
+          "unit": "kg",
+          "section": "Carnicería"
+        },
+        {
+          "name": "Italian herbs 350g pasta (any kind you like)",
+          "qty": 0,
+          "unit": "",
+          "section": "Despensa"
+        }
+      ],
+      "baseServings": 4
+    },
+    {
+      "id": "n86",
+      "cat": "carne",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "Recetas fáciles l Trucos de chefs l Consejos viajar sola en Instagram: \"🍲CALDO GALLEGO🍲 Hay diferentes recetas de caldo gallego, todas son válidas, ninguna está por encima de otra, las abuelas eran las que mejores caldos hacían y usaban lo que tenían en casa Abuela —— INGREDIENTES PARA 5-6 PERSONAS 👩🏼‍🍳2 manojos de grelos cortados en trocitos y sin tallos 👩🏼‍🍳600 g de alubias en remojo del día anterior 👩🏼‍🍳2 patatas medianas peladas y chascadas 👩🏼‍🍳1 hueso de espinazo salado 👩🏼‍🍳1 trozo de jamón de 300 gr 👩🏼‍🍳600 gr de lacón 👩🏼‍🍳20 gr de unto 👩🏼‍🍳3 chorizos 👩🏼‍🍳175 gr de panceta 👩🏼‍🍳Agua hasta cubrir 2 dedos por encima de las alubias —— ELABORACIÓN 1- Remojar en agua abundante, las alubias desde la noche anterior 2- Cortar las carnes más grandes y desalar las que sean saladas. 3- En una olla, añadir las alubias, el agua 2 dedos por arriba y todas las carnes, llevar a ebullición y desespumar. Ojo, retirar el unto pasada una hora. 4- En total deben cocer a fuego bajo una hora y media aprox, depende de las alubias. 5-Cuando queden 15 minutos añadir las patatas y cocinar hasta que estén tiernas. 6-Cuando queden 10 minutos añadir los grelos y cocinar hasta que estén tiernos. 7- Comprobar el punto de sal por si hubiera que corregirlo. 8- Dejar reposar la olla, tapada durante 15 minutos. —— TRUCOS 👉🏻Los grelos se introducen en el caldo a movimientos para no romper las alubias. 👉🏻Las carnes se deben servir troceadas en una fuente, aparte o bien dentro del caldo. 👉🏻Uno de los ingredientes más importante es el “unto”, es decir grasa de cerdo salada, enrollada sobre si misma  y que se utiliza, como decía mi abuela, para dar “sustancia”. 👉🏻El caldo gallego, como casi todos los platos de cuchara, gana sabor y textura al día siguiente. —— Un poquito de amor y listo ❤️\"",
+      "photo": "",
+      "steps": [],
+      "title": "Caldo Gallego",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DHEiZ4fOwEL/",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "n87",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍳",
+      "notes": "Marc Pizza 🍕 en Instagram: \"Receta en airfrayer . . . #pizza #pizzatime #pizzalover #receta #cocina\"",
+      "photo": "",
+      "steps": [],
+      "title": "Pizza en airfryer",
+      "tested": true,
+      "blockIds": [
+        "probar"
+      ],
+      "sourceUrl": "https://www.instagram.com/reel/DZVTTaFtR7R/",
+      "difficulty": "Media",
+      "ingredients": [],
+      "baseServings": 4
+    },
+    {
+      "id": "mqs0vv8qz31c",
+      "cat": "vegetariano",
+      "time": 30,
+      "emoji": "🍲",
+      "notes": "",
+      "photo": "data:image/jpeg;base64,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",
+      "steps": [],
+      "title": "Tortilla de patatas",
+      "tested": true,
+      "blockIds": [
+        "carbo"
+      ],
+      "sourceUrl": "",
+      "difficulty": "Fácil",
+      "ingredients": [
+        {
+          "qty": 8,
+          "name": "huevos",
+          "unit": "",
+          "section": "Lácteos y huevos"
+        },
+        {
+          "qty": 1000,
+          "name": "patatas",
+          "unit": "g",
+          "section": "Frutas y verduras"
+        }
+      ],
+      "baseServings": 4
+    }
+  ],
+  "blocksV2": true,
+  "blocksV3": true,
+  "blocksV4": true,
+  "planning": {
+    "2026-06-27": {
+      "comida": {
+        "custom": true,
+        "title": "Tortilla de patatas",
+        "ingredients": [],
+        "diners": 2,
+        "base": 2
+      },
+      "cena": {
+        "custom": true,
+        "title": "Salmon con ensalada",
+        "ingredients": [
+          {
+            "name": "Salmon",
+            "qty": 0,
+            "unit": "",
+            "section": "Pescadería"
+          },
+          {
+            "name": "lechuga",
+            "qty": 1,
+            "unit": "",
+            "section": "Frutas y verduras"
+          }
+        ],
+        "diners": 2,
+        "base": 2
+      }
+    },
+    "2026-06-28": {
+      "comida": {
+        "custom": true,
+        "title": "Salmon con arroz",
+        "ingredients": [
+          {
+            "name": "Arroz",
+            "qty": 0,
+            "unit": "",
+            "section": "Despensa"
+          }
+        ],
+        "diners": 2,
+        "base": 2
+      }
+    }
+  },
+  "shotPick": {},
+  "shotWeek": {
+    "2026-06-21": "dd01"
+  },
+  "despertar": [
+    {
+      "id": "dd01",
+      "para": "Antioxidantes",
+      "prep": "En la Thermomix, tritura todo 30 seg / vel. 8. Cuela si lo quieres más fino.",
+      "aviso": "",
+      "emoji": "🫐",
+      "nombre": "Arándanos, limón y canela",
+      "fuenteUrl": "https://www.frontiersin.org/journals/nutrition/articles/10.3389/fnut.2024.1415737/full",
+      "ingredientes": [
+        "1 puñado de arándanos",
+        "Zumo de 1/2 limón",
+        "1 pizca de canela",
+        "150 ml de agua"
+      ]
+    },
+    {
+      "id": "dd02",
+      "para": "Defensas",
+      "prep": "Tritura 40 seg / vel. 10. La pimienta ayuda a asimilar la cúrcuma.",
+      "aviso": "Lleva cúrcuma y jengibre: con tu paroxetina pueden aumentar el riesgo de sangrado en dosis altas. La pimienta potencia la cúrcuma y puede afectar a cómo se procesan algunos fármacos. En pizca puntual el riesgo es bajo; consúltalo con tu farmacéutico.",
+      "emoji": "🫚",
+      "nombre": "Jengibre, limón y cúrcuma",
+      "fuenteUrl": "https://www.health.harvard.edu/staying-healthy/turmeric-benefits-a-look-at-the-evidence",
+      "ingredientes": [
+        "2 cm de jengibre fresco",
+        "Zumo de 1 limón",
+        "1/2 cdta de cúrcuma",
+        "1 pizca de pimienta negra",
+        "150 ml de agua"
+      ]
+    },
+    {
+      "id": "dd03",
+      "para": "Vitaminas",
+      "prep": "Tritura 1 min / vel. progresiva 5-10. Aporta betacarotenos y vitamina C.",
+      "aviso": "Lleva jengibre: en cantidad alta puede sumar al efecto de la paroxetina sobre el sangrado. En trocito puntual, riesgo bajo.",
+      "emoji": "🥕",
+      "nombre": "Zanahoria, naranja y jengibre",
+      "fuenteUrl": "https://www.nccih.nih.gov/health/ginger",
+      "ingredientes": [
+        "1 zanahoria",
+        "Zumo de 1 naranja",
+        "1 cm de jengibre",
+        "100 ml de agua"
+      ]
+    },
+    {
+      "id": "dd04",
+      "para": "Ligero",
+      "prep": "Tritura 1 min / vel. 10. Ligero e hidratante para empezar el día.",
+      "aviso": "",
+      "emoji": "🥬",
+      "nombre": "Apio, manzana verde y limón",
+      "fuenteUrl": "",
+      "ingredientes": [
+        "1 rama de apio",
+        "1/2 manzana verde",
+        "Zumo de 1/2 limón",
+        "150 ml de agua"
+      ]
+    },
+    {
+      "id": "dd05",
+      "para": "Digestión",
+      "prep": "Tritura 40 seg / vel. 8. La piña aporta bromelina (enzima).",
+      "aviso": "Lleva jengibre: en cantidad alta puede sumar al efecto de la paroxetina sobre el sangrado.",
+      "emoji": "🍍",
+      "nombre": "Piña, jengibre y menta",
+      "fuenteUrl": "https://www.nccih.nih.gov/health/ginger",
+      "ingredientes": [
+        "2 rodajas de piña",
+        "1 cm de jengibre",
+        "3 hojas de menta",
+        "100 ml de agua"
+      ]
+    },
+    {
+      "id": "dd06",
+      "para": "Hierro",
+      "prep": "Tritura 1 min / vel. 10. La vitamina C del limón mejora la absorción del hierro vegetal.",
+      "aviso": "",
+      "emoji": "🌿",
+      "nombre": "Espinaca, manzana y limón",
+      "fuenteUrl": "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",
+      "ingredientes": [
+        "1 puñado de espinacas",
+        "1/2 manzana",
+        "Zumo de 1/2 limón",
+        "150 ml de agua"
+      ]
+    },
+    {
+      "id": "dd07",
+      "para": "Rendimiento",
+      "prep": "Tritura 1 min / vel. 10. Los nitratos de la remolacha se asocian a mejor rendimiento físico.",
+      "aviso": "",
+      "emoji": "🟣",
+      "nombre": "Remolacha, manzana y limón",
+      "fuenteUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10912565/",
+      "ingredientes": [
+        "1/2 remolacha cocida",
+        "1/2 manzana",
+        "Zumo de 1/2 limón",
+        "150 ml de agua"
+      ]
+    },
+    {
+      "id": "dd08",
+      "para": "Antiinflamatorio",
+      "prep": "Calienta 3 min / 50°C / vel. 2 en Thermomix. Reconfortante en frío.",
+      "aviso": "Lleva cúrcuma y pimienta: con tu paroxetina puede aumentar algo el riesgo de sangrado en dosis altas. Consúltalo con tu farmacéutico.",
+      "emoji": "🟡",
+      "nombre": "Cúrcuma dorada (golden)",
+      "fuenteUrl": "https://www.health.harvard.edu/staying-healthy/turmeric-benefits-a-look-at-the-evidence",
+      "ingredientes": [
+        "1/2 cdta de cúrcuma",
+        "1 pizca de pimienta negra",
+        "1 pizca de canela",
+        "200 ml de bebida vegetal"
+      ]
+    },
+    {
+      "id": "dd09",
+      "para": "Defensas",
+      "prep": "Tritura 1 min / vel. 8. Vitamina C y betacarotenos.",
+      "aviso": "Lleva cúrcuma: con tu paroxetina puede aumentar algo el riesgo de sangrado en dosis altas.",
+      "emoji": "🍊",
+      "nombre": "Naranja, zanahoria y cúrcuma",
+      "fuenteUrl": "https://www.health.harvard.edu/staying-healthy/turmeric-benefits-a-look-at-the-evidence",
+      "ingredientes": [
+        "Zumo de 1 naranja",
+        "1/2 zanahoria",
+        "1/2 cdta de cúrcuma",
+        "1 pizca de pimienta"
+      ]
+    },
+    {
+      "id": "dd10",
+      "para": "Digestión",
+      "prep": "Calienta 2 min / 50°C / vel. 1. El clásico para despertar el cuerpo e hidratarte.",
+      "aviso": "Lleva jengibre: en cantidad alta puede sumar al efecto de la paroxetina sobre el sangrado.",
+      "emoji": "💧",
+      "nombre": "Agua tibia con limón y jengibre",
+      "fuenteUrl": "https://www.nccih.nih.gov/health/ginger",
+      "ingredientes": [
+        "200 ml de agua tibia",
+        "Zumo de 1/2 limón",
+        "1 cm de jengibre rallado"
+      ]
+    },
+    {
+      "id": "dd11",
+      "para": "Hidratación",
+      "prep": "Mezcla 10 seg / vel. 4. Aporta líquidos y minerales; bien para hidratarte por la mañana.",
+      "aviso": "",
+      "emoji": "🥥",
+      "nombre": "Agua de coco, lima y menta",
+      "fuenteUrl": "",
+      "ingredientes": [
+        "200 ml de agua de coco",
+        "Zumo de 1/2 lima",
+        "3 hojas de menta"
+      ]
+    }
+  ],
+  "shopState": {
+    "shot:3": false,
+    "shot:2": false
+  },
+  "updatedAt": 1782639597198,
+  "lastBackup": 1782639139268,
+  "netlifyUrl": "https://guileless-brigadeiros-b01e41.netlify.app",
+  "allToProbar": true
+}
