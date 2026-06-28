@@ -369,7 +369,7 @@ const COUNTABLE = ["ud","uds","unidad","unidades","huevo","huevos","lata","latas
 const GRANEL = ["g","gr","gramo","gramos","kg","ml","cl","l","litro","litros","taza","tazas","cucharada","cucharadas","cucharadita","cdta","cda"];
 
 let db = load();
-let weekStart = mondayOf(new Date());
+let weekStart = (db && db.weekStart) ? new Date(db.weekStart+"T00:00:00") : mondayOf(new Date());
 
 function ensureDefaults(r){ if(!r.despertar||!r.despertar.length) r.despertar=JSON.parse(JSON.stringify(DESPERTAR_DEFAULT)); if(!r.shotWeek) r.shotWeek={}; if(!r.shotPick) r.shotPick={}; if(!r.pantry) r.pantry=[]; if(r.netlifyUrl===undefined) r.netlifyUrl=''; r.blocks=(r.blocks||[]).filter(b=>b.id!=="fav"); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>b!=="fav"); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); if(!r.allToProbar){ (r.recipes||[]).forEach(rc=>{ rc.blockIds=["probar"]; }); r.allToProbar=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } if(!r.blocksV4){ r.blocks=JSON.parse(JSON.stringify(BLOCKS_V2)); const valid=new Set(BLOCKS_V2.map(b=>b.id)); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>valid.has(b)); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); r.blocksV4=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } return r; }
 function load(){
@@ -834,9 +834,9 @@ function deleteBlock(id){
 function mondayOf(d){ d=new Date(d); const day=(d.getDay()+6)%7; d.setHours(0,0,0,0); d.setDate(d.getDate()-day); return d; }
 function dkey(d){ return d.toISOString().slice(0,10); }
 function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-function shiftWeek(n){ weekStart=addDays(weekStart,n*7); renderPlanning(); renderShopping(); }
-function shiftDay(n){ weekStart=addDays(weekStart,n); renderPlanning(); renderShopping(); }
-function goToday(){ const d=new Date(); d.setHours(0,0,0,0); weekStart=d; renderPlanning(); renderShopping(); }
+function shiftWeek(n){ weekStart=addDays(weekStart,n*7); db.weekStart=dkey(weekStart); save(); renderPlanning(); renderShopping(); }
+function shiftDay(n){ weekStart=addDays(weekStart,n); db.weekStart=dkey(weekStart); save(); renderPlanning(); renderShopping(); }
+function goToday(){ const d=new Date(); d.setHours(0,0,0,0); weekStart=d; db.weekStart=dkey(weekStart); save(); renderPlanning(); renderShopping(); }
 function dayName(d){ const s=d.toLocaleDateString('es-ES',{weekday:'long'}); return s.charAt(0).toUpperCase()+s.slice(1); }
 function weekLabel(){
   const end=addDays(weekStart,6);
