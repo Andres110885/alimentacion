@@ -1185,9 +1185,12 @@ function buildShopping(){
 function renderShopping(){
   document.getElementById('weekLbl2').textContent = weekLabel();
   const bySec=buildShopping();
+  const pantry=new Set((db.pantry||[]).map(s=>s.toLowerCase().trim()));
   let html='';
   [...SECTIONS,"Despertar ☀️"].forEach(sec=>{
-    const items=bySec[sec]; if(!items||!items.length) return;
+    let items=bySec[sec]; if(!items||!items.length) return;
+    items=items.filter(it=>!pantry.has((it.name||'').toLowerCase().trim()));
+    if(!items.length) return;
     items.sort((a,b)=>a.name.localeCompare(b.name));
     html += `<div class="sec"><h3>${sec}</h3>`;
     items.forEach(it=>{
