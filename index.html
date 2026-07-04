@@ -619,7 +619,10 @@ function renderForm(){
         <div class="hint">Truco: separa los ingredientes en líneas. Lo que parezca un ingrediente irá a ingredientes, lo demás a pasos.</div>
         <div style="height:10px"></div>
         <button class="btn block" onclick="parsePaste()">✨ Convertir en receta</button>
-        <div class="hint" style="margin-top:10px">La extracción automática real de enlaces de Instagram llegará en una versión futura. Por ahora, pega el texto.</div>
+        <div class="divider"></div>
+        <label class="f">…o desde una imagen (captura de Instagram)</label>
+        <label class="btn ghost block" style="text-align:center;cursor:pointer">📷 Leer una imagen<input type="file" accept="image/*" style="display:none" onchange="ocrImage(this)"></label>
+        <div class="hint">Sube una captura donde se vea el texto de la receta y lo leo. Tarda unos segundos (la primera vez descarga el lector, necesita internet).</div>
       </div>
       <div id="manualArea">
         <label class="f">Título</label>
@@ -712,6 +715,41 @@ function handleShare(){
     else { const t=document.getElementById('pasteText'); if(t){ t.value=shared; } }
   }catch(e){}
 }
+function loadTesseract(cb){
+  if(window.Tesseract){ cb(); return; }
+  const s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+  s.onload=cb; s.onerror=()=>toast('No pude cargar el lector de imágenes (¿internet?)');
+  document.head.appendChild(s);
+}
+function ocrImage(input){
+  const f=input.files[0]; if(!f) return;
+  toast('Leyendo la imagen… (unos segundos)');
+  loadTesseract(()=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const max=1500; let w=img.width,h=img.height; if(w>max){ h=h*max/w; w=max; }
+        const c=document.createElement('canvas'); c.width=w; c.height=h;
+        const ctx=c.getContext('2d'); ctx.drawImage(img,0,0,w,h);
+        try{ const d=ctx.getImageData(0,0,w,h); let sum=0,n=0; for(let i=0;i<d.data.length;i+=400){ sum+=d.data[i]; n++; } if(sum/n<115){ for(let i=0;i<d.data.length;i+=4){ d.data[i]=255-d.data[i]; d.data[i+1]=255-d.data[i+1]; d.data[i+2]=255-d.data[i+2]; } ctx.putImageData(d,0,0); } }catch(err){}
+        window.Tesseract.recognize(c,'spa').then(({data})=>{
+          const text=((data&&data.text)||'').trim();
+          if(text.length<12){ toast('No pude leer texto en la imagen'); return; }
+          const p=parseRecipeText(text);
+          if(p.title && !formDraft.title) formDraft.title=p.title;
+          if(p.ingredients.length) formDraft.ingredients=p.ingredients;
+          if(p.steps.length) formDraft.steps=p.steps;
+          switchFormTab('manual'); renderForm();
+          toast(p.ingredients.length?'Leído de la imagen ✅ — revísalo bien':'Leí el texto pero revísalo, la foto no era clara');
+        }).catch(()=>toast('No pude leer la imagen. Prueba con una captura más clara.'));
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+}
 async function importFromLink(){
   const url=(document.getElementById('importUrl').value||'').trim();
   if(!url){ toast('Pega un enlace'); return; }
@@ -742,32 +780,42 @@ async function importFromLink(){
   }catch(e){ toast('No pude conectar con el importador. Revisa tu URL de Netlify en ⚙️ o tu conexión.'); }
 }
 function parseRecipeText(txt){
-  txt=(txt||'').trim();
+  txt=(txt||'').replace(/\u00a0/g,' ').trim();
+  txt=txt.replace(/[▢▪◽◾□■●○◦‣]/g,'•');
   let lines=txt.split(/\n+/).map(l=>l.trim()).filter(Boolean);
-  if(lines.length<=2 && txt.length>120){
+  if(lines.length<=3 && txt.length>140){
     let t=txt;
-    t=t.replace(/\s*(Ingredientes|Pasos?|Preparaci[oó]n|Elaboraci[oó]n|Instrucciones|M[eé]todo)\s*:?\s*/gi,'\n$1:\n');
-    t=t.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\u{2700}-\u{27BF}]/gu,'\n');
-    t=t.replace(/\s([•·▪‣\-–])\s/g,'\n');
+    t=t.replace(/\s*(ingredientes?|los ingredientes|para (?:la|el|los|las)\s+\w+|pasos?|preparaci[oó]n|elaboraci[oó]n|instrucciones|m[eé]todo|c[oó]mo se hace|c[oó]mo (?:lo )?(?:hacer|preparar)|paso a paso)\s*:?/gi, m=>'\n'+m.trim()+':\n');
+    t=t.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu,'\n');
+    t=t.replace(/\s*•\s*/g,'\n');
     t=t.replace(/\s(\d{1,2})[\).]\s/g,'\n$1. ');
     lines=t.split(/\n+/).map(l=>l.replace(/^[•·▪‣\-–]\s*/,'').trim()).filter(Boolean);
   }
   let title='';
-  if(lines.length && lines[0].length<60 && !/^[\d]/.test(lines[0]) && !/ingredient/i.test(lines[0])) title=lines.shift();
+  if(lines.length && lines[0].length<60 && !/^[\d•]/.test(lines[0]) && !/ingredient|preparaci|elaboraci|pasos|para (la|el)/i.test(lines[0])) title=lines.shift();
+  title=title.replace(/^[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}📍•\-\s]+/u,'').trim();
   const ings=[],steps=[];
-  const verbRe=/(añad|mezcl|cocin|cort|pela|pica|sofr|rehog|hornea|hierv|sirve|bate|tritur|reserv|escurr|calient|pon\b|coloca|dora|vierte|sazona|salpimienta|incorpora|deja|retira|tapa|remueve|precalienta|lleva|cuece|cuela|enfr|monta)/i;
+  const ingMarker=/^\s*(ingredientes?|los ingredientes|ingredients|necesit|para (la|el|los|las)\b)/i;
+  const stepMarker=/^\s*(pasos?|preparaci[oó]n|elaboraci[oó]n|instrucciones|m[eé]todo|c[oó]mo se hace|c[oó]mo (lo )?(hacer|preparar)|paso a paso|directions|method)\b/i;
+  const verbRe=/^\s*(a[ñn]ad|mezcl|cocin|cuec|cort|pela|pica|sofr|rehog|hornea|hierv|sirve|bate|tritur|reserv|escurr|calient|pon|coloca|dora|vierte|sazona|salpimient|incorpora|deja|retir|tapa|remueve|precalient|prepara|monta|glasea|liga|enfr|marca|corta|rellena|espolvorea|riega|unta|amasa|fr[íi]e|as[ao]|guisa|rehid|trocea|ralla|exprime|escalda|coce|coci|remov|añadimos|ponemos|hacemos|dejamos)/i;
+  const addIngs=(chunk)=>{
+    chunk=chunk.replace(/^[•·▪‣\-–:\s]+/,'').trim(); if(!chunk) return;
+    let parts;
+    if(/\.\s+\S/.test(chunk)) parts=chunk.split(/\.\s+/);
+    else if((chunk.match(/,\s/g)||[]).length>=2) parts=chunk.split(/,\s+/);
+    else parts=[chunk];
+    parts.forEach(p=>{ p=p.replace(/[.,;]+$/,'').trim(); if(p.length>1 && p.length<70){ const pi=parseIngLine(p); if(pi&&pi.name&&pi.name.length>1) ings.push(pi); } });
+  };
+  const addStep=(l)=>{ l=l.replace(/^\d+[\).]\s*/,'').trim();
+    if(l.length>70 && /\.\s+[A-ZÁÉÍÓÚ¿¡]/.test(l)){ l.split(/\.\s+/).forEach(x=>{ x=x.replace(/[.\s]+$/,'').trim(); if(x.length>6) steps.push(x); }); }
+    else if(l.length>3) steps.push(l); };
   let mode='auto';
   lines.forEach(l=>{
-    const low=l.toLowerCase();
-    if(/^\s*ingredientes?\b/.test(low)){ mode='ing'; const a=l.replace(/^\s*ingredientes?[^:]*:?\s*/i,'').trim(); if(a&&a.length<60) ings.push(parseIngLine(a)); return; }
-    if(/^\s*(elaboraci|preparaci|pasos?|instrucciones|m[eé]todo|c[oó]mo se hace|c[oó]mo hacer|paso a paso)/.test(low)){ mode='step'; return; }
-    if(mode==='step'){ if(l.length>2) steps.push(l.replace(/^\d+[\).]\s*/,'')); return; }
-    const looksStep = l.length>50 || verbRe.test(l) || /[.:]$/.test(l);
-    if(mode==='ing' || !looksStep){
-      if(l.includes(',') && l.length>22){ l.split(/\s*,\s*/).forEach(pp=>{ pp=pp.trim(); if(pp.length>1) ings.push(parseIngLine(pp)); }); }
-      else ings.push(parseIngLine(l));
-    }
-    else steps.push(l.replace(/^\d+[\).]\s*/,''));
+    if(stepMarker.test(l)){ mode='step'; const a=l.replace(stepMarker,'').replace(/^[:\s]+/,''); if(a.length>8) addStep(a); return; }
+    if(ingMarker.test(l)){ mode='ing'; const after=(l.indexOf(':')>=0? l.slice(l.indexOf(':')+1):'').trim(); if(after && after.length<90) addIngs(after); return; }
+    if(mode==='step'){ addStep(l); return; }
+    if(verbRe.test(l) || (mode==='auto' && l.length>80)){ mode='step'; addStep(l); return; }
+    addIngs(l);
   });
   return {title, ingredients:ings.filter(i=>i.name), steps};
 }
