@@ -216,6 +216,7 @@
   .ing-row{display:flex;gap:6px;margin-bottom:7px}
   .ing-row input{background:var(--card);border:1px solid var(--line);color:var(--txt);padding:9px;border-radius:9px;min-width:0}
   .ing-row{align-items:center} .ing-row .nm{flex:1;min-width:0} .ing-row .q{width:52px} .ing-row .u{width:50px}
+  .ing-row .ingchk{width:18px;height:18px;flex-shrink:0;accent-color:var(--danger)}
   .ing-row .sec{width:100%}
   .ing-row .rm{background:var(--card2);width:36px;border-radius:9px;color:var(--danger);flex-shrink:0}
   .ing-block{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px;margin-bottom:8px}
@@ -325,7 +326,7 @@
 </div>
 
 <!-- ============ MODAL ============ -->
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+<div class="modal" id="modal" onclick="if(event.target===this && !sheetLocked)closeModal()">
   <div class="sheet" id="sheet"></div>
 </div>
 <div class="toast" id="toast"></div>
@@ -399,8 +400,9 @@ function go(v){
   if(v==='despertar') renderDespertar();
 }
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1900); }
-function closeModal(){ document.getElementById('modal').classList.remove('open'); }
-function openSheet(html){ document.getElementById('sheet').innerHTML=html; document.getElementById('modal').classList.add('open'); document.getElementById('sheet').scrollTop=0; }
+let sheetLocked=false;
+function closeModal(){ sheetLocked=false; document.getElementById('modal').classList.remove('open'); }
+function openSheet(html, lock){ sheetLocked = (lock!==undefined) ? !!lock : /id="(f_title|d_nombre|qh_title|d_ing)"/.test(html); document.getElementById('sheet').innerHTML=html; document.getElementById('modal').classList.add('open'); document.getElementById('sheet').scrollTop=0; }
 function esc(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 /* ============================================================
@@ -597,6 +599,7 @@ function renderForm(){
   const blockChips = db.blocks.map(b=>`<button class="chip ${b.id==='probar'?'probar':''} ${r.blockIds.includes(b.id)?'on':''}" onclick="toggleFormBlock('${b.id}')">${b.icon} ${esc(b.name)}</button>`).join('');
   const ingRows = r.ingredients.map((i,idx)=>`
     <div class="ing-row">
+      <input type="checkbox" class="ingchk" data-idx="${idx}" title="Marcar para borrar">
       <input class="nm" placeholder="Ingrediente" value="${esc(i.name)}" oninput="formDraft.ingredients[${idx}].name=this.value">
       <input class="q" placeholder="Cant." value="${i.qty}" oninput="formDraft.ingredients[${idx}].qty=this.value">
       <input class="u" placeholder="ud/g" value="${esc(i.unit)}" oninput="formDraft.ingredients[${idx}].unit=this.value">
@@ -642,7 +645,11 @@ function renderForm(){
         <select class="field" id="f_diff">${["Fácil","Media","Difícil"].map(d=>`<option ${r.difficulty===d?'selected':''}>${d}</option>`).join('')}</select>
         <label class="f">Ingredientes</label>
         <div id="ingList">${ingRows}</div>
-        <button class="btn ghost sm" onclick="formDraft.ingredients.push({name:'',qty:'',unit:''});renderForm()">＋ Ingrediente</button>
+        <div class="row-btns" style="margin:0">
+          <button class="btn ghost sm" onclick="formDraft.ingredients.push({name:'',qty:'',unit:''});renderForm()">＋ Ingrediente</button>
+          <button class="btn ghost sm" onclick="deleteSelectedIngs()">🗑️ Borrar marcados</button>
+          <button class="btn ghost sm" onclick="clearIngs()">Vaciar</button>
+        </div>
         <label class="f">Pasos (uno por línea)</label>
         <textarea class="field" id="f_steps" placeholder="Un paso por línea">${r.steps.map(esc).join('\n')}</textarea>
         <label class="f">Enlace de origen (opcional)</label>
@@ -690,6 +697,14 @@ function syncFormInputs(){
   if(g('f_notes')) formDraft.notes=g('f_notes').value;
   if(g('f_steps')) formDraft.steps=g('f_steps').value.split('\n').map(s=>s.trim()).filter(Boolean);
 }
+function deleteSelectedIngs(){
+  const chks=[...document.querySelectorAll('.ingchk:checked')].map(c=>+c.dataset.idx);
+  if(!chks.length){ toast('Marca (☑) los ingredientes que quieras borrar'); return; }
+  chks.sort((a,b)=>b-a).forEach(i=>formDraft.ingredients.splice(i,1));
+  if(!formDraft.ingredients.length) formDraft.ingredients=[{name:'',qty:'',unit:''}];
+  renderForm(); toast('Borrados '+chks.length);
+}
+function clearIngs(){ formDraft.ingredients=[{name:'',qty:'',unit:''}]; renderForm(); }
 function saveRecipe(){
   syncFormInputs();
   const r = formDraft;
@@ -753,11 +768,8 @@ function ocrImage(input){
 async function importFromLink(){
   const url=(document.getElementById('importUrl').value||'').trim();
   if(!url){ toast('Pega un enlace'); return; }
-  let base='';
-  if(location.protocol!=='http:' && location.protocol!=='https:'){
-    base=(db.netlifyUrl||'').replace(/\/+$/,'');
-    if(!base){ toast('Pon tu URL de Netlify en ⚙️ para importar desde el ordenador'); return; }
-  }
+  let base=(db.netlifyUrl||'').replace(/\/+$/,'');
+  if(!base && location.protocol!=='http:' && location.protocol!=='https:'){ toast('Pon la URL del importador (tu Netlify) en ⚙️'); return; }
   toast('Trayendo de la web…');
   try{
     const res=await fetch(base+'/.netlify/functions/import?url='+encodeURIComponent(url));
@@ -959,12 +971,32 @@ function copyPrevWeek(){
   save(); renderPlanning(); toast('Semana copiada ✅');
 }
 function clearWeek(){
-  let has=false; for(let i=0;i<7;i++){ if(db.planning[dkey(addDays(weekStart,i))]) has=true; }
+  let has=false; const seen=new Set(); const probarIds=[];
+  for(let i=0;i<7;i++){ const day=db.planning[dkey(addDays(weekStart,i))]; if(!day) continue; has=true;
+    MEALS.forEach(([m])=>{ const s=day[m]; if(s && !s.custom){ const r=db.recipes.find(x=>x.id===s.recipeId); if(r && r.blockIds.includes('probar') && !seen.has(r.id)){ seen.add(r.id); probarIds.push(r.id); } } });
+  }
   if(!has){ toast('La semana ya está vacía'); return; }
   if(!confirm('¿Vaciar toda la planificación de esta semana?')) return;
   for(let i=0;i<7;i++){ delete db.planning[dkey(addDays(weekStart,i))]; }
-  save(); renderPlanning(); toast('Semana vaciada');
+  save(); renderPlanning();
+  if(probarIds.length) reviewProbar(probarIds); else toast('Semana vaciada');
 }
+let reviewIds=[];
+function reviewProbar(ids){ reviewIds=ids.slice(); renderReview(); }
+function renderReview(){
+  const list=reviewIds.map(id=>db.recipes.find(r=>r.id===id)).filter(r=>r&&r.blockIds.includes('probar'));
+  if(!list.length){ closeModal(); toast('Semana vaciada ✅'); return; }
+  const rows=list.map(r=>{ const sb=getBlock(suggestBlock(r))||db.blocks.find(b=>b.id!=='probar');
+    const others=db.blocks.filter(b=>b.id!=='probar'&&b.id!==sb.id);
+    return `<div style="border-top:1px solid var(--line);padding:12px 0">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="dot c-${r.cat}"></span><b style="flex:1">${esc(r.title)}</b><button class="btn danger sm" onclick="reviewDelete('${r.id}')">🗑️</button></div>
+      <div class="chips"><button class="chip on" onclick="reviewMove('${r.id}','${sb.id}')">⭐ ${sb.icon} ${esc(sb.name)}</button>${others.map(b=>`<button class="chip" onclick="reviewMove('${r.id}','${b.id}')">${b.icon} ${esc(b.name)}</button>`).join('')}</div>
+    </div>`; }).join('');
+  openSheet(`<div class="sheet-head"><h2>Clasifica lo de esta semana</h2><button class="x" onclick="closeModal()">✕</button></div>
+   <div class="sheet-body"><p class="hint">Planificaste estas recetas y siguen en “Por probar”. Muévelas a un grupo (te marco el sugerido) o bórralas.</p>${rows}</div>`);
+}
+function reviewMove(id,blockId){ const r=db.recipes.find(x=>x.id===id); if(!r)return; r.blockIds=r.blockIds.filter(b=>b!=='probar'); if(!r.blockIds.includes(blockId)) r.blockIds.push(blockId); r.tested=true; save(); renderReview(); toast('Movida ✅'); }
+function reviewDelete(id){ if(!confirm('¿Borrar esta receta?')) return; db.recipes=db.recipes.filter(r=>r.id!==id); Object.values(db.planning).forEach(day=>MEALS.forEach(([m])=>{ if(day[m]&&day[m].recipeId===id) delete day[m]; })); save(); renderReview(); renderPlanning(); toast('Borrada'); }
 function renderPlanning(){
   document.getElementById('weekLbl').textContent = weekLabel();
   document.getElementById('weekLbl2').textContent = weekLabel();
@@ -1527,7 +1559,7 @@ function openSettings(){
     ${stale?`<div class="safety">⚠️ ${status} Te recomiendo descargar una copia para no perder nada.</div>`:`<div class="panel" style="margin-bottom:14px">✅ ${status}</div>`}
     ${cloudSettingsHtml()}
     <div class="det-sec-t">🌐 Importador desde enlace</div>
-    <p class="hint">Para usar “Traer de la web” también desde el ordenador (abriendo el archivo), pega aquí la URL de tu app publicada en Netlify.</p>
+    <p class="hint">URL del servidor del importador (tu sitio de Netlify). Necesaria para “Traer de la web” cuando la app está en GitHub Pages o abres el archivo local. Ej: https://tuapp.netlify.app</p>
     <input class="field" id="set_netlify" value="${esc(db.netlifyUrl||'')}" placeholder="https://tuapp.netlify.app" onchange="db.netlifyUrl=this.value.trim();save();toast('URL guardada ✅')">
     <div style="height:12px"></div>
     <button class="btn ghost block" onclick="extractAllNotes()">✨ Sacar ingredientes de descripciones guardadas</button>
