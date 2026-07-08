@@ -373,7 +373,7 @@ const GRANEL = ["g","gr","gramo","gramos","kg","ml","cl","l","litro","litros","t
 let db = load();
 let weekStart = (db && db.weekStart) ? new Date(db.weekStart+"T00:00:00") : mondayOf(new Date());
 
-function ensureDefaults(r){ if(!r.despertar||!r.despertar.length) r.despertar=JSON.parse(JSON.stringify(DESPERTAR_DEFAULT)); if(!r.shotWeek) r.shotWeek={}; if(!r.shotPick) r.shotPick={}; if(!r.pantry) r.pantry=[]; if(r.netlifyUrl===undefined) r.netlifyUrl=''; r.blocks=(r.blocks||[]).filter(b=>b.id!=="fav"); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>b!=="fav"); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); if(!r.allToProbar){ (r.recipes||[]).forEach(rc=>{ rc.blockIds=["probar"]; }); r.allToProbar=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } if(!r.blocksV4){ r.blocks=JSON.parse(JSON.stringify(BLOCKS_V2)); const valid=new Set(BLOCKS_V2.map(b=>b.id)); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>valid.has(b)); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); r.blocksV4=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } return r; }
+function ensureDefaults(r){ if(!r.despertar||!r.despertar.length) r.despertar=JSON.parse(JSON.stringify(DESPERTAR_DEFAULT)); if(!r.shotWeek) r.shotWeek={}; if(!r.shotPick) r.shotPick={}; if(!r.pantry) r.pantry=[]; if(!Array.isArray(r.extras)) r.extras=[]; if(!r.shopState||typeof r.shopState!=='object') r.shopState={}; if(!r.planning||typeof r.planning!=='object') r.planning={}; if(r.netlifyUrl===undefined) r.netlifyUrl=''; r.blocks=(r.blocks||[]).filter(b=>b.id!=="fav"); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>b!=="fav"); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); if(!r.allToProbar){ (r.recipes||[]).forEach(rc=>{ rc.blockIds=["probar"]; }); r.allToProbar=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } if(!r.blocksV4){ r.blocks=JSON.parse(JSON.stringify(BLOCKS_V2)); const valid=new Set(BLOCKS_V2.map(b=>b.id)); (r.recipes||[]).forEach(rc=>{ rc.blockIds=(rc.blockIds||[]).filter(b=>valid.has(b)); if(!rc.blockIds.length) rc.blockIds=["probar"]; }); r.blocksV4=true; try{localStorage.setItem(STORE,JSON.stringify(r));}catch(e){} } return r; }
 function load(){
   try{ const r = JSON.parse(localStorage.getItem(STORE)); if(r&&r.recipes) return ensureDefaults(r); }catch(e){}
   return ensureDefaults(seed());
@@ -1345,8 +1345,10 @@ function renderShopping(){
 }
 function toggleShop(id){ db.shopState[id]=!db.shopState[id]; save(); renderShopping(); }
 function addExtra(){
-  const inp=document.getElementById('extraInput'); const v=inp.value.trim(); if(!v) return;
+  const inp=document.getElementById('extraInput'); if(!inp) return; const v=(inp.value||'').trim(); if(!v) return;
+  if(!Array.isArray(db.extras)) db.extras=[];
   db.extras.push({id:uid(),name:v,section:guessSection(v)}); inp.value=''; save(); renderShopping();
+  toast('Añadido a la compra ✅');
 }
 function removeExtra(id){ db.extras=db.extras.filter(e=>e.id!==id); delete db.shopState['e:'+id]; save(); renderShopping(); }
 function clearChecked(){
