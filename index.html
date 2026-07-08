@@ -1324,7 +1324,7 @@ function renderShopping(){
   let html='';
   [...SECTIONS,"Despertar ☀️"].forEach(sec=>{
     let items=bySec[sec]; if(!items||!items.length) return;
-    items=items.filter(it=>!pantry.has((it.name||'').toLowerCase().trim()));
+    items=items.filter(it=>it.isExtra || !pantry.has((it.name||'').toLowerCase().trim()));
     if(!items.length) return;
     items.sort((a,b)=>a.name.localeCompare(b.name));
     html += `<div class="sec"><h3>${sec}</h3>`;
