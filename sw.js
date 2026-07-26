@@ -1,7 +1,7 @@
 // Service worker · Mi Cocina (V2)
 // HTML: network-first (siempre coge la última versión si hay internet).
 // Recursos estáticos: cache-first con actualización en segundo plano.
-const CACHE = 'micocina-v3';
+const CACHE = 'micocina-v4';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
